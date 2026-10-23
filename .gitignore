@@ -39,3 +39,6 @@ Thumbs.db
 # Pruebas locales
 .phpunit.result.cache
 coverage/
+
+# Paquetes de despliegue
+dist/
