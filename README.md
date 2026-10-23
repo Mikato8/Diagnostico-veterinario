@@ -208,6 +208,7 @@ php bin/check.php
 | `./tests/smoke.sh` | Pruebas HTTP de humo contra un servidor local. |
 | `python3 tools/import_vetdatahub.py /ruta/VetDataHub database/data/vetdatahub.json` | Regenera el catálogo integrado desde el repositorio VetDataHub. |
 | `python3 tools/import_peteval_bucket.py /ruta/test.parquet database/data/peteval.json` | Regenera el explorador PetEVAL (requiere pandas y pyarrow). |
+| `./tools/sync_peteval_bucket.sh` | Descarga el bucket PetEVAL, actualiza Parquet/PDF/README y regenera el JSON. |
 
 ## Despliegue en Hostinger
 
