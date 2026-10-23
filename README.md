@@ -77,6 +77,10 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 | --- | --- |
 | ![Kit](docs/capturas/kit.png) | ![Recomendador](docs/capturas/recomendador.png) |
 
+| Caso en PDF |
+| --- |
+| ![Caso en PDF](docs/capturas/caso-pdf.png) |
+
 ## Stack
 
 | Capa | Tecnología |
