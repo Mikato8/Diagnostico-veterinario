@@ -1,0 +1,256 @@
+# Diagnóstico Veterinario
+
+**Portal de casos clínicos para médicos veterinarios de México.** Una biblioteca colaborativa para documentar experiencias reales, consultar diagnóstico diferencial y acercarse a los datos de salud animal.
+
+[![CI](https://github.com/Mikato8/Diagnostico-veterinario/actions/workflows/ci.yml/badge.svg)](https://github.com/Mikato8/Diagnostico-veterinario/actions/workflows/ci.yml)
+[![PHP](https://img.shields.io/badge/PHP-8.2%2B-777bb4?logo=php&logoColor=white)](https://www.php.net/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15%2B-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Licencia](https://img.shields.io/badge/c%C3%B3digo-MIT-0d5c4d)](LICENSE)
+
+![Inicio de Diagnóstico Veterinario](docs/capturas/home.png)
+
+## Qué es
+
+Diagnóstico Veterinario es una aplicación web en español (México) pensada para la práctica clínica cotidiana. Permite publicar casos con una estructura editorial, buscar en el archivo por especie, estado, desenlace o signo, y usar una herramienta de apoyo diagnóstico que ordena diferenciales por similitud de hallazgos.
+
+El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** para la base de datos. La app puede conectarse por TCP (`pdo_pgsql`) o por el **endpoint SQL sobre HTTPS de Neon**, lo que permite operar en hostings compartidos como Hostinger aunque no tengan la extensión `pdo_pgsql` habilitada.
+
+> El contenido es educativo. No sustituye el juicio clínico, la valoración presencial ni las guías oficiales.
+
+## Funcionalidades
+
+### Para médicos veterinarios
+
+- Registro con cédula profesional, institución y estado; verificación manual por el comité editorial.
+- Biblioteca de casos con búsqueda full-text en español, filtros por especie, estado, desenlace, año y tema.
+- Casos con historia clínica completa: anamnesis, exploración, estudios, diferenciales, diagnóstico final, tratamiento, desenlace, discusión y referencias.
+- Imágenes del caso con procesamiento y re-codificación para eliminar metadatos.
+- Comentarios clínicos entre colegas verificados y reacciones «me resultó útil».
+- Apoyo diagnóstico por similitud: especie + signos clínicos → diferenciales ponderados, signos clave faltantes, urgencia y alerta zoonótica.
+- Fichas de enfermedades con etiología, diagnóstico, tratamiento, prevención y pronóstico.
+- Directorio curado de datasets, APIs, repositorios y sistemas de vigilancia (VetDataHub, PetEVAL, VetCompass, SAVSNET, WAHIS, NAHMS, SENASICA y más).
+- Perfil profesional, cambio de contraseña y recuperación por correo.
+
+### Para el comité editorial
+
+- Cola de revisión con decisión de publicar, solicitar cambios o rechazar.
+- Historial de revisiones y comentarios al autor.
+- Verificación de cuentas y asignación de roles (`veterinario`, `editor`, `admin`).
+- Administración del directorio de recursos.
+- Moderación de comentarios y registro de auditoría.
+
+### Técnicas
+
+- Interfaz responsive, accesible y sin frameworks de frontend.
+- Búsqueda con `tsvector` y `websearch_to_tsquery('spanish', …)`; similitud con `pg_trgm`.
+- Sesiones seguras, CSRF, rate limiting de acceso, contraseñas con `password_hash`, roles y ownership.
+- Validación de archivos por MIME real, tamaño, dimensiones y re-codificación con GD.
+- CSP, `X-Frame-Options`, `Referrer-Policy`, cookies `HttpOnly`/`SameSite`.
+- Dos controladores de base de datos: `pdo_pgsql` y HTTP de Neon, con la misma capa de consultas.
+- Migraciones y seeds idempotentes; CI con PostgreSQL real.
+
+## Capturas
+
+| Caso clínico | Apoyo diagnóstico |
+| --- | --- |
+| ![Caso clínico](docs/capturas/caso.png) | ![Apoyo diagnóstico](docs/capturas/diagnostico.png) |
+
+| Archivo de casos | Panel editorial |
+| --- | --- |
+| ![Casos](docs/capturas/casos.png) | ![Panel editorial](docs/capturas/admin.png) |
+
+## Stack
+
+| Capa | Tecnología |
+| --- | --- |
+| Lenguaje | PHP 8.2+ (sin Composer ni dependencias de runtime) |
+| Base de datos | PostgreSQL 15+ en Neon (Lakebase Postgres) |
+| Acceso a datos | `pdo_pgsql` o endpoint SQL HTTPS de Neon |
+| Servidor web | Apache/LiteSpeed en Hostinger; `php -S` en local |
+| Frontend | HTML semántico, CSS propio, JavaScript sin dependencias |
+| Correo | `mail()` de PHP / SMTP del hosting (configurable) |
+| CI | GitHub Actions + PostgreSQL 16 |
+
+## Arquitectura
+
+```text
+Navegador
+   │ HTTPS
+   ▼
+Hostinger · PHP 8
+   ├─ public/index.php  (front controller)
+   ├─ app/Core          (router, request, DB, auth, CSRF, vistas)
+   ├─ app/Controllers   (casos, cuenta, panel, diagnóstico, recursos)
+   ├─ app/Repositories  (SQL de lectura/escritura)
+   └─ app/Views         (plantillas en español)
+          │
+          ├─ pdo_pgsql (TCP 5432, TLS)
+          └─ HTTPS /sql (fallback sin pdo_pgsql)
+                   │
+                   ▼
+          Neon PostgreSQL
+```
+
+- **Front controller** en `public/index.php`; las rutas viven en `routes/web.php`.
+- **Sin ORM**: SQL explícito y parametrizado con marcadores `$1` (el driver PDO los traduce a marcadores nombrados).
+- **Sin Composer**: autoloader PSR-4 mínimo y utilidades propias. Esto simplifica el despliegue por FTP.
+- **Separación por capas**: controladores delgados, repositorios con las consultas, vistas sin lógica de negocio.
+- **Migraciones** versionadas en `database/migrations` y seeds en `database/seeds`.
+
+### Modelo de datos
+
+| Tabla | Propósito |
+| --- | --- |
+| `users` | Cuentas, rol, estado de verificación, cédula, institución. |
+| `cases` | Caso clínico, autor, especie, estado, contenido, estado editorial, `tsvector`. |
+| `case_images`, `case_tags` | Imágenes y temas del caso. |
+| `case_comments`, `case_reactions` | Discusión clínica y reconocimiento. |
+| `case_reviews` | Decisiones y retroalimentación editorial. |
+| `diseases`, `clinical_signs`, `disease_signs` | Catálogo clínico y pesos para el motor de similitud. |
+| `species`, `breeds`, `states` | Catálogos biológicos y geográficos de México. |
+| `resources` | Directorio externo curado. |
+| `audit_log` | Trazabilidad de acciones editoriales. |
+
+## Inicio rápido (local)
+
+### Requisitos
+
+- PHP 8.2+ con `pdo_pgsql`, `curl`, `mbstring`, `fileinfo`, `gd` e `intl`.
+- PostgreSQL 15+ o una base Neon.
+- `psql` para migraciones y respaldos (recomendado).
+
+### 1. Clonar y configurar
+
+```bash
+git clone https://github.com/Mikato8/Diagnostico-veterinario.git
+cd Diagnostico-veterinario
+cp .env.example .env
+```
+
+Edita `.env`:
+
+```dotenv
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://127.0.0.1:8080
+DATABASE_URL="postgresql://usuario:clave@host-pooler/neondb?sslmode=require&channel_binding=require"
+DATABASE_URL_UNPOOLED="postgresql://usuario:clave@host/neondb?sslmode=require&channel_binding=require"
+DB_DRIVER=pdo
+SESSION_SECURE=false
+```
+
+### 2. Migrar y sembrar
+
+```bash
+php bin/migrate.php
+DEMO_PASSWORD='UnaClaveLocalSegura2026!' php bin/seed.php --demo
+```
+
+El seed imprime las cuentas demo. La contraseña se toma de `DEMO_PASSWORD`; si no la defines, se genera una aleatoria y se muestra una sola vez. La cuenta administrativa es `admin@diagnostico.vet`.
+
+### 3. Arrancar
+
+```bash
+php bin/serve.php
+# http://127.0.0.1:8080
+```
+
+### 4. Verificar
+
+```bash
+php bin/check.php
+./tests/smoke.sh
+```
+
+## Scripts
+
+| Comando | Descripción |
+| --- | --- |
+| `php bin/migrate.php` | Aplica migraciones pendientes (usa `DATABASE_URL_UNPOOLED`/`DATABASE_URL`). |
+| `php bin/seed.php` | Siembra catálogos, enfermedades y recursos. |
+| `php bin/seed.php --demo` | Añade usuarios y siete casos demostrativos marcados como ficticios. |
+| `php bin/create-admin.php` | Crea o restablece un administrador verificado. |
+| `php bin/check.php` | Diagnóstico de PHP, extensiones, base de datos y permisos. |
+| `php bin/serve.php` | Servidor de desarrollo en `127.0.0.1:8080`. |
+| `./tests/smoke.sh` | Pruebas HTTP de humo contra un servidor local. |
+
+## Despliegue en Hostinger
+
+La guía detallada está en **[docs/DEPLOY-HOSTINGER.md](docs/DEPLOY-HOSTINGER.md)**. Resumen:
+
+1. La base de datos vive en **Neon**, no en el hosting compartido. Hostinger sólo ejecuta PHP.
+2. Verifica que el plan tenga PHP 8.2+ y SSL. Si no tiene `pdo_pgsql`, define `DB_DRIVER=http`; la app usará HTTPS.
+3. Sube el proyecto con el documento raíz en `public/` (recomendado) o usando el `.htaccess` raíz.
+4. Crea `.env` fuera de `public/` con `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` y las URLs de Neon.
+5. Ejecuta migraciones y crea el administrador real **antes** de abrir el sitio.
+6. Comprueba `/salud`, inicia sesión y publica un caso de prueba.
+
+## Seguridad
+
+- Contraseñas con `password_hash` (bcrypt/Argon según PHP) y `password_needs_rehash`.
+- CSRF en todos los `POST`, rotación de token al iniciar sesión.
+- Cookies `HttpOnly`, `SameSite=Lax`, `Secure` cuando `APP_URL` es HTTPS.
+- Rate limiting de login (12 intentos fallidos / 15 minutos por correo o IP).
+- Autorización por rol y ownership en cada acción editorial.
+- Validación de MIME real, tamaño, dimensiones y re-codificación de imágenes; `.htaccess` bloquea PHP en uploads.
+- Consultas parametrizadas; sin concatenación de entrada del usuario.
+- CSP y cabeceras de seguridad en cada respuesta.
+- Auditoría de acciones editoriales.
+
+Para reportar una vulnerabilidad, consulta [SECURITY.md](SECURITY.md).
+
+## Pruebas
+
+```bash
+php -l app/Core/App.php                 # lint puntual
+find app config routes bin -name '*.php' -print0 | xargs -0 -n1 php -l
+./tests/smoke.sh
+```
+
+El workflow de GitHub Actions levanta PostgreSQL 16, aplica migraciones, siembra datos, arranca PHP y ejecuta las pruebas de humo.
+
+## Estructura del repositorio
+
+```text
+app/
+  Controllers/       Controladores HTTP
+  Core/              Router, DB, auth, CSRF, vistas, uploads
+  Repositories/      Consultas SQL
+  Support/           Helpers e iconos SVG
+  Views/             Plantillas en español
+bin/                 CLI: migraciones, seeds, admin, checks
+config/app.php       Configuración desde .env
+database/
+  migrations/        Esquema versionado
+  seeds/             Catálogos, enfermedades, recursos y demo
+docs/                Arquitectura, despliegue y capturas
+public/              Document root (front controller, assets, uploads)
+routes/web.php       Mapa de rutas
+storage/             Logs, sesiones y caché (fuera del dominio público)
+tests/               Pruebas de humo
+```
+
+## Roadmap
+
+- [ ] Revisión por pares con asignación de revisores y notificaciones por correo.
+- [ ] Exportación de casos a PDF y RIS/BibTeX.
+- [ ] Búsqueda semántica con embeddings sobre el archivo clínico.
+- [ ] API REST pública con tokens y límites de uso.
+- [ ] Panel de indicadores epidemiológicos por estado y especie.
+- [ ] Integración con WAHIS/SENASICA para alertas zoosanitarias.
+- [ ] Flujo de consentimiento informado descargable y firmado.
+
+## Licencia
+
+- **Código:** MIT. Ver [LICENSE](LICENSE).
+- **Contenido editorial y fichas:** CC BY-NC-SA 4.0. Ver [CONTENIDO-LICENCIA.md](CONTENIDO-LICENCIA.md).
+- **Casos publicados:** conservan la licencia elegida por su autor (por defecto CC BY-NC-SA 4.0).
+- **Casos demostrativos:** ficticios, marcados como tales, con fines de demostración del flujo editorial.
+
+## Créditos y referencias
+
+La arquitectura y el alcance se inspiraron en proyectos y recursos abiertos como [VetAPI](https://github.com/NicolasOrrego/VetAPI_Laravel), [PetCloud](https://github.com/francisco-correa/pet-cloud), [VetDataHub](https://github.com/Vetdatahub/VetDataHub), [PetEVAL](https://huggingface.co/datasets/SAVSNET/PetEVAL), [VetCompass](https://www.rvc.ac.uk/vetcompass) y [SAVSNET](https://www.liverpool.ac.uk/savsnet/). El directorio completo está en el portal, sección **Recursos**.
+
+---
+
+Hecho en México · Español · Para la práctica veterinaria.
