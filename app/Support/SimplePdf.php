@@ -23,6 +23,9 @@ final class SimplePdf
     private float $y = 0.0;
     private int $pageNumber = 0;
 
+    /** @var array<int, array{data: string, width: int, height: int}> */
+    private array $images = [];
+
     public function __construct(private readonly string $documentTitle = 'Diagnóstico Veterinario')
     {
         $this->addPage();
@@ -117,6 +120,71 @@ final class SimplePdf
         $this->y -= $height;
     }
 
+    public function image(string $path, string $caption = ''): void
+    {
+        if (!is_file($path) || !function_exists('imagecreatefromstring')) {
+            return;
+        }
+        $source = @imagecreatefromstring((string) file_get_contents($path));
+        if ($source === false) {
+            return;
+        }
+
+        $width = imagesx($source);
+        $height = imagesy($source);
+        $maxWidth = 1400;
+        if ($width > $maxWidth) {
+            $ratio = $maxWidth / $width;
+            $newWidth = (int) floor($width * $ratio);
+            $newHeight = (int) floor($height * $ratio);
+            $resized = imagecreatetruecolor($newWidth, $newHeight);
+            $white = imagecolorallocate($resized, 255, 255, 255);
+            imagefilledrectangle($resized, 0, 0, $newWidth, $newHeight, $white);
+            imagecopyresampled($resized, $source, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+            imagedestroy($source);
+            $source = $resized;
+            $width = $newWidth;
+            $height = $newHeight;
+        }
+
+        ob_start();
+        imagejpeg($source, null, 84);
+        $jpeg = (string) ob_get_clean();
+        imagedestroy($source);
+        if ($jpeg === '') {
+            return;
+        }
+
+        $this->images[] = ['data' => $jpeg, 'width' => $width, 'height' => $height];
+        $index = count($this->images);
+        $drawWidth = self::PAGE_WIDTH - self::MARGIN * 2;
+        $drawHeight = $drawWidth * ($height / max(1, $width));
+        if ($drawHeight > 300) {
+            $drawHeight = 300;
+            $drawWidth = $drawHeight * ($width / max(1, $height));
+        }
+        $x = (self::PAGE_WIDTH - $drawWidth) / 2;
+        $this->ensureSpace($drawHeight + 28);
+        $this->y -= $drawHeight;
+        $this->buffer .= sprintf(
+            "q
+%.2F 0 0 %.2F %.2F %.2F cm
+/Im%d Do
+Q
+",
+            $drawWidth,
+            $drawHeight,
+            $x,
+            $this->y,
+            $index
+        );
+        $this->y -= 12;
+        if ($caption !== '') {
+            $this->small($caption);
+        }
+        $this->y -= 4;
+    }
+
     public function output(): string
     {
         if ($this->buffer !== '') {
@@ -141,12 +209,20 @@ final class SimplePdf
         $objects[1] = '<< /Type /Catalog /Pages 2 0 R >>';
         $kids = [];
         $pageObjects = [];
+        $imageBase = 5 + (count($this->pages) * 2);
+        $xObjects = '';
+        foreach ($this->images as $index => $image) {
+            $xObjects .= '/Im' . ($index + 1) . ' ' . ($imageBase + $index) . ' 0 R ';
+        }
+        $resources = '/Resources << /Font << /F1 3 0 R /F2 4 0 R >>'
+            . ($xObjects !== '' ? ' /XObject << ' . $xObjects . '>>' : '')
+            . ' >>';
         foreach ($this->pages as $index => $content) {
             $pageId = 5 + ($index * 2);
             $contentId = $pageId + 1;
             $kids[] = $pageId . ' 0 R';
             $pageObjects[$pageId] = '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] '
-                . '/Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ' . $contentId . ' 0 R >>';
+                . $resources . ' /Contents ' . $contentId . ' 0 R >>';
             $pageObjects[$contentId] = "<< /Length " . strlen($content) . " >>\nstream\n" . $content . "\nendstream";
         }
         $objects[2] = '<< /Type /Pages /Kids [' . implode(' ', $kids) . '] /Count ' . count($this->pages) . ' >>';
@@ -154,6 +230,13 @@ final class SimplePdf
         $objects[4] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
         foreach ($pageObjects as $id => $body) {
             $objects[$id] = $body;
+        }
+        foreach ($this->images as $index => $image) {
+            $id = $imageBase + $index;
+            $objects[$id] = '<< /Type /XObject /Subtype /Image /Width ' . $image['width']
+                . ' /Height ' . $image['height'] . ' /ColorSpace /DeviceRGB /BitsPerComponent 8 '
+                . '/Filter /DCTDecode /Length ' . strlen($image['data']) . " >>\nstream\n"
+                . $image['data'] . "\nendstream";
         }
 
         ksort($objects);

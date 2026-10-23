@@ -11,6 +11,7 @@ use App\Core\Response;
 use App\Repositories\CatalogRepository;
 use App\Repositories\DiseaseRepository;
 use App\Repositories\ResourceRepository;
+use App\Repositories\VetDataHubRepository;
 
 final class ResourceController extends BaseController
 {
@@ -93,6 +94,7 @@ final class ResourceController extends BaseController
             'resource' => $resource,
             'related' => $repo->related($resource, 3),
             'isFavorite' => $user !== null && $repo->isFavorite((int) $user['id'], (int) $resource['id']),
+            'vethubTotal' => $resource['slug'] === 'vetdatahub' ? (new VetDataHubRepository())->total() : 0,
             'goals' => self::goals(),
             'canonical' => url('/recursos/' . $resource['slug']),
         ]);

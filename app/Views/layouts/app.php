@@ -130,6 +130,7 @@ $headerQuery = is_string($_GET['q'] ?? null) ? (string) $_GET['q'] : '';
             <a href="<?= e(url('/apoyo-diagnostico')) ?>">Apoyo diagnóstico</a>
             <a href="<?= e(url('/enfermedades')) ?>">Enfermedades</a>
             <a href="<?= e(url('/recursos')) ?>">Recursos de datos</a>
+            <a href="<?= e(url('/vetdatahub')) ?>">VetDataHub</a>
         </div>
 
         <div class="footer-col">

@@ -8,17 +8,17 @@ declare(strict_types=1);
  * por URL.
  */
 return [
-    'https://github.com/Vetdatahub/VetDataHub' => [
+    'https://github.com/Mikato8/VetDataHub' => [
         'slug' => 'vetdatahub',
-        'what_for' => 'Encontrar conjuntos de datos veterinarios abiertos para una tesis, una clase o una revisión. Útil si necesitas imágenes, registros clínicos, datos genómicos o información epidemiológica y no quieres construir una base desde cero.',
+        'what_for' => 'Explorar un catálogo de datasets veterinarios abiertos para una tesis, una clase o una revisión. Útil si necesitas imágenes, registros clínicos, datos genómicos o información epidemiológica y no quieres construir una base desde cero.',
         'how_to' => [
-            'Abre el repositorio y revisa la lista de datasets por tema.',
-            'Entra a la ficha del dataset que te interese y lee su licencia, variables y año.',
-            'Descarga los archivos o sigue las instrucciones del README. Si un término no te resulta familiar, consulta el glosario del portal.',
+            'Abre el catálogo integrado en el portal para revisar los datasets por categoría.',
+            'Usa el buscador o los filtros por área y fuente para encontrar el conjunto de datos que necesitas.',
+            'Abre la ficha del dataset en su fuente original, revisa licencia y variables, y descarga los archivos. Si un término no te resulta familiar, consulta el glosario del portal.',
         ],
-        'requirements' => 'Navegador. Algunos datasets pueden pedir una cuenta de GitHub para descargar. No necesitas programar para consultarlos.',
-        'guide' => 'VetDataHub reúne datos de distintas fuentes y la calidad cambia entre datasets. Antes de usarlos, revisa quién los publicó, qué variables incluyen y si permiten uso comercial. Para analizarlos puedes usar una hoja de cálculo; si el volumen es grande, pide apoyo a alguien con experiencia en datos.',
-        'action_label' => 'Abrir VetDataHub',
+        'requirements' => 'Navegador. Los datasets enlazan a Kaggle, GitHub, figshare u otras fuentes; algunas pueden pedir cuenta. No necesitas programar para consultarlos.',
+        'guide' => 'El catálogo integrado reúne 87 datasets de 15 categorías y enlaza a la fuente original de cada uno. La calidad, la licencia y las condiciones de acceso cambian entre datasets. Antes de usarlos, revisa quién los publicó, qué variables incluyen y si permiten uso comercial. Para analizarlos puedes usar una hoja de cálculo; si el volumen es grande, pide apoyo a alguien con experiencia en datos.',
+        'action_label' => 'Abrir repositorio',
         'reviewed_at' => '2026-10-22',
     ],
     'https://huggingface.co/datasets/SAVSNET/PetEVAL' => [

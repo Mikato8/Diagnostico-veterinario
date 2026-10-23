@@ -2,6 +2,7 @@
 /** @var array<string, mixed> $resource */
 /** @var array<int, array<string, mixed>> $related */
 /** @var bool $isFavorite */
+/** @var int $vethubTotal */
 $accessTone = $resource['access'] === 'abierto' ? 'success' : 'warning';
 $isRequest = $resource['access'] === 'solicitud';
 $reviewed = !empty($resource['reviewed_at']) ? format_date((string) $resource['reviewed_at'], 'd M Y') : null;
@@ -56,6 +57,17 @@ $requestTemplate = "Asunto: Solicitud de acceso a " . $resource['title'] . "\n\n
 <section class="section section-tight">
     <div class="container resource-detail-layout">
         <article class="resource-detail">
+            <?php if ($resource['slug'] === 'vetdatahub'): ?>
+                <div class="vethub-callout">
+                    <div>
+                        <span class="eyebrow">Catálogo integrado</span>
+                        <h2>Explora los <?= number_format($vethubTotal) ?> datasets dentro del portal</h2>
+                        <p>Busca por área, fuente o tema y abre cada conjunto de datos en su fuente original, sin tener que navegar por GitHub.</p>
+                    </div>
+                    <a class="btn btn-primary" href="<?= e(url('/vetdatahub')) ?>">Abrir catálogo <?= icon('arrow-right', 'icon icon-sm') ?></a>
+                </div>
+            <?php endif; ?>
+
             <section class="resource-block resource-block-highlight">
                 <span class="eyebrow">Para qué te sirve</span>
                 <h2>Qué puedes hacer con este recurso</h2>

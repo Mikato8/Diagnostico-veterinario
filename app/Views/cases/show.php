@@ -68,6 +68,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                 <?php endif; ?>
                 <button class="btn btn-ghost btn-sm" type="button" data-copy="<?= e($citation) ?>"><?= icon('copy', 'icon icon-xs') ?> Citar</button>
                 <a class="btn btn-ghost btn-sm" href="<?= e(url('/casos/' . $case['slug'] . '/pdf')) ?>"><?= icon('download', 'icon icon-xs') ?> PDF</a>
+                <a class="btn btn-ghost btn-sm" href="<?= e(url('/casos/' . $case['slug'] . '/docx')) ?>"><?= icon('file-text', 'icon icon-xs') ?> Word</a>
             </div>
         </div>
     </div>

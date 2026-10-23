@@ -137,7 +137,11 @@ Además, `/recursos/kit` ofrece plantillas DOCX generadas con `tools/generar_kit
 
 ## PDF de casos
 
-`App\Support\SimplePdf` genera un PDF A4 sin dependencias externas (Helvetica, codificación Windows-1252 y saltos de página). `CasePdf` compone el documento con datos del paciente, secciones clínicas, referencias, licencia y aviso educativo. Se descarga desde `/casos/{slug}/pdf`.
+`App\Support\SimplePdf` genera un PDF A4 sin dependencias externas (Helvetica, codificación Windows-1252, saltos de página e imágenes JPEG embebidas). `CasePdf` compone el documento con datos del paciente, secciones clínicas, referencias, licencia y aviso educativo; incluye las imágenes del caso cuando existen. `CaseDocx` genera una versión Word editable con OOXML y `ZipArchive`. Se descargan desde `/casos/{slug}/pdf` y `/casos/{slug}/docx`.
+
+## VetDataHub
+
+El catálogo de [Mikato8/VetDataHub](https://github.com/Mikato8/VetDataHub) se importa a `database/data/vetdatahub.json` con `tools/import_vetdatahub.py`. El portal lo sirve en `/vetdatahub` con búsqueda, filtros por categoría y fuente, y enlaces a la fuente original de cada dataset. No se copian los archivos de datos: se conserva la atribución y se remite a Kaggle, GitHub, figshare u otras fuentes.
 
 ## Seguridad
 

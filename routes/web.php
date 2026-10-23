@@ -12,6 +12,7 @@ use App\Controllers\PageController;
 use App\Controllers\ProfileController;
 use App\Controllers\ResourceController;
 use App\Controllers\SitemapController;
+use App\Controllers\VetDataHubController;
 use App\Core\Router;
 
 return static function (Router $router): void {
@@ -21,6 +22,7 @@ return static function (Router $router): void {
     $router->get('/casos/nuevo', [CaseController::class, 'create']);
     $router->post('/casos', [CaseController::class, 'store']);
     $router->get('/casos/{slug}/pdf', [CaseController::class, 'pdf']);
+    $router->get('/casos/{slug}/docx', [CaseController::class, 'docx']);
     $router->get('/casos/{slug}', [CaseController::class, 'show']);
     $router->get('/casos/{slug}/editar', [CaseController::class, 'edit']);
     $router->post('/casos/{slug}', [CaseController::class, 'update']);
@@ -43,6 +45,7 @@ return static function (Router $router): void {
     $router->get('/recursos/favoritos', [ResourceController::class, 'favorites']);
     $router->post('/recursos/{slug}/favorito', [ResourceController::class, 'favorite']);
     $router->get('/recursos/{slug}', [ResourceController::class, 'show']);
+    $router->get('/vetdatahub', [VetDataHubController::class, 'index']);
     $router->get('/nosotros', [PageController::class, 'about']);
     $router->get('/etica', [PageController::class, 'ethics']);
     $router->get('/privacidad', [PageController::class, 'privacy']);

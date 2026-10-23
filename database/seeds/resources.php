@@ -5,10 +5,10 @@ declare(strict_types=1);
 return [
     [
         'title' => 'VetDataHub',
-        'description' => 'Repositorio de código abierto con conjuntos de datos veterinarios: imágenes médicas, registros clínicos, datos genómicos y epidemiológicos para investigación y docencia.',
-        'url' => 'https://github.com/Vetdatahub/VetDataHub',
-        'category' => 'repositorio',
-        'organization' => 'VetDataHub',
+        'description' => 'Catálogo de datasets veterinarios abiertos: imágenes médicas, registros clínicos, genómica, epidemiología y más, con enlaces a la fuente original de cada conjunto de datos.',
+        'url' => 'https://github.com/Mikato8/VetDataHub',
+        'category' => 'dataset',
+        'organization' => 'VetDataHub · Mikato8',
         'country' => 'Global',
         'access' => 'abierto',
         'license' => 'Consultar repositorio',

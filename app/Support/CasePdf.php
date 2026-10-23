@@ -36,6 +36,18 @@ final class CasePdf
             $pdf->paragraph('Código ICD-11: ' . $case['icd11_code']);
         }
 
+        if (!empty($case['images'])) {
+            $pdf->heading('Imágenes del caso');
+            foreach ($case['images'] as $image) {
+                $path = BASE_PATH . '/public/uploads/cases/' . ltrim((string) $image['path'], '/');
+                $caption = trim((string) ($image['caption'] ?? ''));
+                if ($caption === '') {
+                    $caption = trim((string) ($image['alt_text'] ?? ''));
+                }
+                $pdf->image($path, $caption);
+            }
+        }
+
         $pdf->heading('Motivo de consulta');
         $pdf->paragraph((string) $case['chief_complaint']);
 
@@ -56,10 +68,6 @@ final class CasePdf
         $year = !empty($case['published_at']) ? date('Y', strtotime((string) $case['published_at'])) : date('Y');
         $pdf->paragraph($case['author_name'] . ' (' . $year . '). ' . $case['title'] . '. Diagnóstico Veterinario. ' . url('/casos/' . $case['slug']));
         $pdf->paragraph('Licencia: ' . $case['license']);
-
-        if (!empty($case['images'])) {
-            $pdf->small('Este PDF no incluye las imágenes del caso. Consúltalas en la versión web: ' . url('/casos/' . $case['slug']));
-        }
 
         $pdf->space(8);
         $pdf->small('Documento generado desde Diagnóstico Veterinario. El contenido es educativo y no sustituye el juicio clínico ni la atención veterinaria presencial. Los datos del caso fueron anonimizados por el autor y revisados editorialmente.');

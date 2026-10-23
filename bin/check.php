@@ -61,6 +61,9 @@ $line('Directorio de imágenes', $uploads, is_dir($uploads) && is_writable($uplo
 $line('Directorio de sesiones', BASE_PATH . '/storage/sessions', is_dir(BASE_PATH . '/storage/sessions') && is_writable(BASE_PATH . '/storage/sessions'));
 $line('Directorio de logs', BASE_PATH . '/storage/logs', is_dir(BASE_PATH . '/storage/logs') && is_writable(BASE_PATH . '/storage/logs'));
 $line('.env', is_file(BASE_PATH . '/.env') ? 'presente' : 'ausente', is_file(BASE_PATH . '/.env'));
+$vethubFile = BASE_PATH . '/database/data/vetdatahub.json';
+$vethub = is_file($vethubFile) ? json_decode((string) file_get_contents($vethubFile), true) : null;
+$line('VetDataHub integrado', is_array($vethub) ? count($vethub['datasets'] ?? []) . ' datasets' : 'sin catálogo', is_array($vethub) && !empty($vethub['datasets']));
 
 echo str_repeat('─', 68) . "\n";
 echo $ok ? "Resultado: entorno listo.\n" : "Resultado: revisa los puntos marcados antes de desplegar.\n";
