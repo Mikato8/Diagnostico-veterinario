@@ -81,6 +81,7 @@ $headerQuery = is_string($_GET['q'] ?? null) ? (string) $_GET['q'] : '';
                         </div>
                         <a href="<?= e(url('/perfil')) ?>"><?= icon('user') ?> Mi perfil</a>
                         <a href="<?= e(url('/mis-casos')) ?>"><?= icon('folder') ?> Mis casos</a>
+                        <a href="<?= e(url('/recursos/favoritos')) ?>"><?= icon('bookmark') ?> Recursos guardados</a>
                         <?php if (can('moderar')): ?>
                             <a href="<?= e(url('/admin')) ?>"><?= icon('dashboard') ?> Panel editorial</a>
                         <?php endif; ?>

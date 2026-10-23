@@ -1,6 +1,7 @@
 <?php
 /** @var array<string, mixed> $resource */
 /** @var array<int, array<string, mixed>> $related */
+/** @var bool $isFavorite */
 $accessTone = $resource['access'] === 'abierto' ? 'success' : 'warning';
 $isRequest = $resource['access'] === 'solicitud';
 $reviewed = !empty($resource['reviewed_at']) ? format_date((string) $resource['reviewed_at'], 'd M Y') : null;
@@ -37,6 +38,16 @@ $requestTemplate = "Asunto: Solicitud de acceso a " . $resource['title'] . "\n\n
                 </a>
                 <span>Abre el recurso externo en una pestaña nueva.</span>
                 <button class="btn btn-outline btn-sm" type="button" data-copy="<?= e($citation) ?>"><?= icon('copy', 'icon icon-xs') ?> Copiar referencia</button>
+                <?php if ($currentUser !== null): ?>
+                    <form method="post" action="<?= e(url('/recursos/' . $resource['slug'] . '/favorito')) ?>" id="favorito">
+                        <?= csrf_field() ?>
+                        <button class="btn <?= $isFavorite ? 'btn-primary' : 'btn-ghost' ?> btn-sm" type="submit">
+                            <?= icon('bookmark', 'icon icon-xs') ?> <?= $isFavorite ? 'Guardado en favoritos' : 'Guardar en favoritos' ?>
+                        </button>
+                    </form>
+                <?php else: ?>
+                    <a class="btn btn-ghost btn-sm" href="<?= e(url('/acceder')) ?>"><?= icon('bookmark', 'icon icon-xs') ?> Accede para guardar</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>

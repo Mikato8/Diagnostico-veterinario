@@ -135,6 +135,10 @@ Cada recurso externo tiene una ficha interna (`/recursos/{slug}`) con:
 
 Además, `/recursos/kit` ofrece plantillas DOCX generadas con `tools/generar_kit_recursos.py`, y `/recursos/glosario` explica términos técnicos. El recomendador acepta objetivo, especie y tema/enfermedad: busca fichas de enfermedad y casos del portal, y ordena los recursos externos por categoría, especie y coincidencia de texto. El objetivo es que un veterinario pueda decidir y actuar sin clonar repositorios ni instalar software.
 
+## PDF de casos
+
+`App\Support\SimplePdf` genera un PDF A4 sin dependencias externas (Helvetica, codificación Windows-1252 y saltos de página). `CasePdf` compone el documento con datos del paciente, secciones clínicas, referencias, licencia y aviso educativo. Se descarga desde `/casos/{slug}/pdf`.
+
 ## Seguridad
 
 - Sesión PHP con `HttpOnly`, `SameSite=Lax`, `Secure` en HTTPS.

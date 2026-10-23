@@ -165,7 +165,8 @@ Si no hay SSH, ejecuta esos comandos en local con las URLs de producción y lueg
 6. Sube una imagen JPG/PNG/WebP y confirma que se muestra.
 7. Prueba el registro de un veterinario y la verificación desde `/admin/usuarios`.
 8. Abre `/recursos/vetdatahub`, `/recursos/kit` y `/recursos?goal=datos&species=canino&topic=parvovirus`; descarga una plantilla DOCX.
-9. Comprueba `/sitemap.xml` y `/robots.txt`.
+9. Guarda un recurso en favoritos con una cuenta verificada y descarga un caso en PDF.
+10. Comprueba `/sitemap.xml` y `/robots.txt`.
 9. Revisa `storage/logs/app-*.log` si algo falla.
 
 ## 7. Correo
@@ -222,5 +223,6 @@ Las migraciones son idempotentes y se registran en `schema_migrations`. Nunca ed
 - [ ] `/salud` en verde.
 - [ ] Registro, caso, imagen, revisión y publicación probados.
 - [ ] Fichas de recursos, kit DOCX y glosario accesibles.
+- [ ] Favoritos y descarga PDF probados.
 - [ ] `.env` inaccesible desde el navegador.
 - [ ] Copia de seguridad de Neon configurada.

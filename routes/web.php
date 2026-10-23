@@ -20,6 +20,7 @@ return static function (Router $router): void {
     $router->get('/casos', [CaseController::class, 'index']);
     $router->get('/casos/nuevo', [CaseController::class, 'create']);
     $router->post('/casos', [CaseController::class, 'store']);
+    $router->get('/casos/{slug}/pdf', [CaseController::class, 'pdf']);
     $router->get('/casos/{slug}', [CaseController::class, 'show']);
     $router->get('/casos/{slug}/editar', [CaseController::class, 'edit']);
     $router->post('/casos/{slug}', [CaseController::class, 'update']);
@@ -39,6 +40,8 @@ return static function (Router $router): void {
     $router->get('/recursos', [ResourceController::class, 'index']);
     $router->get('/recursos/kit', [ResourceController::class, 'kit']);
     $router->get('/recursos/glosario', [ResourceController::class, 'glossary']);
+    $router->get('/recursos/favoritos', [ResourceController::class, 'favorites']);
+    $router->post('/recursos/{slug}/favorito', [ResourceController::class, 'favorite']);
     $router->get('/recursos/{slug}', [ResourceController::class, 'show']);
     $router->get('/nosotros', [PageController::class, 'about']);
     $router->get('/etica', [PageController::class, 'ethics']);

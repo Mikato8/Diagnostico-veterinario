@@ -63,6 +63,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
             <div class="resource-intro-links">
                 <a class="text-link" href="<?= e(url('/recursos/glosario')) ?>"><?= icon('book-open', 'icon icon-sm') ?> Glosario para no especialistas</a>
                 <a class="text-link" href="<?= e(url('/recursos/kit')) ?>"><?= icon('download', 'icon icon-sm') ?> Plantillas listas para usar</a>
+                <?php if ($currentUser !== null): ?><a class="text-link" href="<?= e(url('/recursos/favoritos')) ?>"><?= icon('bookmark', 'icon icon-sm') ?> Mis recursos guardados</a><?php endif; ?>
             </div>
         </div>
 

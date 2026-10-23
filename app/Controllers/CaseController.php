@@ -11,6 +11,7 @@ use App\Core\Flash;
 use App\Core\Paginator;
 use App\Core\Request;
 use App\Core\Response;
+use App\Support\CasePdf;
 use App\Repositories\CaseRepository;
 use App\Repositories\CatalogRepository;
 use App\Repositories\UserRepository;
@@ -93,6 +94,24 @@ final class CaseController extends BaseController
             'canonical' => url('/casos/' . $case['slug']),
             'robots' => $isPreview ? 'noindex,nofollow' : 'index,follow',
         ]);
+    }
+
+    public function pdf(Request $request, string $slug): Response
+    {
+        $case = (new CaseRepository())->findPublishedBySlug($slug);
+        if ($case === null) {
+            $this->notFound('Este caso no está disponible para descarga.');
+        }
+
+        $content = CasePdf::render($case);
+        $filename = 'caso-' . $case['slug'] . '.pdf';
+        return (new Response($content, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Content-Length' => (string) strlen($content),
+            'Cache-Control' => 'private, max-age=0, must-revalidate',
+            'X-Robots-Tag' => 'noindex, nofollow',
+        ]));
     }
 
     public function create(Request $request): Response

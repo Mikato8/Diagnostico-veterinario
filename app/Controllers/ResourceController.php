@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Auth;
+use App\Core\Flash;
 use App\Core\Request;
 use App\Core\Response;
 use App\Repositories\CatalogRepository;
@@ -84,13 +86,40 @@ final class ResourceController extends BaseController
             $this->notFound('No encontramos esta ficha de recurso.');
         }
 
+        $user = Auth::user();
         return $this->view('resources.show', [
             'title' => $resource['title'] . ' · Recursos · Diagnóstico Veterinario',
             'metaDescription' => excerpt($resource['what_for'] ?: $resource['description'], 160),
             'resource' => $resource,
             'related' => $repo->related($resource, 3),
+            'isFavorite' => $user !== null && $repo->isFavorite((int) $user['id'], (int) $resource['id']),
             'goals' => self::goals(),
             'canonical' => url('/recursos/' . $resource['slug']),
+        ]);
+    }
+
+    public function favorite(Request $request, string $slug): Response
+    {
+        $user = Auth::requireLogin();
+        $repo = new ResourceRepository();
+        $resource = $repo->findBySlug($slug);
+        if ($resource === null) {
+            $this->notFound('No encontramos esta ficha de recurso.');
+        }
+        $active = $repo->toggleFavorite((int) $user['id'], (int) $resource['id']);
+        Flash::success($active ? 'Recurso guardado en tus favoritos.' : 'Recurso eliminado de tus favoritos.');
+        return $this->redirect('/recursos/' . $resource['slug'] . '#favorito');
+    }
+
+    public function favorites(Request $request): Response
+    {
+        $user = Auth::requireLogin();
+        $repo = new ResourceRepository();
+        return $this->view('resources.favorites', [
+            'title' => 'Mis recursos guardados · Diagnóstico Veterinario',
+            'metaDescription' => 'Recursos de datos veterinarios que guardaste para consultar después.',
+            'resources' => $repo->favoritesForUser((int) $user['id']),
+            'user' => $user,
         ]);
     }
 

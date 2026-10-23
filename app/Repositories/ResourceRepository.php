@@ -69,6 +69,43 @@ final class ResourceRepository
         return $row !== null ? $this->hydrate($row) : null;
     }
 
+    public function isFavorite(int $userId, int $resourceId): bool
+    {
+        return Database::value(
+            'select 1 from resource_favorites where user_id = $1 and resource_id = $2',
+            [$userId, $resourceId]
+        ) !== null;
+    }
+
+    public function toggleFavorite(int $userId, int $resourceId): bool
+    {
+        if ($this->isFavorite($userId, $resourceId)) {
+            Database::execute(
+                'delete from resource_favorites where user_id = $1 and resource_id = $2',
+                [$userId, $resourceId]
+            );
+            return false;
+        }
+        Database::execute(
+            'insert into resource_favorites (user_id, resource_id) values ($1, $2) on conflict do nothing',
+            [$userId, $resourceId]
+        );
+        return true;
+    }
+
+    /** @return array<int, array<string, mixed>> */
+    public function favoritesForUser(int $userId): array
+    {
+        $rows = Database::select(
+            'select r.* from resources r
+             join resource_favorites f on f.resource_id = r.id
+             where f.user_id = $1
+             order by f.created_at desc',
+            [$userId]
+        );
+        return array_map([$this, 'hydrate'], $rows);
+    }
+
     /**
      * Recursos sugeridos según lo que el veterinario quiere hacer.
      * @return array<int, array<string, mixed>>
