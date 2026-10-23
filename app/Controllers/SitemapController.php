@@ -18,6 +18,8 @@ final class SitemapController extends BaseController
             ['loc' => url('/apoyo-diagnostico'), 'priority' => '0.9'],
             ['loc' => url('/enfermedades'), 'priority' => '0.8'],
             ['loc' => url('/recursos'), 'priority' => '0.8'],
+            ['loc' => url('/recursos/kit'), 'priority' => '0.6'],
+            ['loc' => url('/recursos/glosario'), 'priority' => '0.6'],
             ['loc' => url('/nosotros'), 'priority' => '0.5'],
             ['loc' => url('/etica'), 'priority' => '0.4'],
             ['loc' => url('/privacidad'), 'priority' => '0.3'],
@@ -29,6 +31,9 @@ final class SitemapController extends BaseController
         }
         foreach (Database::select('select slug, updated_at from diseases order by name') as $disease) {
             $urls[] = ['loc' => url('/enfermedades/' . $disease['slug']), 'lastmod' => date('Y-m-d', strtotime((string) $disease['updated_at'])), 'priority' => '0.6'];
+        }
+        foreach (Database::select('select slug, updated_at from resources where slug is not null order by title') as $resource) {
+            $urls[] = ['loc' => url('/recursos/' . $resource['slug']), 'lastmod' => date('Y-m-d', strtotime((string) $resource['updated_at'])), 'priority' => '0.5'];
         }
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";

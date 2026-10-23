@@ -39,6 +39,8 @@ try {
     if ($ping) {
         $migrations = Database::select('select version, applied_at from schema_migrations order by version');
         $line('Migraciones aplicadas', (string) count($migrations), $migrations !== []);
+        $guides = (int) Database::value("select count(*) from resources where slug is not null and what_for is not null");
+        $line('recursos con guía', (string) $guides, $guides > 0);
         foreach ([
             'usuarios' => 'users',
             'casos' => 'cases',

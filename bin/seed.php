@@ -5,13 +5,13 @@ declare(strict_types=1);
 require dirname(__DIR__) . '/app/bootstrap.php';
 
 use App\Core\Database;
+use App\Support\ResourceSeeder;
 
 $options = array_slice($argv, 1);
 $withDemo = in_array('--demo', $options, true) || env_bool('SEED_DEMO', false);
 
 $catalog = require BASE_PATH . '/database/seeds/catalog.php';
 $diseases = require BASE_PATH . '/database/seeds/diseases.php';
-$resources = require BASE_PATH . '/database/seeds/resources.php';
 $demo = $withDemo ? require BASE_PATH . '/database/seeds/demo.php' : null;
 
 echo "Sembrando catálogos...\n";
@@ -138,41 +138,8 @@ foreach ($diseases as $disease) {
 echo "  ✓ " . count($diseases) . " enfermedades\n";
 
 echo "Sembrando recursos...\n";
-foreach ($resources as $resource) {
-    Database::execute(
-        'insert into resources (
-            title, description, url, category, organization, country, access,
-            license, language, tags, featured, sort_order
-         ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-         on conflict (url) do update set
-            title = excluded.title,
-            description = excluded.description,
-            category = excluded.category,
-            organization = excluded.organization,
-            country = excluded.country,
-            access = excluded.access,
-            license = excluded.license,
-            language = excluded.language,
-            tags = excluded.tags,
-            featured = excluded.featured,
-            sort_order = excluded.sort_order',
-        [
-            $resource['title'],
-            $resource['description'],
-            $resource['url'],
-            $resource['category'],
-            $resource['organization'],
-            $resource['country'],
-            $resource['access'],
-            $resource['license'],
-            $resource['language'],
-            '{' . implode(',', array_map(static fn (string $tag): string => '"' . str_replace('"', '\\"', $tag) . '"', $resource['tags'])) . '}',
-            $resource['featured'],
-            $resource['sort_order'],
-        ]
-    );
-}
-echo "  ✓ " . count($resources) . " recursos\n";
+$resourceCount = ResourceSeeder::run();
+echo "  ✓ {$resourceCount} recursos con guías internas\n";
 
 if ($withDemo) {
     echo "Sembrando usuarios y casos demostrativos...\n";

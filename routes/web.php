@@ -37,6 +37,9 @@ return static function (Router $router): void {
 
     // Recursos y páginas
     $router->get('/recursos', [ResourceController::class, 'index']);
+    $router->get('/recursos/kit', [ResourceController::class, 'kit']);
+    $router->get('/recursos/glosario', [ResourceController::class, 'glossary']);
+    $router->get('/recursos/{slug}', [ResourceController::class, 'show']);
     $router->get('/nosotros', [PageController::class, 'about']);
     $router->get('/etica', [PageController::class, 'ethics']);
     $router->get('/privacidad', [PageController::class, 'privacy']);

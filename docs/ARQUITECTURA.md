@@ -123,6 +123,18 @@ El puntaje es una **heurística de similitud**, no una probabilidad diagnóstica
 - **Migraciones:** `DATABASE_URL_UNPOOLED`, sin PgBouncer.
 - **HTTP:** `DB_DRIVER=http`; cada consulta es una petición HTTPS independiente. Para operaciones multi-tabla se usan CTEs o escrituras secuenciales idempotentes.
 
+## Recursos para no especialistas
+
+Cada recurso externo tiene una ficha interna (`/recursos/{slug}`) con:
+
+- `what_for`: uso concreto en lenguaje clínico.
+- `how_to`: pasos ordenados.
+- `requirements`: cuenta, solicitud, idioma, conocimientos.
+- `guide`: contexto, limitaciones y advertencias.
+- `action_label`: texto del botón externo.
+
+Además, `/recursos/kit` ofrece plantillas DOCX generadas con `tools/generar_kit_recursos.py`, y `/recursos/glosario` explica términos técnicos. El objetivo es que un veterinario pueda decidir y actuar sin clonar repositorios ni instalar software.
+
 ## Seguridad
 
 - Sesión PHP con `HttpOnly`, `SameSite=Lax`, `Secure` en HTTPS.

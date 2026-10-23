@@ -175,12 +175,12 @@ $hero = $featured[0] ?? null;
         </div>
         <div class="resource-grid resource-grid-4">
             <?php foreach ($resources as $resource): ?>
-                <a class="resource-card" href="<?= e($resource['url']) ?>" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" href="<?= e(url('/recursos/' . $resource['slug'])) ?>">
                     <span class="resource-icon"><?= icon($resource['category'] === 'dataset' ? 'database' : ($resource['category'] === 'api' ? 'activity' : ($resource['category'] === 'vigilancia' ? 'globe' : 'folder')), 'icon') ?></span>
                     <span class="badge badge-soft"><?= e(category_label($resource['category'])) ?></span>
                     <h3><?= e($resource['title']) ?></h3>
                     <p><?= e(excerpt($resource['description'], 95)) ?></p>
-                    <span class="resource-foot"><?= e($resource['organization'] ?? '') ?> <?= icon('arrow-up-right', 'icon icon-xs') ?></span>
+                    <span class="resource-foot"><?= e($resource['organization'] ?? '') ?> Leer guía <?= icon('arrow-right', 'icon icon-xs') ?></span>
                 </a>
             <?php endforeach; ?>
         </div>

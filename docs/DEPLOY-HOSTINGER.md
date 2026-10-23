@@ -37,6 +37,7 @@ Desde tu equipo, con el `.env` apuntando a Neon:
 ```bash
 php bin/migrate.php
 php bin/seed.php
+php bin/seed-resources.php
 php bin/create-admin.php --name="Tu Nombre" --email="tu@correo.mx" --license="MV-0000" --state=CMX
 ```
 
@@ -147,6 +148,7 @@ Si tu plan tiene SSH:
 cd ~/domains/tu-dominio.mx/diagnostico
 php bin/check.php
 php bin/migrate.php
+php bin/seed-resources.php
 php bin/create-admin.php
 ```
 
@@ -162,7 +164,8 @@ Si no hay SSH, ejecuta esos comandos en local con las URLs de producción y lueg
 5. Crea un caso de prueba, envíalo a revisión, apruébalo y compruébalo en `/casos`.
 6. Sube una imagen JPG/PNG/WebP y confirma que se muestra.
 7. Prueba el registro de un veterinario y la verificación desde `/admin/usuarios`.
-8. Comprueba `/sitemap.xml` y `/robots.txt`.
+8. Abre `/recursos/vetdatahub` y `/recursos/kit`; descarga una plantilla DOCX.
+9. Comprueba `/sitemap.xml` y `/robots.txt`.
 9. Revisa `storage/logs/app-*.log` si algo falla.
 
 ## 7. Correo
@@ -218,5 +221,6 @@ Las migraciones son idempotentes y se registran en `schema_migrations`. Nunca ed
 - [ ] SSL activo y redirección HTTP → HTTPS.
 - [ ] `/salud` en verde.
 - [ ] Registro, caso, imagen, revisión y publicación probados.
+- [ ] Fichas de recursos, kit DOCX y glosario accesibles.
 - [ ] `.env` inaccesible desde el navegador.
 - [ ] Copia de seguridad de Neon configurada.

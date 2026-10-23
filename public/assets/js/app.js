@@ -299,6 +299,27 @@
         });
     }
 
+
+    // ---------------------------------------------------------------------
+    // Filtro del glosario
+    // ---------------------------------------------------------------------
+    const glossaryFilter = $('[data-glossary-filter]');
+    const glossaryList = $('[data-glossary-list]');
+    const glossaryEmpty = $('[data-glossary-empty]');
+    if (glossaryFilter && glossaryList) {
+        const normalize = (value) => value.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        glossaryFilter.addEventListener('input', () => {
+            const term = normalize(glossaryFilter.value.trim());
+            let visible = 0;
+            $$('[data-glossary-item]', glossaryList).forEach((item) => {
+                const match = !term || normalize(item.getAttribute('data-glossary-label') || '').includes(term);
+                item.hidden = !match;
+                if (match) visible++;
+            });
+            if (glossaryEmpty) glossaryEmpty.hidden = visible !== 0;
+        });
+    }
+
     // ---------------------------------------------------------------------
     // Confirmación de formularios marcados
     // ---------------------------------------------------------------------

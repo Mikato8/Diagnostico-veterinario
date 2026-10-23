@@ -10,6 +10,7 @@ use App\Core\Database;
 use App\Core\Flash;
 use App\Core\Paginator;
 use App\Core\Request;
+use App\Core\Str;
 use App\Core\Response;
 use App\Repositories\CaseRepository;
 use App\Repositories\ResourceRepository;
@@ -253,7 +254,7 @@ final class AdminController extends BaseController
         if ($resource === null) {
             $this->notFound('No encontramos este recurso.');
         }
-        [$data, $errors] = $this->validateResource($request);
+        [$data, $errors] = $this->validateResource($request, (int) $id);
         if ($errors !== []) {
             $this->withErrors($errors);
             $this->flashOld($request->all());
@@ -298,11 +299,21 @@ final class AdminController extends BaseController
     /**
      * @return array{0: array<string, mixed>, 1: array<string, string>}
      */
-    private function validateResource(Request $request): array
+    private function validateResource(Request $request, ?int $id = null): array
     {
         $tags = $this->tagsFromInput($request->string('tags'));
+        $title = $request->string('title');
+        $slug = Str::slug($request->string('slug') !== '' ? $request->string('slug') : $title);
+        $baseSlug = $slug;
+        $suffix = 2;
+        while (Database::value('select id from resources where slug = $1 and id <> $2', [$slug, $id ?? 0]) !== null) {
+            $slug = $baseSlug . '-' . $suffix;
+            $suffix++;
+        }
+        $steps = preg_split('/\r\n|\r|\n/', $request->string('how_to')) ?: [];
+        $steps = array_values(array_filter(array_map('trim', $steps), static fn (string $step): bool => $step !== ''));
         $data = [
-            'title' => $request->string('title'),
+            'title' => $title,
             'description' => $request->string('description'),
             'url' => $request->string('url'),
             'category' => $request->string('category'),
@@ -314,10 +325,18 @@ final class AdminController extends BaseController
             'tags' => '{' . implode(',', array_map(static fn (string $tag): string => '"' . str_replace('"', '\\"', $tag) . '"', $tags)) . '}',
             'featured' => $request->bool('featured'),
             'sort_order' => $request->int('sort_order', 100),
+            'slug' => $slug,
+            'what_for' => $request->string('what_for'),
+            'how_to' => $steps,
+            'requirements' => $request->string('requirements'),
+            'guide' => $request->string('guide'),
+            'action_label' => $request->string('action_label'),
+            'reviewed_at' => $request->string('reviewed_at') !== '' ? $request->string('reviewed_at') : null,
         ];
         $validator = $this->validator($data, [
             'title' => 'título', 'description' => 'descripción', 'url' => 'URL',
-            'category' => 'categoría', 'access' => 'acceso',
+            'category' => 'categoría', 'access' => 'acceso', 'what_for' => 'para qué sirve',
+            'how_to' => 'cómo usarlo', 'requirements' => 'requisitos', 'guide' => 'guía',
         ]);
         $validator->validate([
             'title' => 'required|min:4|max:160',
@@ -330,7 +349,16 @@ final class AdminController extends BaseController
             'license' => 'nullable|max:160',
             'language' => 'required|max:10',
             'sort_order' => 'required|integer|between:0,999',
+            'slug' => 'required|min:3|max:100',
+            'what_for' => 'required|min:20|max:2000',
+            'requirements' => 'nullable|max:2000',
+            'guide' => 'nullable|max:4000',
+            'action_label' => 'nullable|max:80',
+            'reviewed_at' => 'nullable|date',
         ]);
+        if (count($steps) < 2) {
+            $validator->add('how_to', 'Escribe al menos dos pasos, uno por línea.');
+        }
         return [$data, $validator->errors()];
     }
 }

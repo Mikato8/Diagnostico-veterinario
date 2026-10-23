@@ -33,6 +33,9 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 - Apoyo diagnóstico por similitud: especie + signos clínicos → diferenciales ponderados, signos clave faltantes, urgencia y alerta zoonótica.
 - Fichas de enfermedades con etiología, diagnóstico, tratamiento, prevención y pronóstico.
 - Directorio curado de datasets, APIs, repositorios y sistemas de vigilancia (VetDataHub, PetEVAL, VetCompass, SAVSNET, WAHIS, NAHMS, SENASICA y más).
+- **Recursos explicados en español:** cada ficha interna dice para qué sirve, cómo empezar, qué necesitas y cómo solicitar acceso, sin asumir que sabes programar.
+- **Kit descargable:** plantilla de caso clínico, checklist de consentimiento, carta de solicitud de datos y guía rápida en DOCX.
+- **Glosario para no especialistas:** dataset, repositorio, API, licencia, CSV y otros términos explicados en lenguaje clínico.
 - Perfil profesional, cambio de contraseña y recuperación por correo.
 
 ### Para el comité editorial
@@ -62,6 +65,14 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 | Archivo de casos | Panel editorial |
 | --- | --- |
 | ![Casos](docs/capturas/casos.png) | ![Panel editorial](docs/capturas/admin.png) |
+
+| Recursos explicados | Ficha de recurso |
+| --- | --- |
+| ![Recursos](docs/capturas/recursos.png) | ![Ficha de recurso](docs/capturas/recurso-detalle.png) |
+
+| Kit descargable |
+| --- |
+| ![Kit](docs/capturas/kit.png) |
 
 ## Stack
 
@@ -173,6 +184,7 @@ php bin/check.php
 | `php bin/migrate.php` | Aplica migraciones pendientes (usa `DATABASE_URL_UNPOOLED`/`DATABASE_URL`). |
 | `php bin/seed.php` | Siembra catálogos, enfermedades y recursos. |
 | `php bin/seed.php --demo` | Añade usuarios y siete casos demostrativos marcados como ficticios. |
+| `php bin/seed-resources.php` | Actualiza sólo las fichas y guías del directorio de recursos. |
 | `php bin/create-admin.php` | Crea o restablece un administrador verificado. |
 | `php bin/check.php` | Diagnóstico de PHP, extensiones, base de datos y permisos. |
 | `php bin/serve.php` | Servidor de desarrollo en `127.0.0.1:8080`. |
@@ -226,17 +238,19 @@ bin/                 CLI: migraciones, seeds, admin, checks
 config/app.php       Configuración desde .env
 database/
   migrations/        Esquema versionado
-  seeds/             Catálogos, enfermedades, recursos y demo
+  seeds/             Catálogos, enfermedades, recursos, guías y demo
 docs/                Arquitectura, despliegue y capturas
-public/              Document root (front controller, assets, uploads)
+public/              Document root (front controller, assets, uploads, descargas)
 routes/web.php       Mapa de rutas
 storage/             Logs, sesiones y caché (fuera del dominio público)
 tests/               Pruebas de humo
+tools/               Generador reproducible del kit DOCX
 ```
 
 ## Roadmap
 
 - [ ] Revisión por pares con asignación de revisores y notificaciones por correo.
+- [x] Recursos explicados, kit descargable y glosario para no especialistas.
 - [ ] Exportación de casos a PDF y RIS/BibTeX.
 - [ ] Búsqueda semántica con embeddings sobre el archivo clínico.
 - [ ] API REST pública con tokens y límites de uso.

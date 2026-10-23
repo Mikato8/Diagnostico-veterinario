@@ -34,7 +34,7 @@
                             <div class="table-title">
                                 <span class="table-emoji"><?= icon($resource['category'] === 'dataset' ? 'database' : ($resource['category'] === 'api' ? 'activity' : 'folder'), 'icon icon-sm') ?></span>
                                 <div>
-                                    <strong><?= e($resource['title']) ?></strong>
+                                    <a href="<?= e(url('/recursos/' . $resource['slug'])) ?>" target="_blank" rel="noopener noreferrer"><strong><?= e($resource['title']) ?></strong></a>
                                     <small><a href="<?= e($resource['url']) ?>" target="_blank" rel="noopener noreferrer"><?= e(excerpt($resource['url'], 55)) ?></a></small>
                                 </div>
                             </div>
@@ -44,6 +44,7 @@
                         <td><?= e($resource['organization'] ?? '—') ?></td>
                         <td>
                             <div class="table-actions">
+                                <a class="btn btn-ghost btn-xs" href="<?= e(url('/recursos/' . $resource['slug'])) ?>" target="_blank" rel="noopener"><?= icon('eye', 'icon icon-xs') ?> Ficha</a>
                                 <a class="btn btn-ghost btn-xs" href="<?= e(url('/admin/recursos/' . $resource['id'] . '/editar')) ?>"><?= icon('edit', 'icon icon-xs') ?> Editar</a>
                                 <form method="post" action="<?= e(url('/admin/recursos/' . $resource['id'] . '/eliminar')) ?>" data-confirm="¿Eliminar este recurso del directorio?">
                                     <?= csrf_field() ?>

@@ -4,6 +4,7 @@
 $isEdit = $resource !== null;
 $actionUrl = $isEdit ? url('/admin/recursos/' . $resource['id']) : url('/admin/recursos');
 $errors = \App\Core\Flash::errors();
+$howToValue = old('how_to', implode("\n", $resource['how_to'] ?? []));
 ?>
 <div class="admin-page-head">
     <div>
@@ -34,6 +35,42 @@ $errors = \App\Core\Flash::errors();
         <div class="field">
             <label for="url">URL</label>
             <input id="url" name="url" type="url" required maxlength="500" value="<?= e(old('url', $resource['url'] ?? '')) ?>" placeholder="https://">
+        </div>
+
+        <div class="field-grid field-grid-2">
+            <div class="field">
+                <label for="slug">URL amigable <span class="optional">(opcional)</span></label>
+                <input id="slug" name="slug" type="text" maxlength="100" value="<?= e(old('slug', $resource['slug'] ?? '')) ?>" placeholder="se genera desde el título">
+                <span class="field-help">Se usará en /recursos/…; si se deja vacía, se genera automáticamente.</span>
+            </div>
+            <div class="field">
+                <label for="action_label">Texto del botón</label>
+                <input id="action_label" name="action_label" type="text" maxlength="80" value="<?= e(old('action_label', $resource['action_label'] ?? '')) ?>" placeholder="Abrir recurso, Solicitar acceso…">
+            </div>
+        </div>
+        <div class="field">
+            <label for="what_for">¿Para qué le sirve a un veterinario?</label>
+            <textarea id="what_for" name="what_for" rows="3" required maxlength="2000" placeholder="Explica el uso concreto, sin tecnicismos."><?= e(old('what_for', $resource['what_for'] ?? '')) ?></textarea>
+        </div>
+        <div class="field">
+            <label for="how_to">Cómo usarlo <span class="req">*</span></label>
+            <textarea id="how_to" name="how_to" rows="4" required placeholder="Escribe un paso por línea.&#10;1. Abre el recurso…&#10;2. Revisa la licencia…&#10;3. Descarga los datos…"><?= e($howToValue) ?></textarea>
+            <span class="field-help">Un paso por línea. Mínimo dos pasos.</span>
+        </div>
+        <div class="field-grid field-grid-2">
+            <div class="field">
+                <label for="requirements">Qué necesita la persona</label>
+                <textarea id="requirements" name="requirements" rows="3" maxlength="2000" placeholder="Cuenta, solicitud, conocimientos, idioma…"><?= e(old('requirements', $resource['requirements'] ?? '')) ?></textarea>
+            </div>
+            <div class="field">
+                <label for="reviewed_at">Última revisión</label>
+                <input id="reviewed_at" name="reviewed_at" type="date" value="<?= e(old('reviewed_at', $resource['reviewed_at'] ?? '')) ?>">
+                <span class="field-help">Fecha en que el comité revisó la ficha.</span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="guide">Guía interna y advertencias</label>
+            <textarea id="guide" name="guide" rows="5" maxlength="4000" placeholder="Contexto, limitaciones, licencia, cómo citarlo…"><?= e(old('guide', $resource['guide'] ?? '')) ?></textarea>
         </div>
         <div class="field-grid field-grid-2">
             <div class="field">
