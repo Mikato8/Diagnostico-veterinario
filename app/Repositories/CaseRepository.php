@@ -229,7 +229,7 @@ final class CaseRepository
     /** @return array<string, int> */
     public function stats(): array
     {
-        return Cache::remember('cases.stats', 30, function (): array {
+        return Cache::remember('cases.stats', 300, function (): array {
             return $this->statsFresh();
         });
     }
@@ -529,7 +529,7 @@ final class CaseRepository
     /** @return array<int, string> */
     public function popularTags(int $limit = 12): array
     {
-        return Cache::remember('cases.tags.' . $limit, 60, function () use ($limit): array {
+        return Cache::remember('cases.tags.' . $limit, 300, function () use ($limit): array {
             $rows = Database::select(
             "select ct.tag, count(*) as total
              from case_tags ct join cases c on c.id = ct.case_id

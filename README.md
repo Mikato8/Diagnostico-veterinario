@@ -17,6 +17,10 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 
 > El contenido es educativo. No sustituye el juicio clínico, la valoración presencial ni las guías oficiales.
 
+## Demo en vivo
+
+**<https://moccasin-louse-938329.hostingersite.com>** — despliegue de demostración en Hostinger, con base de datos en Neon. El dominio es temporal; puede cambiarse sin tocar el código actualizando `APP_URL`.
+
 ## Funcionalidades
 
 ### Para médicos veterinarios

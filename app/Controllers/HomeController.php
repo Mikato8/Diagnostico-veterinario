@@ -17,8 +17,8 @@ final class HomeController extends BaseController
     public function index(Request $request): Response
     {
         $cases = new CaseRepository();
-        $featured = Cache::remember('home.featured', 30, static fn (): array => $cases->featured(3));
-        $latest = Cache::remember('home.latest', 30, static fn (): array => $cases->latest(6));
+        $featured = Cache::remember('home.featured', 300, static fn (): array => $cases->featured(3));
+        $latest = Cache::remember('home.latest', 300, static fn (): array => $cases->latest(6));
 
         if (count($featured) < 3) {
             $seen = array_column($featured, 'id');
