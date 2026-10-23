@@ -42,3 +42,6 @@ coverage/
 
 # Paquetes de despliegue
 dist/
+
+# Llave SSH local de despliegue
+.ssh/
