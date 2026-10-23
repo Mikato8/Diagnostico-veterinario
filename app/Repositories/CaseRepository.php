@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Core\Cache;
 use App\Core\Database;
 
 final class CaseRepository
@@ -227,6 +228,14 @@ final class CaseRepository
 
     /** @return array<string, int> */
     public function stats(): array
+    {
+        return Cache::remember('cases.stats', 30, function (): array {
+            return $this->statsFresh();
+        });
+    }
+
+    /** @return array<string, int> */
+    private function statsFresh(): array
     {
         $row = Database::first(
             "select
@@ -507,24 +516,28 @@ final class CaseRepository
     /** @return array<int, int> */
     public function years(): array
     {
-        $rows = Database::select(
+        return Cache::remember('cases.years', 300, function (): array {
+            $rows = Database::select(
             "select distinct extract(year from published_at)::int as year
              from cases where status = 'publicado' and published_at is not null
              order by year desc"
         );
-        return array_map(static fn (array $row): int => (int) $row['year'], $rows);
+            return array_map(static fn (array $row): int => (int) $row['year'], $rows);
+        });
     }
 
     /** @return array<int, string> */
     public function popularTags(int $limit = 12): array
     {
-        $rows = Database::select(
+        return Cache::remember('cases.tags.' . $limit, 60, function () use ($limit): array {
+            $rows = Database::select(
             "select ct.tag, count(*) as total
              from case_tags ct join cases c on c.id = ct.case_id
              where c.status = 'publicado' and c.deleted_at is null
              group by ct.tag order by total desc, ct.tag asc limit $1",
             [$limit]
         );
-        return array_map(static fn (array $row): string => (string) $row['tag'], $rows);
+            return array_map(static fn (array $row): string => (string) $row['tag'], $rows);
+        });
     }
 }

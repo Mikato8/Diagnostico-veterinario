@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\Cache;
 use App\Core\Database;
 use App\Core\Flash;
 use App\Core\Paginator;
@@ -126,6 +127,7 @@ final class AdminController extends BaseController
         }
 
         $repo->addReview((int) $case['id'], (int) $user['id'], $decision, $comments);
+        Cache::flush();
         $this->audit('caso.revision', 'case', (string) $case['id'], ['decision' => $decision]);
         Flash::success($message);
         return $this->redirect('/admin/casos/' . $case['id']);
@@ -237,6 +239,7 @@ final class AdminController extends BaseController
             $this->flashOld($request->all());
             return $this->redirect('/admin/recursos/nuevo');
         }
+        Cache::flush();
         $this->audit('recurso.creado', 'resource', (string) $id);
         Flash::success('Recurso creado.');
         return $this->redirect('/admin/recursos');
@@ -263,6 +266,7 @@ final class AdminController extends BaseController
             $this->flashOld($request->all());
             return $this->redirect('/admin/recursos/' . $id . '/editar');
         }
+        Cache::flush();
         $this->audit('recurso.actualizado', 'resource', $id);
         Flash::success('Recurso actualizado.');
         return $this->redirect('/admin/recursos');
@@ -272,6 +276,7 @@ final class AdminController extends BaseController
     {
         Auth::requireAdmin();
         (new ResourceRepository())->delete((int) $id);
+        Cache::flush();
         $this->audit('recurso.eliminado', 'resource', $id);
         Flash::success('Recurso eliminado.');
         return $this->redirect('/admin/recursos');

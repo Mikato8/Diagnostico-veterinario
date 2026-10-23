@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Core\Cache;
 use App\Core\Database;
 
 final class ResourceRepository
@@ -46,10 +47,10 @@ final class ResourceRepository
     /** @return array<int, array<string, mixed>> */
     public function featured(int $limit = 4): array
     {
-        $rows = Database::select(
+        $rows = Cache::remember('resources.featured.' . $limit, 300, static fn (): array => Database::select(
             'select * from resources where featured = true order by sort_order asc, title asc limit $1',
             [$limit]
-        );
+        ));
         return array_map([$this, 'hydrate'], $rows);
     }
 
@@ -100,8 +101,10 @@ final class ResourceRepository
     /** @return array<int, string> */
     public function categories(): array
     {
-        $rows = Database::select('select distinct category from resources order by category');
-        return array_map(static fn (array $row): string => (string) $row['category'], $rows);
+        return Cache::remember('resources.categories', 3600, static function (): array {
+            $rows = Database::select('select distinct category from resources order by category');
+            return array_map(static fn (array $row): string => (string) $row['category'], $rows);
+        });
     }
 
     /** @param array<string, mixed> $row

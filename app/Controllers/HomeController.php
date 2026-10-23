@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Cache;
 use App\Core\Request;
 use App\Core\Response;
 use App\Repositories\CaseRepository;
@@ -16,8 +17,8 @@ final class HomeController extends BaseController
     public function index(Request $request): Response
     {
         $cases = new CaseRepository();
-        $featured = $cases->featured(3);
-        $latest = $cases->latest(6);
+        $featured = Cache::remember('home.featured', 30, static fn (): array => $cases->featured(3));
+        $latest = Cache::remember('home.latest', 30, static fn (): array => $cases->latest(6));
 
         if (count($featured) < 3) {
             $seen = array_column($featured, 'id');

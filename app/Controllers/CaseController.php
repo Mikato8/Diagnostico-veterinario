@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\Cache;
 use App\Core\Database;
 use App\Core\Flash;
 use App\Core\Paginator;
@@ -136,6 +137,7 @@ final class CaseController extends BaseController
 
         $repo->replaceTags($caseId, $this->tagsFromInput($request->string('tags')));
         $this->saveImages($caseId, $request);
+        Cache::flush();
         $this->audit('caso.creado', 'case', (string) $caseId, ['status' => $data['status']]);
 
         Flash::success($action === 'submit'
@@ -202,6 +204,7 @@ final class CaseController extends BaseController
         $repo->update((int) $case['id'], $data);
         $repo->replaceTags((int) $case['id'], $this->tagsFromInput($request->string('tags')));
         $this->saveImages((int) $case['id'], $request);
+        Cache::flush();
         $this->audit('caso.actualizado', 'case', (string) $case['id'], ['status' => $status]);
 
         Flash::success($action === 'submit'

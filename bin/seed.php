@@ -323,4 +323,5 @@ foreach ([
     $count = (int) Database::value('select count(*) from ' . $table);
     echo "  {$label}: {$count}\n";
 }
+App\Core\Cache::flush();
 echo "\nListo. Controlador: " . Database::driverName() . "\n";

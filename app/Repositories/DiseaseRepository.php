@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Core\Cache;
 use App\Core\Database;
 
 final class DiseaseRepository
@@ -53,6 +54,12 @@ final class DiseaseRepository
 
     /** @return array<string, mixed>|null */
     public function findBySlug(string $slug): ?array
+    {
+        return Cache::remember('disease.' . $slug, 300, fn (): ?array => $this->findBySlugFresh($slug));
+    }
+
+    /** @return array<string, mixed>|null */
+    private function findBySlugFresh(string $slug): ?array
     {
         $disease = Database::first('select * from diseases where slug = $1', [$slug]);
         if ($disease === null) {
@@ -155,7 +162,7 @@ final class DiseaseRepository
     /** @return array<int, array<string, mixed>> */
     public function featured(int $limit = 6): array
     {
-        return Database::select(
+        return Cache::remember('diseases.featured.' . $limit, 300, static fn (): array => Database::select(
             "select d.id, d.slug, d.name, d.category, d.summary, d.zoonotic, d.urgency,
                     string_agg(distinct s.name, ', ' order by s.name) as species_names
              from diseases d
@@ -166,14 +173,16 @@ final class DiseaseRepository
              order by case d.urgency when 'critica' then 0 when 'alta' then 1 else 2 end, d.name
              limit $1",
             [$limit]
-        );
+        ));
     }
 
     /** @return array<int, string> */
     public function categories(): array
     {
-        $rows = Database::select('select distinct category from diseases order by category');
-        return array_map(static fn (array $row): string => (string) $row['category'], $rows);
+        return Cache::remember('diseases.categories', 3600, static function (): array {
+            $rows = Database::select('select distinct category from diseases order by category');
+            return array_map(static fn (array $row): string => (string) $row['category'], $rows);
+        });
     }
 
     public function count(): int
