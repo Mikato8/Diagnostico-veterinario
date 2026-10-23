@@ -367,12 +367,189 @@ def build_guide() -> Path:
     return path
 
 
+
+def build_discharge_sheet() -> Path:
+    document = Document()
+    setup(
+        document,
+        "Hoja de alta y recomendaciones",
+        "Plantilla para entregar al tutor al egreso. Ajusta el contenido a tu institución y al caso concreto.",
+    )
+    document.add_heading("Datos del paciente", level=1)
+    label_table(document, [
+        ("Nombre del paciente", ""),
+        ("Especie / raza", ""),
+        ("Sexo / edad / peso", ""),
+        ("Tutor", ""),
+        ("Fecha de ingreso", ""),
+        ("Fecha de alta", ""),
+        ("Médico responsable", ""),
+    ])
+
+    document.add_heading("Diagnóstico y procedimientos", level=1)
+    field_block(document, "Diagnóstico principal", "Incluye diagnósticos secundarios relevantes.", 2)
+    field_block(document, "Procedimientos realizados", "Cirugía, estudios, tratamientos durante la hospitalización.", 3)
+    field_block(document, "Medicamentos al alta", "Nombre, presentación, vía, frecuencia y duración. Verifica dosis y regulación aplicable.", 5)
+    field_block(document, "Cuidados en casa", "Alimentación, herida, actividad, higiene y manejo del dolor.", 5)
+
+    document.add_heading("Signos de alarma", level=1)
+    document.add_paragraph("Acude de inmediato o contacta a la clínica si observas:")
+    checkbox_table(document, [
+        "Dificultad para respirar o encías azuladas.",
+        "Vómito o diarrea persistentes, o incapacidad para comer o beber.",
+        "Sangrado que no se detiene, debilidad marcada o convulsiones.",
+        "Fiebre, dolor intenso o herida con secreción purulenta.",
+        "Cualquier cambio que te preocupe, aunque no esté en esta lista.",
+    ])
+
+    document.add_heading("Seguimiento", level=1)
+    label_table(document, [
+        ("Fecha de revisión", ""),
+        ("Lugar", ""),
+        ("Teléfono / WhatsApp de la clínica", ""),
+        ("Correo", ""),
+        ("Indicaciones adicionales", ""),
+    ])
+
+    document.add_heading("Firmas", level=1)
+    label_table(document, [
+        ("Nombre del tutor", ""),
+        ("Firma del tutor", ""),
+        ("Nombre del médico", ""),
+        ("Firma del médico", ""),
+        ("Fecha", ""),
+    ])
+    paragraph = document.add_paragraph("Este documento es una plantilla educativa. No sustituye las indicaciones verbales, el expediente clínico ni la normativa de tu institución.")
+    for run in paragraph.runs:
+        run.font.size = Pt(9)
+        run.font.color.rgb = MUTED
+        run.italic = True
+
+    path = OUT / "hoja-de-alta.docx"
+    document.save(path)
+    return path
+
+
+def build_consent_form() -> Path:
+    document = Document()
+    setup(
+        document,
+        "Consentimiento informado para publicación de caso clínico",
+        "Formato imprimible para autorizar la publicación educativa de un caso, con datos anonimizados. Adáptalo a los requisitos legales de tu institución.",
+    )
+    document.add_heading("Datos del caso", level=1)
+    label_table(document, [
+        ("Título propuesto del caso", ""),
+        ("Especie / raza", ""),
+        ("Nombre del tutor", ""),
+        ("Nombre del paciente", ""),
+        ("Médico veterinario responsable", ""),
+        ("Institución", ""),
+        ("Fecha", ""),
+    ])
+
+    document.add_heading("Autorización", level=1)
+    document.add_paragraph("Autorizo la publicación del caso clínico descrito, con fines educativos y de divulgación científica, en el portal Diagnóstico Veterinario y en materiales relacionados.")
+    checkbox_table(document, [
+        "Entiendo que el caso será público y podrá ser consultado y citado por otras personas.",
+        "Autorizo el uso de texto clínico, imágenes y estudios que se adjunten, con datos anonimizados.",
+        "Entiendo que no se publicarán mi nombre, dirección, teléfono, correo ni datos que permitan identificarme.",
+        "Entiendo que no se publicarán datos que permitan identificar a mi animal, como microchip o señas particulares.",
+        "Autorizo que el caso se distribuya bajo una licencia de uso educativo con atribución (por defecto CC BY-NC-SA 4.0).",
+        "Entiendo que puedo solicitar correcciones o el retiro del contenido escribiendo al comité editorial.",
+        "Entiendo que la publicación no implica un diagnóstico para otros pacientes ni una recomendación de tratamiento universal.",
+    ])
+
+    document.add_heading("Limitaciones y riesgos", level=1)
+    document.add_paragraph("La publicación es voluntaria y no afecta la atención recibida. Aunque se eliminan datos identificables, existe un riesgo residual de reconocimiento por combinación de detalles clínicos. El equipo editorial revisará el contenido antes de publicarlo y puede solicitar cambios o rechazarlo.")
+
+    document.add_heading("Declaración del médico", level=1)
+    document.add_paragraph("Confirmo que expliqué al tutor el alcance de la publicación, que cuento con la autorización correspondiente y que el caso se documentó de forma veraz. Me comprometo a eliminar datos identificables y a no incluir publicidad encubierta.")
+    label_table(document, [
+        ("Nombre del médico", ""),
+        ("Cédula profesional", ""),
+        ("Firma", ""),
+        ("Fecha", ""),
+    ])
+
+    document.add_heading("Firma del tutor", level=1)
+    label_table(document, [
+        ("Nombre completo", ""),
+        ("Parentesco o calidad", "Tutor / Representante legal"),
+        ("Firma", ""),
+        ("Fecha", ""),
+        ("Testigo (opcional)", ""),
+    ])
+    paragraph = document.add_paragraph("Conserva una copia firmada en el expediente. Esta plantilla no constituye asesoría legal; verifica los requisitos de tu institución y la normativa aplicable.")
+    for run in paragraph.runs:
+        run.font.size = Pt(9)
+        run.font.color.rgb = MUTED
+        run.italic = True
+
+    path = OUT / "consentimiento-informado.docx"
+    document.save(path)
+    return path
+
+
+def build_citation_guide() -> Path:
+    document = Document()
+    setup(
+        document,
+        "Cómo citar casos, datos y recursos",
+        "Ejemplos prácticos en estilo APA 7 para dar crédito a autores, instituciones y datasets. Adapta el estilo a las normas de tu revista o institución.",
+    )
+    document.add_heading("Por qué citar", level=1)
+    document.add_paragraph("Citar permite verificar la fuente, reconocer el trabajo de otros y evitar el plagio. En un caso clínico, la cita también ayuda a distinguir tu experiencia de la literatura previa.")
+
+    document.add_heading("Caso publicado en Diagnóstico Veterinario", level=1)
+    document.add_paragraph("Autor. (Año). Título del caso. Diagnóstico Veterinario. URL del caso")
+    document.add_paragraph("Ejemplo: López, M. F. (2026). Parvovirus canino en cachorro de 4 meses con diarrea hemorrágica. Diagnóstico Veterinario. https://portal.mx/casos/parvovirus-canino")
+
+    document.add_heading("Artículo de revista", level=1)
+    document.add_paragraph("Autor, A. A., Autor, B. B., & Autor, C. C. (Año). Título del artículo. Nombre de la Revista, volumen(número), páginas. https://doi.org/xxxx")
+    document.add_paragraph("Si hay más de 20 autores, incluye los primeros 19, puntos suspensivos y el último autor.")
+
+    document.add_heading("Libro o manual", level=1)
+    document.add_paragraph("Autor, A. A. (Año). Título del libro (edición). Editorial.")
+    document.add_paragraph("Para un capítulo: Autor del capítulo. (Año). Título del capítulo. En Editor (Ed.), Título del libro (pp. xx–xx). Editorial.")
+
+    document.add_heading("Página web o manual en línea", level=1)
+    document.add_paragraph("Organización. (Año, día de mes). Título de la página. Nombre del sitio. URL")
+    document.add_paragraph("Si no hay fecha, usa (s. f.). Si la página cambia con frecuencia, agrega la fecha de consulta.")
+
+    document.add_heading("Dataset", level=1)
+    document.add_paragraph("Autor o institución. (Año). Título del dataset (Versión) [Conjunto de datos]. Repositorio. https://doi.org/xxxx")
+    document.add_paragraph("Ejemplo: SAVSNET. (2024). PetEVAL [Conjunto de datos]. Hugging Face. https://huggingface.co/datasets/SAVSNET/PetEVAL")
+
+    document.add_heading("Software o repositorio de código", level=1)
+    document.add_paragraph("Autor o institución. (Año). Título del proyecto (Versión) [Software]. GitHub. URL")
+    document.add_paragraph("Si citas un archivo o documentación específica, agrega el nombre del archivo y la fecha de consulta.")
+
+    document.add_heading("Cómo citar este kit", level=1)
+    document.add_paragraph("Diagnóstico Veterinario. (2026). Kit de recursos para veterinarios [Plantillas]. https://tu-dominio.mx/recursos/kit")
+
+    document.add_heading("Checklist antes de entregar", level=1)
+    checkbox_table(document, [
+        "Cada afirmación tomada de otra fuente tiene una cita.",
+        "Las citas del texto coinciden con la lista de referencias.",
+        "Incluí DOI o URL cuando está disponible.",
+        "Verifiqué el estilo solicitado por la revista o institución.",
+        "No atribuí datos o frases a una fuente que no los contiene.",
+    ])
+
+    path = OUT / "formato-referencia-bibliografica.docx"
+    document.save(path)
+    return path
+
 def main() -> None:
     files = [
         build_case_template(),
         build_consent_checklist(),
         build_request_template(),
         build_guide(),
+        build_discharge_sheet(),
+        build_consent_form(),
+        build_citation_guide(),
     ]
     zip_path = OUT / "kit-recursos-veterinarios.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as archive:

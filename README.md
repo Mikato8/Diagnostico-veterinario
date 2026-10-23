@@ -34,8 +34,9 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 - Fichas de enfermedades con etiología, diagnóstico, tratamiento, prevención y pronóstico.
 - Directorio curado de datasets, APIs, repositorios y sistemas de vigilancia (VetDataHub, PetEVAL, VetCompass, SAVSNET, WAHIS, NAHMS, SENASICA y más).
 - **Recursos explicados en español:** cada ficha interna dice para qué sirve, cómo empezar, qué necesitas y cómo solicitar acceso, sin asumir que sabes programar.
-- **Kit descargable:** plantilla de caso clínico, checklist de consentimiento, carta de solicitud de datos y guía rápida en DOCX.
+- **Kit descargable:** plantilla de caso clínico, checklist de consentimiento, hoja de alta, consentimiento imprimible, carta de solicitud de datos, guía de citas y guía rápida en DOCX.
 - **Glosario para no especialistas:** dataset, repositorio, API, licencia, CSV y otros términos explicados en lenguaje clínico.
+- **Recomendador por objetivo, especie y tema/enfermedad:** sugiere fichas del portal (enfermedad y casos) y recursos externos según lo que el veterinario necesita.
 - Perfil profesional, cambio de contraseña y recuperación por correo.
 
 ### Para el comité editorial
@@ -70,9 +71,9 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 | --- | --- |
 | ![Recursos](docs/capturas/recursos.png) | ![Ficha de recurso](docs/capturas/recurso-detalle.png) |
 
-| Kit descargable |
-| --- |
-| ![Kit](docs/capturas/kit.png) |
+| Kit descargable | Recomendador por especie y tema |
+| --- | --- |
+| ![Kit](docs/capturas/kit.png) | ![Recomendador](docs/capturas/recomendador.png) |
 
 ## Stack
 

@@ -164,7 +164,7 @@ Si no hay SSH, ejecuta esos comandos en local con las URLs de producción y lueg
 5. Crea un caso de prueba, envíalo a revisión, apruébalo y compruébalo en `/casos`.
 6. Sube una imagen JPG/PNG/WebP y confirma que se muestra.
 7. Prueba el registro de un veterinario y la verificación desde `/admin/usuarios`.
-8. Abre `/recursos/vetdatahub` y `/recursos/kit`; descarga una plantilla DOCX.
+8. Abre `/recursos/vetdatahub`, `/recursos/kit` y `/recursos?goal=datos&species=canino&topic=parvovirus`; descarga una plantilla DOCX.
 9. Comprueba `/sitemap.xml` y `/robots.txt`.
 9. Revisa `storage/logs/app-*.log` si algo falla.
 

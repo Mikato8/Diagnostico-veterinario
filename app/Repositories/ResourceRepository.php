@@ -105,6 +105,92 @@ final class ResourceRepository
         });
     }
 
+    /**
+     * Recomendador por objetivo, especie y tema/enfermedad.
+     * @return array<int, array<string, mixed>>
+     */
+    public function recommend(string $goal, string $speciesCode = '', string $topic = '', int $limit = 3): array
+    {
+        $goalCategories = [
+            'datos' => ['dataset', 'repositorio'],
+            'investigar' => ['dataset', 'repositorio', 'guia'],
+            'vigilancia' => ['vigilancia', 'institucion'],
+            'aprender' => ['guia', 'institucion'],
+            'sistemas' => ['api', 'repositorio'],
+        ];
+        $speciesMap = [
+            'canino' => ['vetdatahub', 'peteval', 'vetcompass', 'savsnet', 'merck-veterinary-manual', 'wahis', 'senasica', 'cenaprece', 'dryad'],
+            'felino' => ['vetdatahub', 'peteval', 'vetcompass', 'savsnet', 'merck-veterinary-manual', 'wahis', 'senasica', 'cenaprece', 'dryad'],
+            'equino' => ['merck-veterinary-manual', 'wahis', 'senasica', 'codigo-terrestre-woah', 'dryad'],
+            'bovino' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah', 'animal-qtldb', 'dryad'],
+            'porcino' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah', 'animal-qtldb', 'dryad'],
+            'ovino' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah', 'animal-qtldb', 'dryad'],
+            'caprino' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah', 'animal-qtldb', 'dryad'],
+            'ave' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah'],
+            'exotico' => ['dryad', 'movebank', 'merck-veterinary-manual', 'wahis'],
+        ];
+        $categories = $goalCategories[$goal] ?? [];
+        $speciesSlugs = $speciesMap[$speciesCode] ?? [];
+        $topic = mb_strtolower(trim($topic));
+
+        return Cache::remember('resources.recommend.' . $goal . '.' . $speciesCode . '.' . sha1($topic) . '.' . $limit, 300, function () use ($categories, $speciesSlugs, $topic, $limit): array {
+            $rows = array_map([$this, 'hydrate'], Database::select('select * from resources'));
+            $score = static function (array $resource) use ($topic): int {
+                if ($topic === '') {
+                    return 0;
+                }
+                $haystacks = [
+                    'title' => [(string) ($resource['title'] ?? ''), 5],
+                    'what_for' => [(string) ($resource['what_for'] ?? ''), 3],
+                    'description' => [(string) ($resource['description'] ?? ''), 2],
+                    'guide' => [(string) ($resource['guide'] ?? ''), 1],
+                    'tags' => [implode(' ', $resource['tags'] ?? []), 3],
+                ];
+                $points = 0;
+                foreach ($haystacks as [$text, $weight]) {
+                    if ($text !== '' && mb_stripos($text, $topic) !== false) {
+                        $points += $weight;
+                    }
+                }
+                return $points;
+            };
+
+            $filtered = array_values(array_filter($rows, static function (array $resource) use ($categories, $speciesSlugs): bool {
+                if ($categories !== [] && !in_array($resource['category'], $categories, true)) {
+                    return false;
+                }
+                if ($speciesSlugs !== [] && !in_array($resource['slug'], $speciesSlugs, true)) {
+                    return false;
+                }
+                return true;
+            }));
+
+            if ($filtered === [] && $categories !== []) {
+                $filtered = array_values(array_filter($rows, static fn (array $resource): bool => in_array($resource['category'], $categories, true)));
+            }
+            if ($filtered === [] && $speciesSlugs !== []) {
+                $filtered = array_values(array_filter($rows, static fn (array $resource): bool => in_array($resource['slug'], $speciesSlugs, true)));
+            }
+            if ($filtered === []) {
+                $filtered = $rows;
+            }
+
+            usort($filtered, static function (array $a, array $b) use ($score): int {
+                $scoreComparison = $score($b) <=> $score($a);
+                if ($scoreComparison !== 0) {
+                    return $scoreComparison;
+                }
+                $featured = (int) $b['featured'] <=> (int) $a['featured'];
+                if ($featured !== 0) {
+                    return $featured;
+                }
+                return (int) $a['sort_order'] <=> (int) $b['sort_order'];
+            });
+
+            return array_slice($filtered, 0, $limit);
+        });
+    }
+
     /** @param array<string, mixed> $resource
      *  @return array<int, array<string, mixed>>
      */

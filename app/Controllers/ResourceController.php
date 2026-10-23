@@ -6,6 +6,8 @@ namespace App\Controllers;
 
 use App\Core\Request;
 use App\Core\Response;
+use App\Repositories\CatalogRepository;
+use App\Repositories\DiseaseRepository;
 use App\Repositories\ResourceRepository;
 
 final class ResourceController extends BaseController
@@ -51,7 +53,12 @@ final class ResourceController extends BaseController
             'access' => $request->string('access'),
         ];
         $goal = $request->string('goal');
-        $recommendations = isset(self::goals()[$goal]) ? $repo->forGoal($goal, 3) : [];
+        $speciesCode = $request->string('species');
+        $topic = $request->string('topic');
+        $recommendations = isset(self::goals()[$goal]) ? $repo->recommend($goal, $speciesCode, $topic, 3) : [];
+        $diseaseMatches = $topic !== '' ? (new DiseaseRepository())->findForTopic($topic, $speciesCode, 3) : [];
+        $filters['species'] = $speciesCode;
+        $filters['topic'] = $topic;
 
         return $this->view('resources.index', [
             'title' => 'Recursos de datos veterinarios · Diagnóstico Veterinario',
@@ -62,6 +69,10 @@ final class ResourceController extends BaseController
             'goals' => self::goals(),
             'goal' => $goal,
             'recommendations' => $recommendations,
+            'speciesList' => (new CatalogRepository())->species(),
+            'speciesCode' => $speciesCode,
+            'topic' => $topic,
+            'diseaseMatches' => $diseaseMatches,
         ]);
     }
 
@@ -115,8 +126,29 @@ final class ResourceController extends BaseController
                 'icon' => 'book-open',
             ],
             [
+                'title' => 'Hoja de alta y recomendaciones',
+                'description' => 'Formato para entregar al tutor: diagnóstico, medicamentos, cuidados en casa, signos de alarma y seguimiento.',
+                'file' => '/descargas/hoja-de-alta.docx',
+                'type' => 'DOCX',
+                'icon' => 'file-text',
+            ],
+            [
+                'title' => 'Consentimiento informado imprimible',
+                'description' => 'Formato para autorizar la publicación educativa del caso con datos anonimizados y firma del tutor.',
+                'file' => '/descargas/consentimiento-informado.docx',
+                'type' => 'DOCX',
+                'icon' => 'shield',
+            ],
+            [
+                'title' => 'Cómo citar casos, datos y recursos',
+                'description' => 'Ejemplos en estilo APA 7 para citar casos del portal, artículos, libros, datasets, software y este kit.',
+                'file' => '/descargas/formato-referencia-bibliografica.docx',
+                'type' => 'DOCX',
+                'icon' => 'book-open',
+            ],
+            [
                 'title' => 'Kit completo en un solo archivo',
-                'description' => 'Descarga las cuatro plantillas juntas en un archivo ZIP para compartirlas con tu equipo.',
+                'description' => 'Descarga todas las plantillas juntas en un archivo ZIP para compartirlas con tu equipo.',
                 'file' => '/descargas/kit-recursos-veterinarios.zip',
                 'type' => 'ZIP',
                 'icon' => 'download',

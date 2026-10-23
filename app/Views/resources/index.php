@@ -5,7 +5,24 @@
 /** @var array<string, array{title: string, description: string, icon: string}> $goals */
 /** @var string $goal */
 /** @var array<int, array<string, mixed>> $recommendations */
+/** @var array<int, array<string, mixed>> $speciesList */
+/** @var string $speciesCode */
+/** @var string $topic */
+/** @var array<int, array<string, mixed>> $diseaseMatches */
 $hasFilters = $filters['q'] !== '' || $filters['category'] !== '' || $filters['access'] !== '';
+$speciesName = '';
+foreach ($speciesList as $speciesItem) {
+    if ($speciesItem['code'] === $speciesCode) {
+        $speciesName = (string) $speciesItem['name'];
+        break;
+    }
+}
+$goalUrl = static function (string $key) use ($speciesCode, $topic): string {
+    $query = ['goal' => $key];
+    if ($speciesCode !== '') { $query['species'] = $speciesCode; }
+    if ($topic !== '') { $query['topic'] = $topic; }
+    return url('/recursos?' . http_build_query($query));
+};
 $resourceIcon = static fn (string $category): string => match ($category) {
     'dataset' => 'database',
     'api' => 'activity',
@@ -51,7 +68,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
 
         <div class="goal-grid">
             <?php foreach ($goals as $key => $item): ?>
-                <a class="goal-card <?= $goal === $key ? 'is-active' : '' ?>" href="<?= e(url('/recursos?goal=' . rawurlencode($key))) ?>">
+                <a class="goal-card <?= $goal === $key ? 'is-active' : '' ?>" href="<?= e($goalUrl((string) $key)) ?>">
                     <span class="goal-icon"><?= icon($item['icon'], 'icon') ?></span>
                     <strong><?= e($item['title']) ?></strong>
                     <span><?= e($item['description']) ?></span>
@@ -60,13 +77,66 @@ $resourceIcon = static fn (string $category): string => match ($category) {
             <?php endforeach; ?>
         </div>
 
+        <form class="recommend-form" method="get" action="<?= e(url('/recursos')) ?>">
+            <div class="recommend-form-head">
+                <span class="eyebrow">Afina la recomendación</span>
+                <p>Agrega la especie y, si quieres, una enfermedad o tema para acercar la sugerencia a tu caso.</p>
+            </div>
+            <input type="hidden" name="goal" value="<?= e($goal !== '' ? $goal : 'datos') ?>">
+            <label class="filter-select">
+                <span>Especie</span>
+                <select name="species">
+                    <option value="">Todas</option>
+                    <?php foreach ($speciesList as $speciesItem): ?>
+                        <option value="<?= e($speciesItem['code']) ?>" <?= $speciesCode === $speciesItem['code'] ? 'selected' : '' ?>><?= e($speciesItem['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+            <label class="recommend-topic">
+                <span>Tema o enfermedad <span class="optional">(opcional)</span></span>
+                <input type="search" name="topic" value="<?= e($topic) ?>" placeholder="Ej. parvovirus, oncología, leptospirosis…">
+            </label>
+            <button class="btn btn-dark btn-sm" type="submit">Recomendar</button>
+            <?php if ($goal !== '' || $speciesCode !== '' || $topic !== ''): ?>
+                <a class="filter-clear" href="<?= e(url('/recursos')) ?>">Limpiar</a>
+            <?php endif; ?>
+        </form>
+
+        <?php if ($diseaseMatches !== []): ?>
+            <section class="topic-matches">
+                <div class="topic-matches-head">
+                    <div>
+                        <span class="eyebrow">También en el portal</span>
+                        <h2>Fichas relacionadas con «<?= e($topic) ?>»</h2>
+                        <p>Antes de buscar datos externos, revisa el resumen clínico y los casos del archivo.</p>
+                    </div>
+                </div>
+                <div class="topic-match-grid">
+                    <?php foreach ($diseaseMatches as $disease): ?>
+                        <article class="topic-match-card">
+                            <div class="disease-card-top">
+                                <span class="badge badge-soft"><?= e(urgency_label($disease['urgency'])) ?></span>
+                                <?php if ($disease['zoonotic'] === true || $disease['zoonotic'] === 't'): ?><span class="badge badge-warning">Zoonosis</span><?php endif; ?>
+                            </div>
+                            <h3><a href="<?= e(url('/enfermedades/' . $disease['slug'])) ?>"><?= e($disease['name']) ?></a></h3>
+                            <p><?= e(excerpt($disease['summary'], 130)) ?></p>
+                            <div class="topic-match-actions">
+                                <a class="text-link" href="<?= e(url('/enfermedades/' . $disease['slug'])) ?>">Ver ficha <?= icon('arrow-right', 'icon icon-xs') ?></a>
+                                <a class="text-link" href="<?= e(url('/casos?q=' . rawurlencode((string) $disease['name']) . ($speciesCode !== '' ? '&species=' . rawurlencode($speciesCode) : ''))) ?>">Buscar casos</a>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+        <?php endif; ?>
+
         <?php if ($recommendations !== []): ?>
             <section class="recommendation-panel">
                 <div class="recommendation-head">
                     <div>
                         <span class="eyebrow">Recomendación para ti</span>
                         <h2><?= e($goals[$goal]['title'] ?? 'Recursos sugeridos') ?></h2>
-                        <p>Estos recursos encajan con el objetivo que elegiste. Abre la ficha interna para ver pasos, requisitos y advertencias.</p>
+                        <p>Estos recursos encajan con el objetivo<?= $speciesName !== '' ? ' y la especie (' . e($speciesName) . ')' : '' ?><?= $topic !== '' ? ' y el tema «' . e($topic) . '»' : '' ?>. Abre la ficha interna para ver pasos, requisitos y advertencias.</p>
                     </div>
                     <a class="text-link" href="<?= e(url('/recursos')) ?>">Quitar selección</a>
                 </div>
@@ -92,7 +162,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
             <div>
                 <span class="eyebrow">Herramientas internas</span>
                 <h2>Plantillas que puedes usar sin registrarte</h2>
-                <p>Descarga la plantilla de caso clínico, el checklist de consentimiento, una carta para solicitar acceso a datos y una guía rápida sobre repositorios.</p>
+                <p>Descarga la plantilla de caso clínico, el checklist, la hoja de alta, el consentimiento imprimible, la carta de solicitud, la guía de citas y la guía rápida sobre repositorios.</p>
             </div>
             <a class="btn btn-primary" href="<?= e(url('/recursos/kit')) ?>">Abrir kit <?= icon('arrow-right', 'icon icon-sm') ?></a>
         </div>

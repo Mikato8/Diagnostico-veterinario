@@ -133,7 +133,7 @@ Cada recurso externo tiene una ficha interna (`/recursos/{slug}`) con:
 - `guide`: contexto, limitaciones y advertencias.
 - `action_label`: texto del botón externo.
 
-Además, `/recursos/kit` ofrece plantillas DOCX generadas con `tools/generar_kit_recursos.py`, y `/recursos/glosario` explica términos técnicos. El objetivo es que un veterinario pueda decidir y actuar sin clonar repositorios ni instalar software.
+Además, `/recursos/kit` ofrece plantillas DOCX generadas con `tools/generar_kit_recursos.py`, y `/recursos/glosario` explica términos técnicos. El recomendador acepta objetivo, especie y tema/enfermedad: busca fichas de enfermedad y casos del portal, y ordena los recursos externos por categoría, especie y coincidencia de texto. El objetivo es que un veterinario pueda decidir y actuar sin clonar repositorios ni instalar software.
 
 ## Seguridad
 

@@ -159,6 +159,39 @@ final class DiseaseRepository
         return $rows;
     }
 
+    /**
+     * Fichas del portal relacionadas con un tema o enfermedad.
+     * @return array<int, array<string, mixed>>
+     */
+    public function findForTopic(string $topic, string $speciesCode = '', int $limit = 3): array
+    {
+        $topic = trim($topic);
+        if ($topic === '') {
+            return [];
+        }
+        return Cache::remember('diseases.topic.' . sha1($topic . '|' . $speciesCode) . '.' . $limit, 300, function () use ($topic, $speciesCode, $limit): array {
+            $params = ['%' . $topic . '%'];
+            $where = "(d.name ILIKE $1 or coalesce(d.scientific_name, '') ILIKE $1 or d.summary ILIKE $1)";
+            if ($speciesCode !== '') {
+                $params[] = $speciesCode;
+                $where .= ' and exists (
+                    select 1 from disease_species dsp
+                    join species sp on sp.id = dsp.species_id
+                    where dsp.disease_id = d.id and sp.code = $2
+                )';
+            }
+            $params[] = $limit;
+            return Database::select(
+                'select d.id, d.slug, d.name, d.summary, d.urgency, d.zoonotic
+                 from diseases d
+                 where ' . $where . '
+                 order by d.name
+                 limit $' . count($params),
+                $params
+            );
+        });
+    }
+
     /** @return array<int, array<string, mixed>> */
     public function featured(int $limit = 6): array
     {
