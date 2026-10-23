@@ -10,6 +10,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Repositories\CatalogRepository;
 use App\Repositories\DiseaseRepository;
+use App\Repositories\PetEvalRepository;
 use App\Repositories\ResourceRepository;
 use App\Repositories\VetDataHubRepository;
 
@@ -95,6 +96,7 @@ final class ResourceController extends BaseController
             'related' => $repo->related($resource, 3),
             'isFavorite' => $user !== null && $repo->isFavorite((int) $user['id'], (int) $resource['id']),
             'vethubTotal' => $resource['slug'] === 'vetdatahub' ? (new VetDataHubRepository())->total() : 0,
+            'petevalTotal' => $resource['slug'] === 'peteval' ? (new PetEvalRepository())->total() : 0,
             'goals' => self::goals(),
             'canonical' => url('/recursos/' . $resource['slug']),
         ]);

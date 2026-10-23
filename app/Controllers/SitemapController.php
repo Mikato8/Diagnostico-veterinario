@@ -21,6 +21,7 @@ final class SitemapController extends BaseController
             ['loc' => url('/recursos/kit'), 'priority' => '0.6'],
             ['loc' => url('/recursos/glosario'), 'priority' => '0.6'],
             ['loc' => url('/vetdatahub'), 'priority' => '0.8'],
+            ['loc' => url('/peteval'), 'priority' => '0.8'],
             ['loc' => url('/nosotros'), 'priority' => '0.5'],
             ['loc' => url('/etica'), 'priority' => '0.4'],
             ['loc' => url('/privacidad'), 'priority' => '0.3'],

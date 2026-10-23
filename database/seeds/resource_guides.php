@@ -21,17 +21,17 @@ return [
         'action_label' => 'Abrir repositorio',
         'reviewed_at' => '2026-10-22',
     ],
-    'https://huggingface.co/datasets/SAVSNET/PetEVAL' => [
+    'https://huggingface.co/buckets/Mikato8/PetEVAL-bucket' => [
         'slug' => 'peteval',
-        'what_for' => 'Entender cómo se anotan historiales veterinarios reales para investigación en lenguaje natural y vigilancia sindrómica. Es útil para docencia, tesis o para evaluar herramientas que procesan texto clínico.',
+        'what_for' => 'Explorar historiales veterinarios reales anonimizados y entender cómo se anotan para investigación en lenguaje natural, clasificación sindrómica y vigilancia. Es útil para docencia, tesis o para evaluar herramientas que procesan texto clínico.',
         'how_to' => [
-            'Crea una cuenta en Hugging Face y acepta las condiciones de acceso del dataset.',
-            'Solicita acceso si la ficha lo requiere y espera la aprobación del equipo.',
-            'Descarga los archivos o usa el visor. Revisa la guía de etiquetas ICD-11 y NER antes de interpretar los datos.',
+            'Abre el explorador integrado en el portal para revisar los 4,999 registros del split de prueba.',
+            'Filtra por etiqueta ICD-11, presencia de enfermedad o texto libre para encontrar ejemplos.',
+            'Descarga el Parquet o el artículo y revisa la guía de etiquetas ICD-11 y NER antes de interpretar los datos.',
         ],
-        'requirements' => 'Cuenta de Hugging Face, aceptación de condiciones y, en algunos casos, aprobación del equipo. El contenido técnico está en inglés.',
-        'guide' => 'PetEVAL es un benchmark de 17,600 registros anotados; no es una base de pacientes de México ni una herramienta de diagnóstico individual. Úsalo para investigación metodológica. La licencia Apache-2.0 permite reutilización con atribución, pero respeta las condiciones de acceso.',
-        'action_label' => 'Solicitar acceso en Hugging Face',
+        'requirements' => 'Navegador. El bucket es público y el dataset se distribuye con licencia Apache-2.0; el contenido técnico está en inglés.',
+        'guide' => 'El bucket contiene el split de prueba (4,999 registros) del benchmark PetEVAL; el artículo describe 17,600 registros en total. Los textos están anonimizados y no deben usarse para reidentificar personas, animales o establecimientos. No es una base de pacientes de México ni una herramienta de diagnóstico individual: úsalo para investigación metodológica y docencia.',
+        'action_label' => 'Abrir bucket en Hugging Face',
         'reviewed_at' => '2026-10-22',
     ],
     'https://github.com/NicolasOrrego/VetAPI_Laravel' => [

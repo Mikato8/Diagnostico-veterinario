@@ -12,6 +12,7 @@ use App\Controllers\PageController;
 use App\Controllers\ProfileController;
 use App\Controllers\ResourceController;
 use App\Controllers\SitemapController;
+use App\Controllers\PetEvalController;
 use App\Controllers\VetDataHubController;
 use App\Core\Router;
 
@@ -46,6 +47,8 @@ return static function (Router $router): void {
     $router->post('/recursos/{slug}/favorito', [ResourceController::class, 'favorite']);
     $router->get('/recursos/{slug}', [ResourceController::class, 'show']);
     $router->get('/vetdatahub', [VetDataHubController::class, 'index']);
+    $router->get('/peteval', [PetEvalController::class, 'index']);
+    $router->get('/peteval/{id}', [PetEvalController::class, 'show']);
     $router->get('/nosotros', [PageController::class, 'about']);
     $router->get('/etica', [PageController::class, 'ethics']);
     $router->get('/privacidad', [PageController::class, 'privacy']);

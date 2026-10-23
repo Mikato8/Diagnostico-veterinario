@@ -5682,6 +5682,345 @@ a.admin-list-row:hover {
 }
 
 /* ==========================================================================
+   PetEVAL · explorador del benchmark
+   ========================================================================== */
+
+.peteval-hero {
+    padding: 42px 0 54px;
+    background:
+        radial-gradient(circle at 88% 12%, rgba(217, 164, 65, .18), transparent 34%),
+        var(--teal-950);
+    color: var(--sand-100);
+}
+
+.peteval-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
+    gap: 40px;
+    align-items: end;
+}
+
+.peteval-hero h1 {
+    color: var(--sand-50);
+    font-size: clamp(44px, 6vw, 70px);
+    letter-spacing: -.04em;
+}
+
+.peteval-lead {
+    max-width: 780px;
+    margin-top: 12px;
+    color: #c8ddd5;
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.peteval-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.peteval-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid rgba(247, 243, 234, .16);
+    border-radius: var(--radius);
+    background: rgba(255, 254, 251, .05);
+}
+
+.peteval-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.peteval-stats strong {
+    color: #e9b872;
+    font-family: var(--font-serif);
+    font-size: 25px;
+    line-height: 1;
+}
+
+.peteval-stats span {
+    color: #9dbeb4;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.peteval-note {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 18px;
+    padding: 13px 15px;
+    border-radius: var(--radius);
+    background: var(--teal-50);
+    color: var(--teal-800);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.peteval-task-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.peteval-task {
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+}
+
+.peteval-task-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--teal-50);
+    color: var(--teal-700);
+}
+
+.peteval-task h2 {
+    margin-top: 9px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.peteval-task p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.peteval-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 28px;
+    align-items: start;
+}
+
+.peteval-records {
+    display: grid;
+    gap: 10px;
+}
+
+.peteval-record {
+    padding: 17px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.peteval-record-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 7px;
+}
+
+.peteval-id {
+    color: var(--teal-700);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.peteval-id-lg {
+    color: var(--teal-700);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .6em;
+    letter-spacing: -.02em;
+}
+
+.peteval-sentence {
+    color: var(--ink-2);
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.peteval-record .tag-row {
+    margin-top: 8px;
+}
+
+.peteval-record-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.peteval-record-foot .text-link {
+    font-size: 10px;
+}
+
+.peteval-sidebar {
+    display: grid;
+    gap: 12px;
+    position: sticky;
+    top: 96px;
+}
+
+.peteval-bar-list {
+    display: grid;
+    gap: 8px;
+}
+
+.peteval-bar-item > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    color: var(--ink-2);
+    font-size: 9px;
+    line-height: 1.35;
+}
+
+.peteval-bar-item strong {
+    color: var(--teal-700);
+}
+
+.peteval-bar {
+    display: block;
+    height: 4px;
+    margin-top: 3px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--sand-200);
+}
+
+.peteval-bar > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--teal-600), var(--gold));
+}
+
+.peteval-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 30px;
+    align-items: start;
+}
+
+.peteval-text-card {
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.peteval-text-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+}
+
+.peteval-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.legend-disease,
+.legend-anon {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    margin-left: 5px;
+}
+
+.legend-disease { background: #fde68a; }
+.legend-anon { background: #bfdbfe; }
+
+.peteval-text {
+    color: var(--ink-2);
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.peteval-text mark.entity-disease {
+    padding: 1px 3px;
+    border-radius: 3px;
+    background: #fef3c7;
+    color: #7c4a03;
+}
+
+.peteval-text mark.entity-anon {
+    padding: 1px 3px;
+    border-radius: 3px;
+    background: #dbeafe;
+    color: #1e3a8a;
+}
+
+.peteval-detail-block {
+    margin-top: 22px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+}
+
+.peteval-detail-block h2 {
+    margin-bottom: 9px;
+    font-size: 23px;
+}
+
+.peteval-entity-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.peteval-entity-list > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: var(--sand-50);
+}
+
+.peteval-entity-list strong {
+    font-size: 11px;
+}
+
+.peteval-entity-list small {
+    color: var(--muted);
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 
@@ -5716,9 +6055,19 @@ a.admin-list-row:hover {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .vethub-hero-grid {
+    .vethub-hero-grid,
+    .peteval-hero-grid {
         grid-template-columns: 1fr;
         gap: 22px;
+    }
+
+    .peteval-layout,
+    .peteval-detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .peteval-sidebar {
+        position: static;
     }
 
     .vethub-grid {
@@ -5932,6 +6281,14 @@ a.admin-list-row:hover {
     }
 
     .vethub-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .peteval-task-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .peteval-entity-list {
         grid-template-columns: 1fr;
     }
 

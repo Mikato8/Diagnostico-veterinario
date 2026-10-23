@@ -3,6 +3,7 @@
 /** @var array<int, array<string, mixed>> $related */
 /** @var bool $isFavorite */
 /** @var int $vethubTotal */
+/** @var int $petevalTotal */
 $accessTone = $resource['access'] === 'abierto' ? 'success' : 'warning';
 $isRequest = $resource['access'] === 'solicitud';
 $reviewed = !empty($resource['reviewed_at']) ? format_date((string) $resource['reviewed_at'], 'd M Y') : null;
@@ -57,6 +58,17 @@ $requestTemplate = "Asunto: Solicitud de acceso a " . $resource['title'] . "\n\n
 <section class="section section-tight">
     <div class="container resource-detail-layout">
         <article class="resource-detail">
+            <?php if ($resource['slug'] === 'peteval'): ?>
+                <div class="vethub-callout">
+                    <div>
+                        <span class="eyebrow">Explorador integrado</span>
+                        <h2>Consulta <?= number_format($petevalTotal) ?> registros anonimizados del benchmark</h2>
+                        <p>Filtra por etiqueta ICD-11, enfermedad o texto clínico. Descarga el Parquet y el artículo sin salir del portal.</p>
+                    </div>
+                    <a class="btn btn-primary" href="<?= e(url('/peteval')) ?>">Abrir PetEVAL <?= icon('arrow-right', 'icon icon-sm') ?></a>
+                </div>
+            <?php endif; ?>
+
             <?php if ($resource['slug'] === 'vetdatahub'): ?>
                 <div class="vethub-callout">
                     <div>

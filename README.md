@@ -34,6 +34,7 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 - Fichas de enfermedades con etiología, diagnóstico, tratamiento, prevención y pronóstico.
 - Directorio curado de datasets, APIs, repositorios y sistemas de vigilancia (VetCompass, SAVSNET, WAHIS, NAHMS, SENASICA y más).
 - **VetDataHub integrado:** catálogo navegable de 87 datasets y 15 categorías, importado desde [Mikato8/VetDataHub](https://github.com/Mikato8/VetDataHub).
+- **PetEVAL integrado:** explorador de 4,999 registros anonimizados del split de prueba, con búsqueda por texto, filtros ICD-11 y entidades resaltadas; datos y artículo descargables.
 - **Recursos explicados en español:** cada ficha interna dice para qué sirve, cómo empezar, qué necesitas y cómo solicitar acceso, sin asumir que sabes programar.
 - **Kit descargable:** plantilla de caso clínico, checklist de consentimiento, hoja de alta, consentimiento imprimible, carta de solicitud de datos, guía de citas y guía rápida en DOCX.
 - **Glosario para no especialistas:** dataset, repositorio, API, licencia, CSV y otros términos explicados en lenguaje clínico.
@@ -85,6 +86,10 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 | Catálogo VetDataHub |
 | --- |
 | ![VetDataHub](docs/capturas/vetdatahub.png) |
+
+| PetEVAL integrado | Registro PetEVAL |
+| --- | --- |
+| ![PetEVAL](docs/capturas/peteval.png) | ![Registro PetEVAL](docs/capturas/peteval-detalle.png) |
 
 ## Stack
 
@@ -202,6 +207,7 @@ php bin/check.php
 | `php bin/serve.php` | Servidor de desarrollo en `127.0.0.1:8080`. |
 | `./tests/smoke.sh` | Pruebas HTTP de humo contra un servidor local. |
 | `python3 tools/import_vetdatahub.py /ruta/VetDataHub database/data/vetdatahub.json` | Regenera el catálogo integrado desde el repositorio VetDataHub. |
+| `python3 tools/import_peteval_bucket.py /ruta/test.parquet database/data/peteval.json` | Regenera el explorador PetEVAL (requiere pandas y pyarrow). |
 
 ## Despliegue en Hostinger
 
@@ -280,7 +286,7 @@ tools/               Generador reproducible del kit DOCX
 
 ## Créditos y referencias
 
-La arquitectura y el alcance se inspiraron en proyectos y recursos abiertos como [VetAPI](https://github.com/NicolasOrrego/VetAPI_Laravel), [PetCloud](https://github.com/francisco-correa/pet-cloud), [VetDataHub](https://github.com/Mikato8/VetDataHub), [PetEVAL](https://huggingface.co/datasets/SAVSNET/PetEVAL), [VetCompass](https://www.rvc.ac.uk/vetcompass) y [SAVSNET](https://www.liverpool.ac.uk/savsnet/). El directorio completo está en el portal, sección **Recursos**. El catálogo VetDataHub se distribuye bajo licencia MIT; cada dataset enlazado conserva su propia licencia y condiciones de acceso.
+La arquitectura y el alcance se inspiraron en proyectos y recursos abiertos como [VetAPI](https://github.com/NicolasOrrego/VetAPI_Laravel), [PetCloud](https://github.com/francisco-correa/pet-cloud), [VetDataHub](https://github.com/Mikato8/VetDataHub), [PetEVAL](https://huggingface.co/buckets/Mikato8/PetEVAL-bucket), [VetCompass](https://www.rvc.ac.uk/vetcompass) y [SAVSNET](https://www.liverpool.ac.uk/savsnet/). El directorio completo está en el portal, sección **Recursos**. El catálogo VetDataHub se distribuye bajo licencia MIT; cada dataset enlazado conserva su propia licencia y condiciones de acceso. PetEVAL se distribuye con licencia Apache-2.0 y textos anonimizados; no deben usarse para reidentificar personas, animales o establecimientos.
 
 ---
 

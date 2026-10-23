@@ -143,6 +143,10 @@ Además, `/recursos/kit` ofrece plantillas DOCX generadas con `tools/generar_kit
 
 El catálogo de [Mikato8/VetDataHub](https://github.com/Mikato8/VetDataHub) se importa a `database/data/vetdatahub.json` con `tools/import_vetdatahub.py`. El portal lo sirve en `/vetdatahub` con búsqueda, filtros por categoría y fuente, y enlaces a la fuente original de cada dataset. No se copian los archivos de datos: se conserva la atribución y se remite a Kaggle, GitHub, figshare u otras fuentes.
 
+## PetEVAL
+
+El split de prueba del bucket [Mikato8/PetEVAL-bucket](https://huggingface.co/buckets/Mikato8/PetEVAL-bucket) se importa a `database/data/peteval.json` con `tools/import_peteval_bucket.py` usando pandas/pyarrow. El portal lo sirve en `/peteval` con búsqueda, filtros ICD-11, filtros de contenido y paginación; `/peteval/{id}` muestra el texto completo y resalta entidades de enfermedad y anonimización. Los archivos originales (Parquet, PDF y README) se copian a `public/descargas/peteval` para descarga directa, con atribución Apache-2.0.
+
 ## Seguridad
 
 - Sesión PHP con `HttpOnly`, `SameSite=Lax`, `Secure` en HTTPS.

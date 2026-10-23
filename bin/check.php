@@ -64,6 +64,9 @@ $line('.env', is_file(BASE_PATH . '/.env') ? 'presente' : 'ausente', is_file(BAS
 $vethubFile = BASE_PATH . '/database/data/vetdatahub.json';
 $vethub = is_file($vethubFile) ? json_decode((string) file_get_contents($vethubFile), true) : null;
 $line('VetDataHub integrado', is_array($vethub) ? count($vethub['datasets'] ?? []) . ' datasets' : 'sin catálogo', is_array($vethub) && !empty($vethub['datasets']));
+$petevalFile = BASE_PATH . '/database/data/peteval.json';
+$peteval = is_file($petevalFile) ? json_decode((string) file_get_contents($petevalFile), true) : null;
+$line('PetEVAL integrado', is_array($peteval) ? count($peteval['records'] ?? []) . ' registros' : 'sin dataset', is_array($peteval) && !empty($peteval['records']));
 
 echo str_repeat('─', 68) . "\n";
 echo $ok ? "Resultado: entorno listo.\n" : "Resultado: revisa los puntos marcados antes de desplegar.\n";
