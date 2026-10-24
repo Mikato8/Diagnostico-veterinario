@@ -23,12 +23,19 @@ $goalUrl = static function (string $key) use ($speciesCode, $topic): string {
     if ($topic !== '') { $query['topic'] = $topic; }
     return url('/recursos?' . http_build_query($query));
 };
+$resourceLink = static fn (array $resource): string => ($resource['slug'] ?? '') === 'crm-clinica'
+    ? url('/panel/entrar')
+    : url('/recursos/' . $resource['slug']);
+$resourceActionLabel = static fn (array $resource): string => ($resource['slug'] ?? '') === 'crm-clinica'
+    ? 'Abrir panel'
+    : 'Leer guía';
 $resourceIcon = static fn (string $category): string => match ($category) {
     'dataset' => 'database',
     'api' => 'activity',
     'vigilancia' => 'globe',
     'institucion' => 'shield',
     'guia' => 'book-open',
+    'sistema' => 'dashboard',
     default => 'folder',
 };
 ?>
@@ -143,7 +150,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
                 </div>
                 <div class="resource-grid">
                     <?php foreach ($recommendations as $resource): ?>
-                        <a class="resource-card resource-card-recommended" href="<?= e(url('/recursos/' . $resource['slug'])) ?>">
+                        <a class="resource-card resource-card-recommended" href="<?= e($resourceLink($resource)) ?>">
                             <div class="resource-card-top">
                                 <span class="resource-icon"><?= icon($resourceIcon($resource['category']), 'icon') ?></span>
                                 <span class="badge badge-success">Recomendado</span>
@@ -151,7 +158,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
                             <span class="resource-category"><?= e(category_label($resource['category'])) ?></span>
                             <h3><?= e($resource['title']) ?></h3>
                             <p><?= e(excerpt($resource['what_for'] ?: $resource['description'], 120)) ?></p>
-                            <span class="resource-foot">Leer guía <?= icon('arrow-right', 'icon icon-xs') ?></span>
+                            <span class="resource-foot"><?= e($resourceActionLabel($resource)) ?> <?= icon('arrow-right', 'icon icon-xs') ?></span>
                         </a>
                     <?php endforeach; ?>
                 </div>
@@ -210,7 +217,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
         <?php else: ?>
             <div class="resource-grid">
                 <?php foreach ($resources as $resource): ?>
-                    <a class="resource-card resource-card-lg" href="<?= e(url('/recursos/' . $resource['slug'])) ?>">
+                    <a class="resource-card resource-card-lg" href="<?= e($resourceLink($resource)) ?>">
                         <div class="resource-card-top">
                             <span class="resource-icon"><?= icon($resourceIcon($resource['category']), 'icon') ?></span>
                             <span class="badge badge-<?= $resource['access'] === 'abierto' ? 'success' : 'warning' ?>"><?= e(access_label($resource['access'])) ?></span>
@@ -223,7 +230,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
                         </div>
                         <div class="resource-foot">
                             <span><?= e($resource['organization'] ?? '') ?><?php if (!empty($resource['country'])): ?> · <?= e($resource['country']) ?><?php endif; ?></span>
-                            <span class="resource-guide-link">Leer guía <?= icon('arrow-right', 'icon icon-sm') ?></span>
+                            <span class="resource-guide-link"><?= e($resourceActionLabel($resource)) ?> <?= icon('arrow-right', 'icon icon-sm') ?></span>
                         </div>
                     </a>
                 <?php endforeach; ?>

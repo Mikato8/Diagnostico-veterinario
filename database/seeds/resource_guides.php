@@ -34,18 +34,18 @@ return [
         'action_label' => 'Abrir bucket en Hugging Face',
         'reviewed_at' => '2026-10-22',
     ],
-    'https://github.com/Mikato8/VetAPI_Laravel' => [
-        'slug' => 'vetapi',
-        'what_for' => 'Ver cómo se organiza una API de clínica veterinaria (pacientes, propietarios, citas e historiales) para inspirar un sistema propio o explicar tus necesidades a un proveedor de software.',
+    '/panel/entrar' => [
+        'slug' => 'crm-clinica',
+        'what_for' => 'Organizar la operación diaria de tu clínica: registrar pacientes y tutores, agendar citas, emitir recetas, controlar inventario y cobrar productos.',
         'how_to' => [
-            'Abre el repositorio y lee el README y la documentación de endpoints.',
-            'Revisa los modelos de datos: pacientes, propietarios, citas e historiales.',
-            'Si quieres implementarlo, comparte esta ficha con tu equipo técnico. No necesitas clonarlo para entender su lógica.',
+            'Entra con tu cuenta de veterinario y abre el panel clínico.',
+            'Registra primero a tus pacientes y tutores; después podrás agendar citas y emitir recetas.',
+            'Carga tus productos en inventario y usa el módulo de ventas para descontar existencias automáticamente.',
         ],
-        'requirements' => 'Navegador para leer. Implementarlo requiere conocimientos de Laravel/PHP y un servidor.',
-        'guide' => 'Es una referencia de arquitectura, no un producto listo para usar en producción. No contiene tus datos ni debe usarse para almacenar información real sin revisar seguridad, respaldo y protección de datos.',
-        'action_label' => 'Abrir repositorio',
-        'reviewed_at' => '2026-10-22',
+        'requirements' => 'Cuenta de veterinario en el portal y navegador actualizado. No requiere instalar software adicional.',
+        'guide' => 'El CRM está incluido en Diagnóstico Veterinario. Cada cuenta ve únicamente sus propios pacientes, citas, recetas, productos y ventas. Es una herramienta operativa de apoyo; no sustituye el expediente clínico oficial ni la facturación fiscal.',
+        'action_label' => 'Abrir panel clínico',
+        'reviewed_at' => '2026-10-24',
     ],
     'https://github.com/francisco-correa/pet-cloud' => [
         'slug' => 'petcloud',

@@ -352,6 +352,7 @@ if (!function_exists('category_label')) {
             'guia' => 'Guía',
             'ml' => 'Aprendizaje automático',
             'institucion' => 'Institución',
+            'sistema' => 'Sistema',
         ][$category] ?? $category;
     }
 }
