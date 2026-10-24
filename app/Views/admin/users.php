@@ -68,6 +68,7 @@
                         </td>
                         <td>
                             <?= e($user['license_number'] ?? '—') ?>
+                            <a class="table-muted" href="https://www.cedulaprofesional.sep.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar en SEP ↗</a>
                             <?php if (!empty($user['license_verified_at'])): ?>
                                 <span class="badge badge-success" title="Validada con el Registro Nacional de Profesionistas">SEP</span>
                             <?php endif; ?>
