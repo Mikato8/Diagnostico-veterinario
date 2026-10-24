@@ -62,11 +62,17 @@ $errors = \App\Core\Flash::errors();
                 <div class="field-grid field-grid-2">
                     <div class="field">
                         <label for="password">Contraseña <span class="req">*</span></label>
-                        <input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required placeholder="Mínimo 10 caracteres">
+                        <div class="password-field">
+                            <input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required placeholder="Mínimo 10 caracteres">
+                            <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'password']); ?>
+                        </div>
                     </div>
                     <div class="field">
                         <label for="password_confirmation">Confirmar contraseña <span class="req">*</span></label>
-                        <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="10" required placeholder="Repite la contraseña">
+                        <div class="password-field">
+                            <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="10" required placeholder="Repite la contraseña">
+                            <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'password_confirmation']); ?>
+                        </div>
                     </div>
                 </div>
 

@@ -103,16 +103,25 @@ $errors = \App\Core\Flash::errors();
                     <?= csrf_field() ?>
                     <div class="field">
                         <label for="current_password">Contraseña actual</label>
-                        <input id="current_password" name="current_password" type="password" autocomplete="current-password" required>
+                        <div class="password-field">
+                            <input id="current_password" name="current_password" type="password" autocomplete="current-password" required>
+                            <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'current_password']); ?>
+                        </div>
                     </div>
                     <div class="field-grid field-grid-2">
                         <div class="field">
                             <label for="new_password">Nueva contraseña</label>
-                            <input id="new_password" name="password" type="password" autocomplete="new-password" minlength="10" required>
+                            <div class="password-field">
+                                <input id="new_password" name="password" type="password" autocomplete="new-password" minlength="10" required>
+                                <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'new_password']); ?>
+                            </div>
                         </div>
                         <div class="field">
                             <label for="new_password_confirmation">Confirmar nueva contraseña</label>
-                            <input id="new_password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="10" required>
+                            <div class="password-field">
+                                <input id="new_password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="10" required>
+                                <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'new_password_confirmation']); ?>
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-dark" type="submit">Actualizar contraseña</button>

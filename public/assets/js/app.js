@@ -352,3 +352,18 @@ document.querySelectorAll('[data-ai-example]').forEach((button) => {
         textarea.focus();
     });
 });
+
+// Mostrar u ocultar contraseña sin perder el foco del campo.
+document.querySelectorAll('[data-password-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+        const wrapper = button.closest('.password-field');
+        const input = wrapper ? wrapper.querySelector('input') : null;
+        if (!input) return;
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        button.setAttribute('aria-pressed', show ? 'true' : 'false');
+        button.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        button.setAttribute('title', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        input.focus({ preventScroll: true });
+    });
+});

@@ -2831,6 +2831,55 @@ a.tag:hover,
     color: var(--muted);
 }
 
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 46px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: color .15s ease, background .15s ease;
+}
+
+.password-toggle:hover {
+    background: var(--teal-50);
+    color: var(--teal-700);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid var(--teal-500);
+    outline-offset: 1px;
+}
+
+.password-toggle-hide {
+    display: none;
+}
+
+.password-toggle[aria-pressed="true"] .password-toggle-show {
+    display: none;
+}
+
+.password-toggle[aria-pressed="true"] .password-toggle-hide {
+    display: inline-flex;
+}
+
 .field-grid {
     display: grid;
     gap: 16px;

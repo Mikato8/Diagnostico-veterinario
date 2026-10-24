@@ -27,7 +27,10 @@
                         <label for="password">Contraseña</label>
                         <a href="<?= e(url('/recuperar')) ?>">¿Olvidaste tu contraseña?</a>
                     </div>
-                    <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
+                    <div class="password-field">
+                        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
+                        <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'password']); ?>
+                    </div>
                 </div>
                 <button class="btn btn-primary btn-block" type="submit">Iniciar sesión <?= icon('arrow-right', 'icon icon-sm') ?></button>
             </form>

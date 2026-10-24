@@ -20,11 +20,17 @@ $errors = \App\Core\Flash::errors();
                 <?= csrf_field() ?>
                 <div class="field">
                     <label for="password">Nueva contraseña</label>
-                    <input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required>
+                    <div class="password-field">
+                        <input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required>
+                        <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'password']); ?>
+                    </div>
                 </div>
                 <div class="field">
                     <label for="password_confirmation">Confirmar contraseña</label>
-                    <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="10" required>
+                    <div class="password-field">
+                        <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="10" required>
+                        <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'password_confirmation']); ?>
+                    </div>
                 </div>
                 <button class="btn btn-primary btn-block" type="submit">Guardar nueva contraseña</button>
             </form>
