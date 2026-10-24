@@ -25,6 +25,7 @@ use App\Core\Router;
 return static function (Router $router): void {
     // Panel clínico (CRM)
     $router->get('/panel/entrar', [PanelController::class, 'showLogin']);
+    $router->get('/panel/registro', [PanelController::class, 'register']);
     $router->post('/panel/entrar', [PanelController::class, 'login']);
     $router->post('/panel/salir', [PanelController::class, 'logout']);
     $router->get('/panel', [PanelController::class, 'dashboard']);

@@ -1062,3 +1062,20 @@
         padding: 0;
     }
 }
+
+.crm-auth-register {
+    margin-top: 14px;
+    color: var(--panel-muted);
+    font-size: 11px;
+    text-align: center;
+}
+
+.crm-auth-register a {
+    color: var(--panel-accent);
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.crm-auth-register a:hover {
+    text-decoration: underline;
+}

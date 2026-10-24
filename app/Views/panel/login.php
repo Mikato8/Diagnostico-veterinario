@@ -37,6 +37,7 @@ $errors = \App\Core\Flash::errors();
             <button class="btn btn-primary btn-block" type="submit">Entrar</button>
         </form>
 
+        <p class="crm-auth-register">¿Aún no tienes cuenta? <a href="<?= e(url('/panel/registro')) ?>">Regístrate como veterinario</a></p>
         <div class="crm-auth-links">
             <a href="<?= e(url('/recuperar')) ?>">¿Olvidaste tu contraseña?</a>
             <a href="<?= e(url('/')) ?>">Volver al portal</a>

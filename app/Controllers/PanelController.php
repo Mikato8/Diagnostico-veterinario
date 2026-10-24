@@ -52,6 +52,14 @@ final class PanelController extends PanelBaseController
         return $this->redirect('/panel');
     }
 
+    public function register(Request $request): Response
+    {
+        if (Auth::check()) {
+            return $this->redirect('/panel');
+        }
+        return $this->redirect('/registro?next=panel');
+    }
+
     public function logout(Request $request): Response
     {
         Auth::logout();

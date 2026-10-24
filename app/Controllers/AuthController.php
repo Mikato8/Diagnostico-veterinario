@@ -63,21 +63,25 @@ final class AuthController extends BaseController
 
     public function showRegister(Request $request): Response
     {
+        $next = $request->string('next') === 'panel' ? 'panel' : '';
         if (Auth::check()) {
-            return $this->redirect('/');
+            return $this->redirect($next === 'panel' ? '/panel' : '/');
         }
         $catalog = new CatalogRepository();
         return $this->view('auth.register', [
             'title' => 'Crear cuenta · Diagnóstico Veterinario',
             'metaDescription' => 'Regístrate como médico veterinario para compartir casos clínicos y participar en la comunidad.',
             'states' => $catalog->states(),
+            'next' => $next,
         ]);
     }
 
     public function register(Request $request): Response
     {
+        $next = $request->string('next') === 'panel' ? 'panel' : '';
+        $registerUrl = $next === 'panel' ? '/registro?next=panel' : '/registro';
         if (Auth::check()) {
-            return $this->redirect('/');
+            return $this->redirect($next === 'panel' ? '/panel' : '/');
         }
 
         $catalog = new CatalogRepository();
@@ -123,19 +127,19 @@ final class AuthController extends BaseController
         if ($validator->fails()) {
             $this->withErrors($validator->errors());
             $this->flashOld($data);
-            return $this->redirect('/registro');
+            return $this->redirect($registerUrl);
         }
 
         $users = new UserRepository();
         if ($users->findByEmail($data['email']) !== null) {
             $this->withErrors(['email' => 'Ya existe una cuenta con este correo electrónico.']);
             $this->flashOld($data);
-            return $this->redirect('/registro');
+            return $this->redirect($registerUrl);
         }
         if (Database::value('select id from users where license_number = $1', [$data['license_number']]) !== null) {
             $this->withErrors(['license_number' => 'Esta cédula profesional ya está registrada. Si es un error, contáctanos.']);
             $this->flashOld($data);
-            return $this->redirect('/registro');
+            return $this->redirect($registerUrl);
         }
 
         $verification = null;
@@ -145,7 +149,7 @@ final class AuthController extends BaseController
                 \App\Core\Logger::error('Verificación de cédula activada sin credenciales');
                 $this->withErrors(['license_number' => 'La verificación automática de cédula no está disponible en este momento. Intenta más tarde o contáctanos.']);
                 $this->flashOld($data);
-                return $this->redirect('/registro');
+                return $this->redirect($registerUrl);
             }
             try {
                 $verification = $verifier->verify($data['license_number'], $data['name']);
@@ -153,23 +157,23 @@ final class AuthController extends BaseController
                 \App\Core\Logger::warning('Fallo de verificación de cédula', ['message' => $e->getMessage()]);
                 $this->withErrors(['license_number' => 'No pudimos verificar tu cédula en este momento. Intenta de nuevo en unos minutos o contáctanos.']);
                 $this->flashOld($data);
-                return $this->redirect('/registro');
+                return $this->redirect($registerUrl);
             }
 
             if (!$verification['found']) {
                 $this->withErrors(['license_number' => 'No encontramos esa cédula en el Registro Nacional de Profesionistas. Revisa el número o contáctanos.']);
                 $this->flashOld($data);
-                return $this->redirect('/registro');
+                return $this->redirect($registerUrl);
             }
             if (!$verification['name_match']) {
                 $this->withErrors(['name' => 'La cédula existe, pero el nombre no coincide con el registrado en la SEP. Revisa ambos datos.']);
                 $this->flashOld($data);
-                return $this->redirect('/registro');
+                return $this->redirect($registerUrl);
             }
             if (!$verification['veterinary']) {
                 $this->withErrors(['license_number' => 'La cédula existe, pero no corresponde a medicina veterinaria. Este portal es exclusivo para médicos veterinarios.']);
                 $this->flashOld($data);
-                return $this->redirect('/registro');
+                return $this->redirect($registerUrl);
             }
         }
 
@@ -195,7 +199,7 @@ final class AuthController extends BaseController
             \App\Core\Logger::error('Error al registrar usuario', ['message' => $e->getMessage()]);
             $this->withErrors(['email' => 'No fue posible crear la cuenta. Revisa los datos e inténtalo de nuevo.']);
             $this->flashOld($data);
-            return $this->redirect('/registro');
+            return $this->redirect($registerUrl);
         }
 
         $user = $users->findById($id);
@@ -206,13 +210,13 @@ final class AuthController extends BaseController
         $this->audit('usuario.registro', 'user', (string) $id, ['status' => $verified ? 'verificado' : 'pendiente', 'license_source' => $verification['source'] ?? 'manual']);
 
         if ($verification !== null) {
-            Flash::success('Tu cédula fue validada con el Registro Nacional de Profesionistas. Tu cuenta está verificada y ya puedes compartir casos clínicos.');
+            Flash::success('Tu cédula fue validada con el Registro Nacional de Profesionistas. Tu cuenta está verificada y ya puedes usar el panel clínico.');
         } elseif ($verified) {
-            Flash::success('Tu cuenta está lista. Ya puedes compartir casos clínicos.');
+            Flash::success($next === 'panel' ? 'Tu cuenta está lista. Ya puedes usar el panel clínico.' : 'Tu cuenta está lista. Ya puedes compartir casos clínicos.');
         } else {
-            Flash::success('Tu cuenta fue creada. Un editor revisará tu cédula profesional; mientras tanto puedes guardar borradores de casos.');
+            Flash::success($next === 'panel' ? 'Tu cuenta fue creada. Un editor revisará tu cédula; mientras tanto puedes usar el panel clínico.' : 'Tu cuenta fue creada. Un editor revisará tu cédula profesional; mientras tanto puedes guardar borradores de casos.');
         }
-        return $this->redirect('/mis-casos');
+        return $this->redirect($next === 'panel' ? '/panel' : '/mis-casos');
     }
 
     public function logout(Request $request): Response

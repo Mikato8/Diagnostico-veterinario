@@ -246,7 +246,7 @@ El apartado `/apoyo-diagnostico/ia` y el panel de cada caso (`/casos/{slug}/ia-u
 
 ## Panel clínico (CRM)
 
-El panel `/panel` es un CRM ligero para una clínica: pacientes y tutores, agenda de citas, recetas imprimibles, inventario con mínimos y ventas con descuento de existencias. Cada cuenta ve únicamente sus propios registros (`owner_id`). El acceso es `/panel/entrar` y usa la misma cuenta verificada del portal; "Mantener la sesión abierta" extiende la sesión 30 días.
+El panel `/panel` es un CRM ligero para una clínica: pacientes y tutores, agenda de citas, recetas imprimibles, inventario con mínimos y ventas con descuento de existencias. Cada cuenta ve únicamente sus propios registros (`owner_id`). El acceso es `/panel/entrar`, con registro propio en `/panel/registro` y la misma cuenta del portal; "Mantener la sesión abierta" extiende la sesión 30 días.
 
 ## Seguridad
 

@@ -1,5 +1,6 @@
 <?php
 /** @var array<int, array<string, mixed>> $states */
+/** @var string $next */
 $errors = \App\Core\Flash::errors();
 ?>
 <section class="auth-section auth-section-register">
@@ -21,6 +22,7 @@ $errors = \App\Core\Flash::errors();
 
             <form class="auth-form" method="post" action="<?= e(url('/registro')) ?>">
                 <?= csrf_field() ?>
+                <?php if (($next ?? '') === 'panel'): ?><input type="hidden" name="next" value="panel"><?php endif; ?>
                 <?php if (config('app.cedula.enabled')): ?>
                     <div class="notice notice-info">
                         <?= icon('shield', 'icon') ?>
@@ -93,7 +95,7 @@ $errors = \App\Core\Flash::errors();
                 <button class="btn btn-primary btn-block" type="submit">Crear mi cuenta <?= icon('arrow-right', 'icon icon-sm') ?></button>
             </form>
 
-            <p class="auth-switch">¿Ya tienes cuenta? <a href="<?= e(url('/acceder')) ?>">Inicia sesión</a></p>
+            <p class="auth-switch">¿Ya tienes cuenta? <a href="<?= e(url('/acceder')) ?>">Inicia sesión</a> · <a href="<?= e(url('/panel/entrar')) ?>">Entrar al panel clínico</a></p>
         </div>
 
         <aside class="auth-aside auth-aside-register">
