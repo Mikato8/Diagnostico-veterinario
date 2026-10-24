@@ -16,6 +16,7 @@ final class SitemapController extends BaseController
             ['loc' => url('/'), 'priority' => '1.0'],
             ['loc' => url('/casos'), 'priority' => '0.9'],
             ['loc' => url('/apoyo-diagnostico'), 'priority' => '0.9'],
+            ['loc' => url('/apoyo-diagnostico/ia'), 'priority' => '0.7'],
             ['loc' => url('/enfermedades'), 'priority' => '0.8'],
             ['loc' => url('/recursos'), 'priority' => '0.8'],
             ['loc' => url('/recursos/kit'), 'priority' => '0.6'],

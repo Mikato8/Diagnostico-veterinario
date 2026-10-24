@@ -147,6 +147,12 @@ El catálogo de [Mikato8/VetDataHub](https://github.com/Mikato8/VetDataHub) se i
 
 El split de prueba del bucket [Mikato8/PetEVAL-bucket](https://huggingface.co/buckets/Mikato8/PetEVAL-bucket) se importa a `database/data/peteval.json` con `tools/import_peteval_bucket.py` usando pandas/pyarrow. El portal lo sirve en `/peteval` con búsqueda, filtros ICD-11, filtros de contenido y paginación; `/peteval/{id}` muestra el texto completo y resalta entidades de enfermedad y anonimización. Los archivos originales (Parquet, PDF y README) se copian a `public/descargas/peteval` para descarga directa, con atribución Apache-2.0.
 
+## IA de urgencia (SetFit + ONNX)
+
+El portal incluye una interfaz en `/apoyo-diagnostico/ia` y un cliente PHP (`App\Services\UrgencyAiClient`) que llama por HTTPS a un servicio Python externo. El servicio vive en `ai-service/`: FastAPI carga un modelo SetFit exportado a ONNX int8, tokeniza el relato y devuelve cuatro probabilidades (`emergencia`, `urgente`, `consulta`, `preventivo`). Una capa de reglas de seguridad prioriza `emergencia` ante signos de alarma evidentes. El modelo se entrenó con ejemplos sintéticos; es un prototipo educativo y no un dispositivo clínico.
+
+Hostinger no ejecuta Python/onnxruntime, por lo que el servicio se despliega aparte (Hugging Face Space). Ver `ai-service/DEPLOY.md`. Si `AI_SERVICE_URL` está vacío, la interfaz se muestra desactivada.
+
 ## Seguridad
 
 - Sesión PHP con `HttpOnly`, `SameSite=Lax`, `Secure` en HTTPS.

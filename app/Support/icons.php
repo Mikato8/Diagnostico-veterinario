@@ -59,6 +59,8 @@ if (!function_exists('icon')) {
             'microscope' => '<path d="M6 18h12M9 18V9a3 3 0 0 1 6 0v9"/><path d="M12 6V3M9 9H6M18 21a6 6 0 0 0-6-6"/>',
             'pin' => '<path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/>',
             'bookmark' => '<path d="M6 3h12v18l-6-4-6 4V3Z"/>',
+            'cpu' => '<rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>',
+            'layers' => '<path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
             'download' => '<path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 20h16"/>',
             'printer' => '<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/>',
         ];

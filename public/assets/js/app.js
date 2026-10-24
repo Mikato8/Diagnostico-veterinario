@@ -341,3 +341,14 @@
         window.addEventListener('scroll', onScroll, { passive: true });
     }
 })();
+
+// IA de urgencia: ejemplos que rellenan el textarea.
+document.querySelectorAll('[data-ai-example]').forEach((button) => {
+    button.addEventListener('click', () => {
+        const form = button.closest('[data-ai-form]');
+        const textarea = form ? form.querySelector('[data-ai-text]') : null;
+        if (!textarea) return;
+        textarea.value = button.getAttribute('data-ai-example') || '';
+        textarea.focus();
+    });
+});

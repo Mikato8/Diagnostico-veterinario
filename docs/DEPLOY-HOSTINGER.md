@@ -168,7 +168,8 @@ Si no hay SSH, ejecuta esos comandos en local con las URLs de producción y lueg
 9. Abre `/vetdatahub` y `/peteval`; comprueba los 87 datasets y los 4,999 registros integrados.
 10. Guarda un recurso en favoritos con una cuenta verificada y descarga un caso en PDF y Word.
 11. Comprueba `/sitemap.xml` y `/robots.txt`.
-12. Revisa `storage/logs/app-*.log` si algo falla.
+12. Si la IA está desplegada, define `AI_SERVICE_URL` y `AI_SERVICE_TOKEN` y prueba `/apoyo-diagnostico/ia`.
+13. Revisa `storage/logs/app-*.log` si algo falla.
 
 ## 7. Correo
 
@@ -227,5 +228,6 @@ Las migraciones son idempotentes y se registran en `schema_migrations`. Nunca ed
 - [ ] Favoritos, descarga PDF con imágenes y exportación Word probados.
 - [ ] Catálogo VetDataHub integrado (87 datasets) visible.
 - [ ] PetEVAL integrado (4,999 registros) visible y descargable.
+- [ ] IA de urgencia conectada al Space (opcional) y probada.
 - [ ] `.env` inaccesible desde el navegador.
 - [ ] Copia de seguridad de Neon configurada.

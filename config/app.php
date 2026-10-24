@@ -31,6 +31,11 @@ return [
         'max_files' => (int) env('UPLOAD_MAX_FILES', '6'),
     ],
 
+    'ai' => [
+        'url' => env('AI_SERVICE_URL', ''),
+        'token' => env('AI_SERVICE_TOKEN', ''),
+    ],
+
     'mail' => [
         'enabled' => env_bool('MAIL_ENABLED', false),
         'from' => env('MAIL_FROM', 'no-reply@diagnosticoveterinario.mx'),

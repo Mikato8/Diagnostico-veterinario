@@ -3304,6 +3304,10 @@ a.tag:hover,
     font-size: 15px;
 }
 
+.diagnostic-hero-actions {
+    margin-top: 18px;
+}
+
 .diagnostic-hero-stat {
     display: grid;
     grid-template-columns: auto auto;
@@ -6021,6 +6025,331 @@ a.admin-list-row:hover {
 }
 
 /* ==========================================================================
+   IA de urgencia · SetFit ONNX
+   ========================================================================== */
+
+.ai-hero {
+    padding: 42px 0 52px;
+    background:
+        radial-gradient(circle at 86% 14%, rgba(217, 164, 65, .2), transparent 34%),
+        var(--teal-950);
+    color: var(--sand-100);
+}
+
+.ai-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr);
+    gap: 36px;
+    align-items: end;
+}
+
+.ai-hero h1 {
+    max-width: 780px;
+    color: var(--sand-50);
+    font-size: clamp(38px, 5vw, 62px);
+}
+
+.ai-lead {
+    max-width: 760px;
+    margin-top: 12px;
+    color: #c8ddd5;
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.ai-hero-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 18px;
+    border: 1px solid rgba(247, 243, 234, .17);
+    border-radius: var(--radius);
+    background: rgba(255, 254, 251, .05);
+    color: #b8d4ca;
+}
+
+.ai-hero-badge .icon {
+    color: #e9b872;
+    width: 24px;
+    height: 24px;
+}
+
+.ai-hero-badge strong {
+    color: var(--sand-50);
+    font-size: 13px;
+}
+
+.ai-hero-badge span {
+    font-size: 10px;
+}
+
+.ai-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 30px;
+    align-items: start;
+}
+
+.ai-form {
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.ai-form-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.ai-form-head h2 {
+    margin-top: 4px;
+    font-size: 27px;
+}
+
+.ai-form-limit {
+    color: var(--muted);
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+.ai-form textarea {
+    width: 100%;
+    min-height: 190px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--sand-50);
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.55;
+    resize: vertical;
+}
+
+.ai-form textarea:focus {
+    outline: 2px solid var(--teal-500);
+    outline-offset: 1px;
+    background: var(--white);
+}
+
+.ai-examples {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.ai-example {
+    padding: 5px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--ink-2);
+    font: inherit;
+    font-size: 9px;
+    cursor: pointer;
+}
+
+.ai-example:hover {
+    border-color: var(--teal-600);
+    color: var(--teal-700);
+}
+
+.ai-form-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+}
+
+.ai-form-foot p {
+    max-width: 520px;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.ai-form-foot .btn[disabled] {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.ai-result {
+    margin-bottom: 18px;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--teal-600);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.ai-result-critical { border-left-color: #b42318; background: #fffafa; }
+.ai-result-high { border-left-color: #d97706; background: #fffcf5; }
+.ai-result-medium { border-left-color: #0f766e; }
+.ai-result-low { border-left-color: #26734d; background: #fafffc; }
+
+.ai-result-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ai-result-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--teal-50);
+    color: var(--teal-700);
+}
+
+.ai-result-critical .ai-result-icon { background: #fee4e2; color: #b42318; }
+.ai-result-high .ai-result-icon { background: #fef0c7; color: #b54708; }
+
+.ai-result-head h2 {
+    margin-top: 2px;
+    font-size: 35px;
+}
+
+.ai-confidence {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+}
+
+.ai-confidence strong {
+    color: var(--teal-700);
+    font-family: var(--font-serif);
+    font-size: 28px;
+    line-height: 1;
+}
+
+.ai-confidence span {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.ai-result-description {
+    margin: 12px 0;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.ai-safety-rule {
+    margin: 8px 0 12px;
+    padding: 8px 10px;
+    border-radius: 7px;
+    background: #fff3cd;
+    color: #7a4b06;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.ai-scores {
+    display: grid;
+    gap: 7px;
+    padding: 12px;
+    border-radius: var(--radius);
+    background: var(--sand-50);
+}
+
+.ai-score-row {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr) 36px;
+    gap: 8px;
+    align-items: center;
+    font-size: 10px;
+}
+
+.ai-score-row > span {
+    color: var(--ink-2);
+    text-transform: capitalize;
+}
+
+.ai-score-row strong {
+    color: var(--teal-700);
+    text-align: right;
+}
+
+.ai-score-bar {
+    height: 5px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--sand-200);
+}
+
+.ai-score-bar > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--teal-600), var(--gold));
+}
+
+.ai-disclaimer {
+    margin: 12px 0;
+    color: #7a4b06;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.ai-sidebar {
+    display: grid;
+    gap: 12px;
+    position: sticky;
+    top: 96px;
+}
+
+.ai-levels {
+    display: grid;
+    gap: 8px;
+}
+
+.ai-levels > div {
+    display: grid;
+    grid-template-columns: 10px 1fr;
+    gap: 2px 7px;
+    align-items: center;
+}
+
+.ai-levels strong {
+    font-size: 11px;
+}
+
+.ai-levels small {
+    grid-column: 2;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.ai-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.ai-dot-critical { background: #b42318; }
+.ai-dot-high { background: #d97706; }
+.ai-dot-medium { background: #0f766e; }
+.ai-dot-low { background: #26734d; }
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 
@@ -6056,9 +6385,18 @@ a.admin-list-row:hover {
     }
 
     .vethub-hero-grid,
-    .peteval-hero-grid {
+    .peteval-hero-grid,
+    .ai-hero-grid {
         grid-template-columns: 1fr;
         gap: 22px;
+    }
+
+    .ai-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-sidebar {
+        position: static;
     }
 
     .peteval-layout,
@@ -6286,6 +6624,11 @@ a.admin-list-row:hover {
 
     .peteval-task-grid {
         grid-template-columns: 1fr;
+    }
+
+    .ai-form-foot {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .peteval-entity-list {
@@ -6598,7 +6941,11 @@ a.admin-list-row:hover {
         gap: 18px;
     }
 
-    .diagnostic-hero-stat {
+    .diagnostic-hero-actions {
+    margin-top: 18px;
+}
+
+.diagnostic-hero-stat {
         width: 100%;
         grid-template-columns: auto 1fr auto 1fr;
     }

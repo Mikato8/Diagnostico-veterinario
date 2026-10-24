@@ -118,6 +118,11 @@
                 </ul>
             </div>
             <div class="sidebar-card sidebar-cta">
+                <h2 class="sidebar-title"><?= icon('cpu', 'icon icon-sm') ?> IA de urgencia</h2>
+                <p>Contrasta el relato clínico con un clasificador SetFit + ONNX de cuatro niveles.</p>
+                <a class="btn btn-outline btn-block btn-sm" href="<?= e(url('/apoyo-diagnostico/ia')) ?>">Clasificar urgencia</a>
+            </div>
+            <div class="sidebar-card sidebar-cta">
                 <h2 class="sidebar-title"><?= icon('file-text', 'icon icon-sm') ?> ¿Tienes un caso parecido?</h2>
                 <p>Compártelo con la comunidad y ayuda a ampliar el archivo clínico.</p>
                 <a class="btn btn-primary btn-block btn-sm" href="<?= e(url('/casos/nuevo')) ?>">Compartir caso</a>

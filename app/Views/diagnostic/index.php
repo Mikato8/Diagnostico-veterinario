@@ -17,6 +17,9 @@ foreach ($signGroups as $group) {
                 <span class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Herramienta de orientación clínica</span>
                 <h1>Del signo al diferencial,<br>sin saltarte el criterio.</h1>
                 <p>Selecciona los hallazgos clínicos del paciente. El sistema compara su perfil con las fichas de enfermedades y ordena los diferenciales por similitud, mostrando qué signos clave faltan explorar.</p>
+                <div class="diagnostic-hero-actions">
+                    <a class="btn btn-sand btn-sm" href="<?= e(url('/apoyo-diagnostico/ia')) ?>"><?= icon('cpu', 'icon icon-sm') ?> Probar IA de urgencia</a>
+                </div>
             </div>
             <div class="diagnostic-hero-stat">
                 <strong><?= count($speciesList) ?></strong>

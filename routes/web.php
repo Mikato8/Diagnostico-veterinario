@@ -33,6 +33,8 @@ return static function (Router $router): void {
     $router->post('/casos/{slug}/imagenes/{imageId}/eliminar', [CaseController::class, 'deleteImage']);
 
     // Apoyo diagnóstico y fichas
+    $router->get('/apoyo-diagnostico/ia', [DiagnosticController::class, 'aiForm']);
+    $router->post('/apoyo-diagnostico/ia', [DiagnosticController::class, 'aiClassify']);
     $router->get('/apoyo-diagnostico', [DiagnosticController::class, 'index']);
     $router->get('/apoyo-diagnostico/signos', [DiagnosticController::class, 'signs']);
     $router->post('/apoyo-diagnostico', [DiagnosticController::class, 'analyze']);

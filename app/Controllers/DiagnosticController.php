@@ -10,6 +10,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Repositories\CatalogRepository;
 use App\Repositories\DiseaseRepository;
+use App\Services\UrgencyAiClient;
 
 final class DiagnosticController extends BaseController
 {
@@ -101,6 +102,59 @@ final class DiagnosticController extends BaseController
             'selectedSigns' => $selectedSigns,
             'selectedIds' => $signIds,
             'results' => $results,
+            'bodyClass' => 'page-diagnostic',
+        ]);
+    }
+
+    public function aiForm(Request $request): Response
+    {
+        $client = new UrgencyAiClient();
+        return $this->view('diagnostic.ai', [
+            'title' => 'IA de urgencia veterinaria · Diagnóstico Veterinario',
+            'metaDescription' => 'Clasificador SetFit + ONNX que orienta el nivel de urgencia de un relato clínico veterinario. Herramienta educativa, no diagnóstica.',
+            'configured' => $client->isConfigured(),
+            'text' => '',
+            'result' => null,
+            'error' => null,
+            'bodyClass' => 'page-diagnostic',
+        ]);
+    }
+
+    public function aiClassify(Request $request): Response
+    {
+        $client = new UrgencyAiClient();
+        $text = trim($request->string('text'));
+        $error = null;
+        $result = null;
+
+        if (!$client->isConfigured()) {
+            $error = 'La IA todavía no está configurada en este entorno.';
+        } elseif (mb_strlen($text) < 10) {
+            $error = 'Describe el caso con al menos 10 caracteres.';
+        } elseif (mb_strlen($text) > 2000) {
+            $error = 'El texto es demasiado largo. Usa un máximo de 2,000 caracteres.';
+        } else {
+            $last = (int) ($_SESSION['ai_urgency_last'] ?? 0);
+            if (time() - $last < 2) {
+                $error = 'Espera un par de segundos antes de volver a clasificar.';
+            } else {
+                $_SESSION['ai_urgency_last'] = time();
+                try {
+                    $result = $client->classify($text);
+                } catch (\RuntimeException $e) {
+                    $error = $e->getMessage();
+                    \App\Core\Logger::warning('Fallo del clasificador de urgencia', ['message' => $e->getMessage()]);
+                }
+            }
+        }
+
+        return $this->view('diagnostic.ai', [
+            'title' => 'IA de urgencia veterinaria · Diagnóstico Veterinario',
+            'metaDescription' => 'Clasificador SetFit + ONNX que orienta el nivel de urgencia de un relato clínico veterinario. Herramienta educativa, no diagnóstica.',
+            'configured' => $client->isConfigured(),
+            'text' => $text,
+            'result' => $result,
+            'error' => $error,
             'bodyClass' => 'page-diagnostic',
         ]);
     }
