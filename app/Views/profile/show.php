@@ -127,6 +127,38 @@ $errors = \App\Core\Flash::errors();
                     <button class="btn btn-dark" type="submit">Actualizar contraseña</button>
                 </form>
             </section>
+
+            <section class="form-section form-section-danger">
+                <div class="form-section-head">
+                    <span class="form-step">03</span>
+                    <div>
+                        <h2>Eliminar mi cuenta</h2>
+                        <p>Esta acción cierra tu cuenta y anonimiza tus datos personales. No se puede deshacer.</p>
+                    </div>
+                </div>
+                <div class="danger-note">
+                    <?= icon('alert-triangle', 'icon') ?>
+                    <div>
+                        <strong>Qué pasa con tu contenido</strong>
+                        <p>Tus casos publicados y comentarios permanecerán en el archivo, pero aparecerán como <strong>“Cuenta eliminada”</strong>. Tus borradores y datos de perfil dejarán de ser accesibles. Si necesitas conservar una copia, descarga tus casos antes de continuar.</p>
+                    </div>
+                </div>
+                <form method="post" action="<?= e(url('/perfil/eliminar')) ?>">
+                    <?= csrf_field() ?>
+                    <div class="field">
+                        <label for="delete_password">Confirma tu contraseña</label>
+                        <div class="password-field">
+                            <input id="delete_password" name="password" type="password" autocomplete="current-password" required>
+                            <?php \App\Core\View::partial('partials/password-toggle', ['id' => 'delete_password']); ?>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="delete_confirmation">Escribe <strong>ELIMINAR</strong> para confirmar</label>
+                        <input id="delete_confirmation" name="confirmation" type="text" required maxlength="8" autocomplete="off" placeholder="ELIMINAR">
+                    </div>
+                    <button class="btn btn-danger" type="submit"><?= icon('trash', 'icon icon-sm') ?> Eliminar mi cuenta definitivamente</button>
+                </form>
+            </section>
         </div>
 
         <aside class="form-sidebar">

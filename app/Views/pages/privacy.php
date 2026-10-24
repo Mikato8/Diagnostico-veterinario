@@ -51,6 +51,7 @@
 
                 <h2>6. Conservación</h2>
                 <p>Conservamos los datos mientras tu cuenta esté activa y durante el tiempo necesario para cumplir obligaciones legales, resolver controversias y mantener la integridad del archivo editorial. Los casos publicados pueden permanecer en el portal aunque la cuenta se desactive, salvo solicitud de eliminación procedente.</p>
+                <p>Si eliminas tu cuenta desde <strong>Mi perfil → Eliminar mi cuenta</strong>, anonimizamos tu nombre, correo, cédula, institución y semblanza. Tus casos publicados y comentarios pueden permanecer en el archivo bajo la identidad <strong>“Cuenta eliminada”</strong>; tus borradores dejan de ser accesibles.</p>
 
                 <h2>7. Derechos ARCO</h2>
                 <p>Puedes ejercer tus derechos de acceso, rectificación, cancelación y oposición, así como revocar tu consentimiento, enviando una solicitud a <a href="mailto:privacidad@diagnosticoveterinario.mx">privacidad@diagnosticoveterinario.mx</a> con:</p>

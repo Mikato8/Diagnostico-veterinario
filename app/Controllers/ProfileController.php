@@ -81,6 +81,40 @@ final class ProfileController extends BaseController
         return $this->redirect('/perfil');
     }
 
+    public function deleteAccount(Request $request): Response
+    {
+        $user = Auth::requireLogin();
+        $password = (string) $request->post('password', '');
+        $confirmation = mb_strtoupper(trim($request->string('confirmation')));
+
+        $errors = [];
+        if (!password_verify($password, (string) $user['password_hash'])) {
+            $errors['password'] = 'La contraseña no es correcta.';
+        }
+        if ($confirmation !== 'ELIMINAR') {
+            $errors['confirmation'] = 'Escribe ELIMINAR para confirmar.';
+        }
+        if ($user['role'] === 'admin') {
+            $admins = (int) Database::value(
+                "select count(*) from users where role = 'admin' and status = 'verificado' and deleted_at is null"
+            );
+            if ($admins <= 1) {
+                $errors['general'] = 'No puedes eliminar la última cuenta administradora del portal.';
+            }
+        }
+
+        if ($errors !== []) {
+            $this->withErrors($errors);
+            return $this->redirect('/perfil');
+        }
+
+        (new UserRepository())->anonymizeAndDelete((int) $user['id']);
+        $this->audit('usuario.eliminado', 'user', (string) $user['id']);
+        Auth::logout();
+        Flash::success('Tu cuenta fue eliminada. Tus datos personales se anonimizaron; los casos publicados permanecen en el archivo sin tu nombre.');
+        return $this->redirect('/');
+    }
+
     public function password(Request $request): Response
     {
         $user = Auth::requireLogin();

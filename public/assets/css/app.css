@@ -2737,6 +2737,47 @@ a.tag:hover,
     box-shadow: var(--shadow-sm);
 }
 
+.form-section-danger {
+    border-color: #f3c6c1;
+    background: #fffafa;
+}
+
+.danger-note {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border: 1px solid #f3c6c1;
+    border-radius: var(--radius);
+    background: #fff1f0;
+    color: #7a2018;
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.danger-note strong {
+    display: block;
+    margin-bottom: 2px;
+}
+
+.danger-note p {
+    margin: 0;
+    color: #8a3b33;
+    font-size: 10px;
+}
+
+.btn-danger {
+    border-color: #b42318;
+    background: #b42318;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    border-color: #8f1c13;
+    background: #8f1c13;
+    color: #fff;
+}
+
 .form-section-head {
     display: flex;
     align-items: flex-start;

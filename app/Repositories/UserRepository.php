@@ -143,6 +143,35 @@ final class UserRepository
         return ['items' => $items, 'total' => $total];
     }
 
+    /**
+     * Anonimiza la cuenta y la marca como eliminada. Los casos y comentarios
+     * publicados permanecen en el archivo, pero sin datos personales del autor.
+     */
+    public function anonymizeAndDelete(int $id): void
+    {
+        Database::execute(
+            "update users set
+                name = 'Cuenta eliminada',
+                email = 'eliminado-' || id || '@cuenta.invalid',
+                password_hash = $1,
+                status = 'suspendido',
+                license_number = null,
+                institution = null,
+                state_code = null,
+                bio = null,
+                avatar_url = null,
+                email_verified_at = null,
+                license_verified_at = null,
+                license_verified_name = null,
+                license_verified_title = null,
+                license_verified_institution = null,
+                license_verification_source = null,
+                deleted_at = now()
+             where id = $2 and deleted_at is null",
+            [password_hash(bin2hex(random_bytes(32)), PASSWORD_DEFAULT), $id]
+        );
+    }
+
     public function setStatus(int $id, string $status): void
     {
         Database::execute('update users set status = $1 where id = $2', [$status, $id]);
