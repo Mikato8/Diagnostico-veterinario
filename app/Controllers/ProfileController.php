@@ -9,6 +9,7 @@ use App\Core\Database;
 use App\Core\Flash;
 use App\Core\Request;
 use App\Core\Response;
+use App\Core\Upload;
 use App\Repositories\CatalogRepository;
 use App\Repositories\UserRepository;
 
@@ -108,11 +109,66 @@ final class ProfileController extends BaseController
             return $this->redirect('/perfil');
         }
 
+        $this->deleteAvatarFile($user['avatar_url'] ?? null);
         (new UserRepository())->anonymizeAndDelete((int) $user['id']);
         $this->audit('usuario.eliminado', 'user', (string) $user['id']);
         Auth::logout();
         Flash::success('Tu cuenta fue eliminada. Tus datos personales se anonimizaron; los casos publicados permanecen en el archivo sin tu nombre.');
         return $this->redirect('/');
+    }
+
+    public function avatar(Request $request): Response
+    {
+        $user = Auth::requireLogin();
+        $file = $request->file('avatar');
+        if ($file === null) {
+            Flash::error('Selecciona una imagen para tu foto de perfil.');
+            return $this->redirect('/perfil');
+        }
+
+        try {
+            $image = Upload::image(
+                $file,
+                'user-' . (int) $user['id'],
+                BASE_PATH . '/public/uploads/avatars',
+                '/uploads/avatars',
+                600
+            );
+        } catch (\RuntimeException $e) {
+            Flash::error($e->getMessage());
+            return $this->redirect('/perfil');
+        }
+
+        $this->deleteAvatarFile($user['avatar_url'] ?? null);
+        (new UserRepository())->updateAvatar((int) $user['id'], $image['url']);
+        $this->audit('usuario.avatar_actualizado', 'user', (string) $user['id']);
+        Flash::success('Tu foto de perfil se actualizó.');
+        return $this->redirect('/perfil');
+    }
+
+    public function removeAvatar(Request $request): Response
+    {
+        $user = Auth::requireLogin();
+        $this->deleteAvatarFile($user['avatar_url'] ?? null);
+        (new UserRepository())->updateAvatar((int) $user['id'], null);
+        $this->audit('usuario.avatar_eliminado', 'user', (string) $user['id']);
+        Flash::success('Tu foto de perfil se eliminó.');
+        return $this->redirect('/perfil');
+    }
+
+    private function deleteAvatarFile(?string $url): void
+    {
+        if ($url === null || !str_starts_with($url, '/uploads/avatars/')) {
+            return;
+        }
+        $relative = substr($url, strlen('/uploads/avatars/'));
+        if ($relative === '' || str_contains($relative, '..')) {
+            return;
+        }
+        $path = BASE_PATH . '/public/uploads/avatars/' . $relative;
+        if (is_file($path)) {
+            @unlink($path);
+        }
     }
 
     public function password(Request $request): Response

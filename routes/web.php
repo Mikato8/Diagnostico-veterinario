@@ -70,6 +70,8 @@ return static function (Router $router): void {
     $router->post('/recuperar/{token}', [AuthController::class, 'reset']);
     $router->get('/perfil', [ProfileController::class, 'show']);
     $router->post('/perfil', [ProfileController::class, 'update']);
+    $router->post('/perfil/avatar', [ProfileController::class, 'avatar']);
+    $router->post('/perfil/avatar/eliminar', [ProfileController::class, 'removeAvatar']);
     $router->post('/perfil/password', [ProfileController::class, 'password']);
     $router->post('/perfil/eliminar', [ProfileController::class, 'deleteAccount']);
     $router->get('/mis-casos', [CaseController::class, 'mine']);

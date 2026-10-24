@@ -408,6 +408,7 @@ button {
 
 .avatar {
     display: inline-flex;
+    object-fit: cover;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -425,6 +426,41 @@ button {
 .avatar-sm { width: 34px; height: 34px; font-size: 11px; }
 .avatar-lg { width: 64px; height: 64px; font-size: 19px; }
 .avatar-xl { width: 96px; height: 96px; font-size: 28px; background: var(--sand-200); color: var(--teal-800); }
+
+.avatar-upload-preview {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.avatar-upload-form {
+    display: grid;
+    gap: 7px;
+}
+
+.avatar-upload-form .btn {
+    width: 100%;
+}
+
+.avatar-filename {
+    display: block;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.avatar-upload-help {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.avatar-remove {
+    margin-top: 6px;
+}
 
 .tag-row {
     display: flex;

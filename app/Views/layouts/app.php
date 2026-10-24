@@ -69,7 +69,7 @@ $headerQuery = is_string($_GET['q'] ?? null) ? (string) $_GET['q'] : '';
                 <a class="header-link" href="<?= e(url('/mis-casos')) ?>">Mis casos</a>
                 <details class="user-menu">
                     <summary>
-                        <span class="avatar avatar-sm"><?= e(initials((string) $currentUser['name'])) ?></span>
+                        <?= avatar_tag((string) $currentUser['name'], $currentUser['avatar_url'] ?? null, 'avatar-sm') ?>
                         <span class="user-menu-name"><?= e(first_name((string) $currentUser['name'])) ?></span>
                         <?= icon('chevron-down', 'icon icon-xs') ?>
                     </summary>

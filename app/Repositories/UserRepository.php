@@ -96,6 +96,11 @@ final class UserRepository
         );
     }
 
+    public function updateAvatar(int $id, ?string $url): void
+    {
+        Database::execute('update users set avatar_url = $1 where id = $2', [$url, $id]);
+    }
+
     public function updatePassword(int $id, string $hash): void
     {
         Database::execute('update users set password_hash = $1 where id = $2', [$hash, $id]);

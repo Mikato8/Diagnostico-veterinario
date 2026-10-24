@@ -164,6 +164,7 @@ final class CaseRepository
         return "select c.*, s.name as species_name, s.code as species_code, s.emoji as species_emoji,
                        st.name as state_name, b.name as breed_name,
                        u.name as author_name, u.email as author_email, u.institution as author_institution, u.bio as author_bio,
+                       u.avatar_url as author_avatar_url,
                        u.status as author_status, u.license_number as author_license,
                        coalesce((
                            select json_agg(json_build_object(
@@ -460,7 +461,7 @@ final class CaseRepository
     {
         $where = $includeHidden ? '' : "and c.status = 'visible'";
         return Database::select(
-            "select c.*, u.name as author_name, u.role as author_role, u.status as author_status, u.institution
+            "select c.*, u.name as author_name, u.role as author_role, u.status as author_status, u.institution, u.avatar_url as author_avatar_url
              from case_comments c join users u on u.id = c.user_id
              where c.case_id = $1 {$where}
              order by c.created_at asc",

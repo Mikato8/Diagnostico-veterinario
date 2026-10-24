@@ -24,7 +24,7 @@
 
                 <h2>2. Datos personales que recabamos</h2>
                 <ul>
-                    <li><strong>Datos de identificación y contacto:</strong> nombre, correo electrónico, estado de residencia e institución.</li>
+                    <li><strong>Datos de identificación y contacto:</strong> nombre, correo electrónico, estado de residencia, institución y foto de perfil opcional.</li>
                     <li><strong>Datos profesionales:</strong> cédula profesional, semblanza y áreas de interés.</li>
                     <li><strong>Datos de actividad:</strong> casos publicados, comentarios, reacciones y fecha de acceso.</li>
                     <li><strong>Datos técnicos:</strong> dirección IP, navegador, sistema operativo y registros de seguridad.</li>

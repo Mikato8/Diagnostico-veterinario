@@ -218,6 +218,17 @@ if (!function_exists('initials')) {
     }
 }
 
+if (!function_exists('avatar_tag')) {
+    function avatar_tag(string $name, ?string $url = null, string $class = ''): string
+    {
+        $classes = trim('avatar ' . $class);
+        if ($url !== null && $url !== '') {
+            return '<img class="' . e($classes) . '" src="' . e($url) . '" alt="' . e($name) . '" loading="lazy">';
+        }
+        return '<span class="' . e($classes) . '" title="' . e($name) . '" aria-hidden="true">' . e(initials($name)) . '</span>';
+    }
+}
+
 if (!function_exists('status_label')) {
     function status_label(string $status): string
     {

@@ -16,7 +16,7 @@ final class Upload
      * @param array<string, mixed> $file
      * @return array{path: string, url: string, mime: string, size: int, width: int, height: int}
      */
-    public static function image(array $file, string $folder): array
+    public static function image(array $file, string $folder, ?string $root = null, string $urlBase = '/uploads/cases', int $maxDimension = 2400): array
     {
         $error = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
         if ($error !== UPLOAD_ERR_OK) {
@@ -49,7 +49,7 @@ final class Upload
 
         $extension = self::ALLOWED[$mime];
         $folder = trim($folder, '/');
-        $directory = rtrim((string) config('app.uploads.path'), '/') . '/' . $folder;
+        $directory = rtrim($root ?? (string) config('app.uploads.path'), '/') . '/' . $folder;
         if (!is_dir($directory) && !@mkdir($directory, 0775, true) && !is_dir($directory)) {
             throw new \RuntimeException('No fue posible crear el directorio de imágenes.');
         }
@@ -57,7 +57,7 @@ final class Upload
         $filename = Str::filename($extension);
         $destination = $directory . '/' . $filename;
 
-        $processed = self::reencode($tmp, $destination, $mime);
+        $processed = self::reencode($tmp, $destination, $mime, $maxDimension);
         if (!$processed) {
             if (!@move_uploaded_file($tmp, $destination)) {
                 throw new \RuntimeException('No fue posible guardar la imagen.');
@@ -70,7 +70,7 @@ final class Upload
 
         return [
             'path' => $folder . '/' . $filename,
-            'url' => '/uploads/cases/' . $folder . '/' . $filename,
+            'url' => rtrim($urlBase, '/') . '/' . $folder . '/' . $filename,
             'mime' => $mime,
             'size' => $finalSize,
             'width' => (int) $finalInfo[0],
@@ -78,7 +78,7 @@ final class Upload
         ];
     }
 
-    private static function reencode(string $source, string $destination, string $mime): bool
+    private static function reencode(string $source, string $destination, string $mime, int $maxDimension = 2400): bool
     {
         if (!function_exists('imagecreatefromjpeg')) {
             return false;
@@ -96,7 +96,7 @@ final class Upload
 
         $width = imagesx($image);
         $height = imagesy($image);
-        $max = 2400;
+        $max = $maxDimension;
         if ($width > $max || $height > $max) {
             $ratio = min($max / $width, $max / $height);
             $newWidth = max(1, (int) floor($width * $ratio));

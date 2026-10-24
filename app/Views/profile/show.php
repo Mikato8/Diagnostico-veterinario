@@ -12,7 +12,7 @@ $errors = \App\Core\Flash::errors();
             <a href="<?= e(url('/')) ?>">Inicio</a> <?= icon('chevron-right', 'icon icon-xs') ?> <span>Mi perfil</span>
         </nav>
         <div class="profile-hero">
-            <span class="avatar avatar-xl"><?= e(initials((string) $user['name'])) ?></span>
+            <?= avatar_tag((string) $user['name'], $user['avatar_url'] ?? null, 'avatar-xl') ?>
             <div class="profile-hero-main">
                 <div class="case-kicker">
                     <span class="badge badge-<?= $user['status'] === 'verificado' ? 'success' : 'warning' ?>"><?= $user['status'] === 'verificado' ? 'Cuenta verificada' : 'Verificación pendiente' ?></span>
@@ -162,6 +162,27 @@ $errors = \App\Core\Flash::errors();
         </div>
 
         <aside class="form-sidebar">
+            <div class="sidebar-card">
+                <h2 class="sidebar-title"><?= icon('user', 'icon icon-sm') ?> Foto de perfil</h2>
+                <div class="avatar-upload-preview" data-avatar-preview>
+                    <?= avatar_tag((string) $user['name'], $user['avatar_url'] ?? null, 'avatar-lg') ?>
+                </div>
+                <form class="avatar-upload-form" method="post" action="<?= e(url('/perfil/avatar')) ?>" enctype="multipart/form-data">
+                    <?= csrf_field() ?>
+                    <label class="btn btn-outline btn-sm" for="avatar">Elegir imagen</label>
+                    <input class="sr-only" id="avatar" name="avatar" type="file" accept="image/jpeg,image/png,image/webp" required data-avatar-input>
+                    <span class="avatar-filename" data-avatar-filename>JPG, PNG o WebP · máx. 5 MB</span>
+                    <button class="btn btn-primary btn-sm" type="submit">Subir foto</button>
+                </form>
+                <?php if (!empty($user['avatar_url'])): ?>
+                    <form method="post" action="<?= e(url('/perfil/avatar/eliminar')) ?>" class="avatar-remove">
+                        <?= csrf_field() ?>
+                        <button class="btn btn-ghost btn-sm" type="submit">Quitar foto</button>
+                    </form>
+                <?php endif; ?>
+                <p class="avatar-upload-help">Se recorta en círculo. No uses imágenes con datos de pacientes.</p>
+            </div>
+
             <div class="sidebar-card">
                 <h2 class="sidebar-title"><?= icon('shield', 'icon icon-sm') ?> Verificación profesional</h2>
                 <?php if ($user['status'] === 'verificado'): ?>

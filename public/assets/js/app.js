@@ -367,3 +367,23 @@ document.querySelectorAll('[data-password-toggle]').forEach((button) => {
         input.focus({ preventScroll: true });
     });
 });
+
+// Vista previa de la foto de perfil antes de subirla.
+document.querySelectorAll('[data-avatar-input]').forEach((input) => {
+    input.addEventListener('change', () => {
+        const file = input.files && input.files[0];
+        const filename = document.querySelector('[data-avatar-filename]');
+        if (filename) filename.textContent = file ? file.name : 'JPG, PNG o WebP · máx. 5 MB';
+        const preview = document.querySelector('[data-avatar-preview]');
+        if (!file || !preview) return;
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+            const image = document.createElement('img');
+            image.className = 'avatar avatar-lg';
+            image.src = String(reader.result);
+            image.alt = 'Vista previa de la foto de perfil';
+            preview.replaceChildren(image);
+        });
+        reader.readAsDataURL(file);
+    });
+});

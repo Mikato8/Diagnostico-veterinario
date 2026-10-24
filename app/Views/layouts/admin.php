@@ -68,7 +68,7 @@ $adminPath = current_path();
                 <a class="btn btn-ghost btn-sm" href="<?= e(url('/')) ?>" target="_blank" rel="noopener">Ver sitio <?= icon('external-link', 'icon icon-xs') ?></a>
                 <details class="user-menu">
                     <summary>
-                        <span class="avatar avatar-sm"><?= e(initials((string) ($currentUser['name'] ?? 'DV'))) ?></span>
+                        <?= avatar_tag((string) ($currentUser['name'] ?? 'DV'), $currentUser['avatar_url'] ?? null, 'avatar-sm') ?>
                         <span class="user-menu-name"><?= e($currentUser['name'] ?? 'Cuenta') ?></span>
                         <?= icon('chevron-down', 'icon icon-xs') ?>
                     </summary>

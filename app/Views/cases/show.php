@@ -51,7 +51,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                 <h1><?= e($case['title']) ?></h1>
                 <p class="case-deck"><?= e($case['final_diagnosis']) ?></p>
                 <div class="case-byline">
-                    <span class="avatar avatar-sm"><?= e(initials((string) $case['author_name'])) ?></span>
+                    <?= avatar_tag((string) $case['author_name'], $case['author_avatar_url'] ?? null, 'avatar-sm') ?>
                     <div>
                         <strong><?= e($case['author_name']) ?></strong>
                         <span><?= e($case['author_institution'] ?? 'Médico veterinario') ?><?php if ($case['author_status'] === 'verificado'): ?> · <span class="verified"><?= icon('check-circle', 'icon icon-xs') ?> Verificado</span><?php endif; ?></span>
@@ -199,7 +199,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
                     <ol class="comment-list">
                         <?php foreach ($comments as $comment): ?>
                             <li class="comment <?= $comment['status'] === 'oculto' ? 'is-hidden' : '' ?>" id="comentario-<?= (int) $comment['id'] ?>">
-                                <span class="avatar avatar-sm"><?= e(initials((string) $comment['author_name'])) ?></span>
+                                <?= avatar_tag((string) $comment['author_name'], $comment['author_avatar_url'] ?? null, 'avatar-sm') ?>
                                 <div class="comment-body">
                                     <div class="comment-head">
                                         <strong><?= e($comment['author_name']) ?></strong>
@@ -260,7 +260,7 @@ $citation = $case['author_name'] . ' (' . $publishedYear . '). ' . $case['title'
             </div>
 
             <div class="sidebar-card author-card">
-                <span class="avatar avatar-lg"><?= e(initials((string) $case['author_name'])) ?></span>
+                <?= avatar_tag((string) $case['author_name'], $case['author_avatar_url'] ?? null, 'avatar-lg') ?>
                 <h2><?= e($case['author_name']) ?></h2>
                 <p class="author-inst"><?= e($case['author_institution'] ?? 'Médico veterinario') ?></p>
                 <?php if ($case['author_status'] === 'verificado'): ?>

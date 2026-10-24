@@ -42,6 +42,7 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 - **Recomendador por objetivo, especie y tema/enfermedad:** sugiere fichas del portal (enfermedad y casos) y recursos externos según lo que el veterinario necesita.
 - **Verificación de cédula:** integración opcional con API Market/SEP para contrastar cédula y nombre completo; si no hay token, el registro pasa a revisión manual.
 - **Eliminación de cuenta:** el usuario puede borrar su cuenta desde el perfil; se anonimizan sus datos y su contenido publicado queda como “Cuenta eliminada”.
+- **Foto de perfil:** subida de JPG/PNG/WebP con vista previa, recorte circular y opción de quitarla.
 - **Favoritos por veterinario:** cada cuenta puede guardar recursos para consultarlos después.
 - **Descarga del caso en PDF o Word:** genera un documento clínico con datos del paciente, secciones, referencias, licencia e imágenes del caso.
 - Perfil profesional, cambio de contraseña y recuperación por correo.

@@ -59,7 +59,7 @@
                     <tr>
                         <td>
                             <div class="table-user">
-                                <span class="avatar avatar-xs"><?= e(initials((string) $user['name'])) ?></span>
+                                <?= avatar_tag((string) $user['name'], $user['avatar_url'] ?? null, 'avatar-xs') ?>
                                 <div>
                                     <strong><?= e($user['name']) ?></strong>
                                     <small><?= e($user['email']) ?><?php if (!empty($user['state_name'])): ?> · <?= e($user['state_name']) ?><?php endif; ?></small>
