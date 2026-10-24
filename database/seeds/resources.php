@@ -34,9 +34,9 @@ return [
     [
         'title' => 'VetAPI (Laravel)',
         'description' => 'API REST en español para gestión de clínica veterinaria: historiales médicos, fichas de diagnóstico, citas y pacientes. Útil como referencia de arquitectura para sistemas de diagnóstico.',
-        'url' => 'https://github.com/NicolasOrrego/VetAPI_Laravel',
+        'url' => 'https://github.com/Mikato8/VetAPI_Laravel',
         'category' => 'api',
-        'organization' => 'NicolasOrrego',
+        'organization' => 'Mikato8 · VetAPI',
         'country' => 'Colombia',
         'access' => 'abierto',
         'license' => 'Consultar repositorio',

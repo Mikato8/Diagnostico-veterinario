@@ -34,7 +34,7 @@ return [
         'action_label' => 'Abrir bucket en Hugging Face',
         'reviewed_at' => '2026-10-22',
     ],
-    'https://github.com/NicolasOrrego/VetAPI_Laravel' => [
+    'https://github.com/Mikato8/VetAPI_Laravel' => [
         'slug' => 'vetapi',
         'what_for' => 'Ver cómo se organiza una API de clínica veterinaria (pacientes, propietarios, citas e historiales) para inspirar un sistema propio o explicar tus necesidades a un proveedor de software.',
         'how_to' => [

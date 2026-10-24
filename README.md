@@ -305,7 +305,7 @@ tools/               Generador reproducible del kit DOCX
 
 ## Créditos y referencias
 
-La arquitectura y el alcance se inspiraron en proyectos y recursos abiertos como [VetAPI](https://github.com/NicolasOrrego/VetAPI_Laravel), [PetCloud](https://github.com/francisco-correa/pet-cloud), [VetDataHub](https://github.com/Mikato8/VetDataHub), [PetEVAL](https://huggingface.co/buckets/Mikato8/PetEVAL-bucket), [VetCompass](https://www.rvc.ac.uk/vetcompass) y [SAVSNET](https://www.liverpool.ac.uk/savsnet/). El directorio completo está en el portal, sección **Recursos**. El catálogo VetDataHub se distribuye bajo licencia MIT; cada dataset enlazado conserva su propia licencia y condiciones de acceso. PetEVAL se distribuye con licencia Apache-2.0 y textos anonimizados; no deben usarse para reidentificar personas, animales o establecimientos.
+La arquitectura y el alcance se inspiraron en proyectos y recursos abiertos como [VetAPI](https://github.com/Mikato8/VetAPI_Laravel), [PetCloud](https://github.com/francisco-correa/pet-cloud), [VetDataHub](https://github.com/Mikato8/VetDataHub), [PetEVAL](https://huggingface.co/buckets/Mikato8/PetEVAL-bucket), [VetCompass](https://www.rvc.ac.uk/vetcompass) y [SAVSNET](https://www.liverpool.ac.uk/savsnet/). El directorio completo está en el portal, sección **Recursos**. El catálogo VetDataHub se distribuye bajo licencia MIT; cada dataset enlazado conserva su propia licencia y condiciones de acceso. PetEVAL se distribuye con licencia Apache-2.0 y textos anonimizados; no deben usarse para reidentificar personas, animales o establecimientos.
 
 ---
 
