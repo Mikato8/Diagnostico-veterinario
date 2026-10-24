@@ -16,6 +16,7 @@ use App\Support\CasePdf;
 use App\Repositories\CaseRepository;
 use App\Repositories\CatalogRepository;
 use App\Repositories\UserRepository;
+use App\Services\UrgencyAiClient;
 
 final class CaseController extends BaseController
 {
@@ -94,6 +95,72 @@ final class CaseController extends BaseController
             'canModerate' => $user !== null && in_array($user['role'], (array) config('app.moderators', []), true),
             'canonical' => url('/casos/' . $case['slug']),
             'robots' => $isPreview ? 'noindex,nofollow' : 'index,follow',
+        ]);
+    }
+
+    public function aiForm(Request $request, string $slug): Response
+    {
+        $case = (new CaseRepository())->findPublishedBySlug($slug);
+        if ($case === null) {
+            $this->notFound('Este caso no está disponible para el análisis de IA.');
+        }
+
+        return $this->view('cases.ai', [
+            'title' => 'IA de urgencia · ' . $case['title'],
+            'metaDescription' => 'Analiza el relato clínico de este caso con un clasificador SetFit + ONNX de urgencia veterinaria.',
+            'case' => $case,
+            'text' => $this->caseAiText($case),
+            'result' => null,
+            'error' => null,
+            'configured' => (new UrgencyAiClient())->isConfigured(),
+            'canonical' => url('/casos/' . $case['slug'] . '/ia-urgencia'),
+            'robots' => 'noindex,nofollow',
+        ]);
+    }
+
+    public function aiClassify(Request $request, string $slug): Response
+    {
+        $case = (new CaseRepository())->findPublishedBySlug($slug);
+        if ($case === null) {
+            $this->notFound('Este caso no está disponible para el análisis de IA.');
+        }
+
+        $client = new UrgencyAiClient();
+        $text = trim($request->string('text'));
+        $error = null;
+        $result = null;
+
+        if (!$client->isConfigured()) {
+            $error = 'La IA todavía no está configurada en este entorno.';
+        } elseif (mb_strlen($text) < 10) {
+            $error = 'El relato es demasiado corto para analizarlo.';
+        } elseif (mb_strlen($text) > 2000) {
+            $error = 'El relato supera los 2,000 caracteres.';
+        } else {
+            $last = (int) ($_SESSION['case_ai_last'] ?? 0);
+            if (time() - $last < 2) {
+                $error = 'Espera un par de segundos antes de volver a analizar.';
+            } else {
+                $_SESSION['case_ai_last'] = time();
+                try {
+                    $result = $client->classify($text);
+                } catch (\RuntimeException $e) {
+                    $error = $e->getMessage();
+                    \App\Core\Logger::warning('Fallo de IA en caso clínico', ['case' => $case['slug'], 'message' => $e->getMessage()]);
+                }
+            }
+        }
+
+        return $this->view('cases.ai', [
+            'title' => 'IA de urgencia · ' . $case['title'],
+            'metaDescription' => 'Analiza el relato clínico de este caso con un clasificador SetFit + ONNX de urgencia veterinaria.',
+            'case' => $case,
+            'text' => $text,
+            'result' => $result,
+            'error' => $error,
+            'configured' => $client->isConfigured(),
+            'canonical' => url('/casos/' . $case['slug'] . '/ia-urgencia'),
+            'robots' => 'noindex,nofollow',
         ]);
     }
 
@@ -493,5 +560,19 @@ final class CaseController extends BaseController
         }
 
         return [$data, []];
+    }
+
+    /** @param array<string, mixed> $case */
+    private function caseAiText(array $case): string
+    {
+        $parts = [
+            'Especie: ' . $case['species_name'],
+            'Sexo: ' . sex_label((string) $case['sex']),
+            'Edad: ' . age_label($case['age_value'] !== null ? (int) $case['age_value'] : null, $case['age_unit']),
+            'Motivo de consulta: ' . $case['chief_complaint'],
+            'Anamnesis: ' . $case['anamnesis'],
+            'Exploración física: ' . $case['physical_exam'],
+        ];
+        return mb_substr(implode("\n", array_filter($parts, static fn (string $value): bool => trim($value) !== '')), 0, 2000);
     }
 }

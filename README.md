@@ -35,7 +35,7 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 - Directorio curado de datasets, APIs, repositorios y sistemas de vigilancia (VetCompass, SAVSNET, WAHIS, NAHMS, SENASICA y más).
 - **VetDataHub integrado:** catálogo navegable de 87 datasets y 15 categorías, importado desde [Mikato8/VetDataHub](https://github.com/Mikato8/VetDataHub).
 - **PetEVAL integrado:** explorador de 4,999 registros anonimizados del split de prueba, con búsqueda por texto, filtros ICD-11 y entidades resaltadas; datos y artículo descargables.
-- **IA de urgencia (prototipo):** clasificador SetFit + ONNX en español con cuatro niveles, reglas de seguridad para signos de alarma y descarga del modelo reproducible. Requiere un servicio Python externo; no sustituye el juicio clínico.
+- **IA de urgencia (prototipo):** clasificador SetFit + ONNX en español con cuatro niveles y reglas de seguridad. Se puede probar en `/apoyo-diagnostico/ia` y dentro de cada caso en `/casos/{slug}/ia-urgencia`. Requiere un servicio Python externo; no sustituye el juicio clínico.
 - **Recursos explicados en español:** cada ficha interna dice para qué sirve, cómo empezar, qué necesitas y cómo solicitar acceso, sin asumir que sabes programar.
 - **Kit descargable:** plantilla de caso clínico, checklist de consentimiento, hoja de alta, consentimiento imprimible, carta de solicitud de datos, guía de citas y guía rápida en DOCX.
 - **Glosario para no especialistas:** dataset, repositorio, API, licencia, CSV y otros términos explicados en lenguaje clínico.
@@ -228,9 +228,10 @@ La guía detallada está en **[docs/DEPLOY-HOSTINGER.md](docs/DEPLOY-HOSTINGER.m
 
 ## IA de urgencia (SetFit + ONNX)
 
-El apartado `/apoyo-diagnostico/ia` usa un clasificador **SetFit** exportado a **ONNX int8** y servido por FastAPI desde `ai-service/`. Hostinger no puede ejecutar Python/onnxruntime, así que el servicio se despliega aparte (Hugging Face Space) y el portal lo consume por HTTPS con `AI_SERVICE_URL` y `AI_SERVICE_TOKEN`.
+El apartado `/apoyo-diagnostico/ia` y el panel de cada caso (`/casos/{slug}/ia-urgencia`) usan un clasificador **SetFit** exportado a **ONNX int8** y servido por FastAPI desde `ai-service/`. Hostinger no puede ejecutar Python/onnxruntime, así que el servicio se despliega aparte (Hugging Face Space) y el portal lo consume por HTTPS con `AI_SERVICE_URL` y `AI_SERVICE_TOKEN`.
 
 - Cuatro niveles: emergencia, urgente, consulta programada y preventivo.
+- En un caso, el texto se prellena con especie, sexo, edad, motivo, anamnesis y exploración; el diagnóstico final no se envía.
 - Reglas de seguridad para signos de alarma evidentes.
 - Modelo entrenado con ejemplos sintéticos: es un **prototipo educativo**, no un dispositivo clínico.
 - Guía: `ai-service/DEPLOY.md`; entrenamiento: `ai-service/training/`.

@@ -22,6 +22,8 @@ return static function (Router $router): void {
     $router->get('/casos', [CaseController::class, 'index']);
     $router->get('/casos/nuevo', [CaseController::class, 'create']);
     $router->post('/casos', [CaseController::class, 'store']);
+    $router->get('/casos/{slug}/ia-urgencia', [CaseController::class, 'aiForm']);
+    $router->post('/casos/{slug}/ia-urgencia', [CaseController::class, 'aiClassify']);
     $router->get('/casos/{slug}/pdf', [CaseController::class, 'pdf']);
     $router->get('/casos/{slug}/docx', [CaseController::class, 'docx']);
     $router->get('/casos/{slug}', [CaseController::class, 'show']);

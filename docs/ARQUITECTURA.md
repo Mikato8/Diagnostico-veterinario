@@ -149,7 +149,7 @@ El split de prueba del bucket [Mikato8/PetEVAL-bucket](https://huggingface.co/bu
 
 ## IA de urgencia (SetFit + ONNX)
 
-El portal incluye una interfaz en `/apoyo-diagnostico/ia` y un cliente PHP (`App\Services\UrgencyAiClient`) que llama por HTTPS a un servicio Python externo. El servicio vive en `ai-service/`: FastAPI carga un modelo SetFit exportado a ONNX int8, tokeniza el relato y devuelve cuatro probabilidades (`emergencia`, `urgente`, `consulta`, `preventivo`). Una capa de reglas de seguridad prioriza `emergencia` ante signos de alarma evidentes. El modelo se entrenó con ejemplos sintéticos; es un prototipo educativo y no un dispositivo clínico.
+El portal incluye una interfaz en `/apoyo-diagnostico/ia`, un panel por caso en `/casos/{slug}/ia-urgencia` y un cliente PHP (`App\Services\UrgencyAiClient`) que llama por HTTPS a un servicio Python externo. El servicio vive en `ai-service/`: FastAPI carga un modelo SetFit exportado a ONNX int8, tokeniza el relato y devuelve cuatro probabilidades (`emergencia`, `urgente`, `consulta`, `preventivo`). Una capa de reglas de seguridad prioriza `emergencia` ante signos de alarma evidentes. El modelo se entrenó con ejemplos sintéticos; es un prototipo educativo y no un dispositivo clínico.
 
 Hostinger no ejecuta Python/onnxruntime, por lo que el servicio se despliega aparte (Hugging Face Space). Ver `ai-service/DEPLOY.md`. Si `AI_SERVICE_URL` está vacío, la interfaz se muestra desactivada.
 
