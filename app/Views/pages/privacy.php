@@ -45,6 +45,7 @@
                     <li><strong>Hostinger</strong>, para el alojamiento del sitio web.</li>
                     <li><strong>Neon (Lakebase Postgres)</strong>, para la base de datos, con servidores en Estados Unidos.</li>
                     <li>Proveedores de correo transaccional, cuando estén habilitados, para el envío de enlaces de recuperación y notificaciones.</li>
+                    <li><strong>API Market</strong>, cuando la verificación automática está activa, para consultar tu cédula y nombre en el Registro Nacional de Profesionistas de la SEP. Recibe cédula y nombre, y devuelve nombre, título, institución y CURP; el portal conserva nombre, título e institución verificados y no almacena el CURP.</li>
                 </ul>
                 <p>Estos proveedores tratan datos por cuenta nuestra y bajo obligaciones de confidencialidad y seguridad. Algunas transferencias pueden implicar un flujo internacional de datos; al usar el portal aceptas este tratamiento. No vendemos ni rentamos tus datos personales.</p>
 

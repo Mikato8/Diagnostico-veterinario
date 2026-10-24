@@ -153,6 +153,10 @@ El portal incluye una interfaz en `/apoyo-diagnostico/ia`, un panel por caso en 
 
 Hostinger no ejecuta Python/onnxruntime, por lo que el servicio se despliega aparte (Hugging Face Space). Ver `ai-service/DEPLOY.md`. Si `AI_SERVICE_URL` está vacío, la interfaz se muestra desactivada.
 
+## Verificación de cédula
+
+`App\Services\CedulaVerifier` consulta API Market/SEP con la cédula como parámetro de consulta y compara el nombre capturado con el nombre del Registro Nacional de Profesionistas. Si el nombre y el título veterinario coinciden, la cuenta se marca `verificado` y se guardan nombre, título e institución; el CURP no se almacena. Si el servicio no está configurado, el registro sigue el flujo manual. Al cambiar nombre o cédula, la verificación se invalida y la cuenta vuelve a `pendiente`.
+
 ## Seguridad
 
 - Sesión PHP con `HttpOnly`, `SameSite=Lax`, `Secure` en HTTPS.

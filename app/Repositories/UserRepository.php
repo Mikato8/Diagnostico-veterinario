@@ -29,8 +29,9 @@ final class UserRepository
     public function create(array $data): int
     {
         $row = Database::insert(
-            'insert into users (name, email, password_hash, role, status, license_number, institution, state_code, bio)
-             values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            'insert into users (name, email, password_hash, role, status, license_number, institution, state_code, bio,
+                license_verified_at, license_verified_name, license_verified_title, license_verified_institution, license_verification_source)
+             values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
              returning id',
             [
                 $data['name'],
@@ -42,6 +43,11 @@ final class UserRepository
                 $data['institution'] ?? null,
                 $data['state_code'] ?? null,
                 $data['bio'] ?? null,
+                $data['license_verified_at'] ?? null,
+                $data['license_verified_name'] ?? null,
+                $data['license_verified_title'] ?? null,
+                $data['license_verified_institution'] ?? null,
+                $data['license_verification_source'] ?? null,
             ]
         );
         return (int) $row['id'];
@@ -52,7 +58,32 @@ final class UserRepository
     {
         Database::execute(
             'update users set name = $1, license_number = $2, institution = $3,
-                state_code = $4, bio = $5
+                state_code = $4, bio = $5,
+                license_verified_at = case
+                    when name is distinct from $1 or license_number is distinct from $2 then null
+                    else license_verified_at
+                end,
+                license_verified_name = case
+                    when name is distinct from $1 or license_number is distinct from $2 then null
+                    else license_verified_name
+                end,
+                license_verified_title = case
+                    when name is distinct from $1 or license_number is distinct from $2 then null
+                    else license_verified_title
+                end,
+                license_verified_institution = case
+                    when name is distinct from $1 or license_number is distinct from $2 then null
+                    else license_verified_institution
+                end,
+                license_verification_source = case
+                    when name is distinct from $1 or license_number is distinct from $2 then null
+                    else license_verification_source
+                end,
+                status = case
+                    when (name is distinct from $1 or license_number is distinct from $2)
+                         and status = \'verificado\' and role = \'veterinario\' then \'pendiente\'
+                    else status
+                end
              where id = $6',
             [
                 $data['name'],

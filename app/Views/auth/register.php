@@ -7,7 +7,7 @@ $errors = \App\Core\Flash::errors();
         <div class="auth-panel">
             <span class="eyebrow">Nueva cuenta</span>
             <h1>Crea tu perfil profesional</h1>
-            <p class="auth-lead">El registro es gratuito y está dirigido a médicos veterinarios. Verificamos tu cédula para cuidar la calidad de la comunidad.</p>
+            <p class="auth-lead">El registro es gratuito y está dirigido a médicos veterinarios. <?= config('app.cedula.enabled') ? 'Validamos tu cédula y tu nombre con el Registro Nacional de Profesionistas.' : 'Verificamos tu cédula para cuidar la calidad de la comunidad.' ?></p>
 
             <?php if ($errors !== []): ?>
                 <div class="form-error-summary" role="alert">
@@ -21,6 +21,15 @@ $errors = \App\Core\Flash::errors();
 
             <form class="auth-form" method="post" action="<?= e(url('/registro')) ?>">
                 <?= csrf_field() ?>
+                <?php if (config('app.cedula.enabled')): ?>
+                    <div class="notice notice-info">
+                        <?= icon('shield', 'icon') ?>
+                        <div>
+                            <strong>Verificación con la SEP</strong>
+                            <p>Tu cédula y nombre se consultan en el Registro Nacional de Profesionistas. Deben coincidir y corresponder a medicina veterinaria.</p>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <div class="field-grid field-grid-2">
                     <div class="field">
                         <label for="name">Nombre completo <span class="req">*</span></label>
@@ -36,7 +45,7 @@ $errors = \App\Core\Flash::errors();
                     <div class="field">
                         <label for="license_number">Cédula profesional <span class="req">*</span></label>
                         <input id="license_number" name="license_number" type="text" required value="<?= e(old('license_number')) ?>" placeholder="Ej. 12345678">
-                        <span class="field-help">Se usa para verificar tu identidad profesional; no se muestra públicamente completa.</span>
+                        <span class="field-help">Se usa para verificar tu identidad profesional; no se muestra públicamente completa. <?= config('app.cedula.enabled') ? 'Debe coincidir con tu nombre en la SEP.' : '' ?></span>
                     </div>
                     <div class="field">
                         <label for="state_code">Estado <span class="req">*</span></label>
@@ -92,7 +101,7 @@ $errors = \App\Core\Flash::errors();
             <h2>Un espacio para pensar en voz alta con colegas.</h2>
             <ol class="onboarding-steps">
                 <li><span>01</span><div><strong>Crea tu perfil</strong><p>Comparte tu institución, estado y áreas de interés.</p></div></li>
-                <li><span>02</span><div><strong>Verifica tu cédula</strong><p>Un administrador revisa tu registro para mantener la calidad.</p></div></li>
+                <li><span>02</span><div><strong>Verifica tu cédula</strong><p><?= config('app.cedula.enabled') ? 'Contrastamos cédula y nombre con el Registro Nacional de Profesionistas.' : 'Un administrador revisa tu registro para mantener la calidad.' ?></p></div></li>
                 <li><span>03</span><div><strong>Publica y conversa</strong><p>Documenta casos, recibe comentarios y aprende de otros.</p></div></li>
             </ol>
             <div class="auth-note">

@@ -31,6 +31,13 @@ return [
         'max_files' => (int) env('UPLOAD_MAX_FILES', '6'),
     ],
 
+    'cedula' => [
+        'enabled' => env_bool('CEDULA_VALIDATION_ENABLED', false),
+        'url' => env('CEDULA_API_URL', 'https://apimarket.mx/api/sep/grupo/validar-cedula'),
+        'token' => env('CEDULA_API_TOKEN', ''),
+        'timeout' => (int) env('CEDULA_API_TIMEOUT', '15'),
+    ],
+
     'ai' => [
         'url' => env('AI_SERVICE_URL', ''),
         'token' => env('AI_SERVICE_TOKEN', ''),

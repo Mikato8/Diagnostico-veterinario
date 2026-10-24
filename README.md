@@ -40,6 +40,7 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 - **Kit descargable:** plantilla de caso clínico, checklist de consentimiento, hoja de alta, consentimiento imprimible, carta de solicitud de datos, guía de citas y guía rápida en DOCX.
 - **Glosario para no especialistas:** dataset, repositorio, API, licencia, CSV y otros términos explicados en lenguaje clínico.
 - **Recomendador por objetivo, especie y tema/enfermedad:** sugiere fichas del portal (enfermedad y casos) y recursos externos según lo que el veterinario necesita.
+- **Verificación de cédula:** integración opcional con API Market/SEP para contrastar cédula y nombre completo; si no hay token, el registro pasa a revisión manual.
 - **Favoritos por veterinario:** cada cuenta puede guardar recursos para consultarlos después.
 - **Descarga del caso en PDF o Word:** genera un documento clínico con datos del paciente, secciones, referencias, licencia e imágenes del caso.
 - Perfil profesional, cambio de contraseña y recuperación por correo.

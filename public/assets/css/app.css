@@ -4491,6 +4491,14 @@ a.admin-list-row:hover {
     overflow-x: auto;
 }
 
+.table-muted {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.35;
+}
+
 .admin-table {
     width: 100%;
     border-collapse: collapse;
@@ -6977,7 +6985,15 @@ a.admin-list-row:hover {
         grid-template-columns: 1fr 1fr;
     }
 
-    .admin-table {
+    .table-muted {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.35;
+}
+
+.admin-table {
         min-width: 760px;
     }
 }

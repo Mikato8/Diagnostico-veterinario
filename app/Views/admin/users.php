@@ -66,7 +66,15 @@
                                 </div>
                             </div>
                         </td>
-                        <td><?= e($user['license_number'] ?? '—') ?></td>
+                        <td>
+                            <?= e($user['license_number'] ?? '—') ?>
+                            <?php if (!empty($user['license_verified_at'])): ?>
+                                <span class="badge badge-success" title="Validada con el Registro Nacional de Profesionistas">SEP</span>
+                            <?php endif; ?>
+                            <?php if (!empty($user['license_verified_title'])): ?>
+                                <small class="table-muted"><?= e(excerpt($user['license_verified_title'], 48)) ?></small>
+                            <?php endif; ?>
+                        </td>
                         <td><span class="badge badge-<?= $user['status'] === 'verificado' ? 'success' : ($user['status'] === 'suspendido' ? 'danger' : 'warning') ?>"><?= e(ucfirst($user['status'])) ?></span></td>
                         <td><?= (int) $user['cases_count'] ?></td>
                         <td>

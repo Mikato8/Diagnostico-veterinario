@@ -13,6 +13,7 @@ use App\Core\Response;
 use App\Core\Str;
 use App\Repositories\CatalogRepository;
 use App\Repositories\UserRepository;
+use App\Services\CedulaVerifier;
 
 final class AuthController extends BaseController
 {
@@ -137,7 +138,42 @@ final class AuthController extends BaseController
             return $this->redirect('/registro');
         }
 
-        $verified = (bool) config('app.auto_verify_users', false);
+        $verification = null;
+        $verifier = new CedulaVerifier();
+        if ($verifier->isEnabled()) {
+            if (!$verifier->isConfigured()) {
+                \App\Core\Logger::error('Verificación de cédula activada sin credenciales');
+                $this->withErrors(['license_number' => 'La verificación automática de cédula no está disponible en este momento. Intenta más tarde o contáctanos.']);
+                $this->flashOld($data);
+                return $this->redirect('/registro');
+            }
+            try {
+                $verification = $verifier->verify($data['license_number'], $data['name']);
+            } catch (\RuntimeException $e) {
+                \App\Core\Logger::warning('Fallo de verificación de cédula', ['message' => $e->getMessage()]);
+                $this->withErrors(['license_number' => 'No pudimos verificar tu cédula en este momento. Intenta de nuevo en unos minutos o contáctanos.']);
+                $this->flashOld($data);
+                return $this->redirect('/registro');
+            }
+
+            if (!$verification['found']) {
+                $this->withErrors(['license_number' => 'No encontramos esa cédula en el Registro Nacional de Profesionistas. Revisa el número o contáctanos.']);
+                $this->flashOld($data);
+                return $this->redirect('/registro');
+            }
+            if (!$verification['name_match']) {
+                $this->withErrors(['name' => 'La cédula existe, pero el nombre no coincide con el registrado en la SEP. Revisa ambos datos.']);
+                $this->flashOld($data);
+                return $this->redirect('/registro');
+            }
+            if (!$verification['veterinary']) {
+                $this->withErrors(['license_number' => 'La cédula existe, pero no corresponde a medicina veterinaria. Este portal es exclusivo para médicos veterinarios.']);
+                $this->flashOld($data);
+                return $this->redirect('/registro');
+            }
+        }
+
+        $verified = (bool) config('app.auto_verify_users', false) || $verification !== null;
         try {
             $id = $users->create([
                 'name' => $data['name'],
@@ -149,6 +185,11 @@ final class AuthController extends BaseController
                 'institution' => $data['institution'],
                 'state_code' => $data['state_code'],
                 'bio' => $data['bio'] !== '' ? $data['bio'] : null,
+                'license_verified_at' => $verification !== null ? date('c') : null,
+                'license_verified_name' => $verification['name'] ?? null,
+                'license_verified_title' => $verification['title'] ?? null,
+                'license_verified_institution' => $verification['institution'] ?? null,
+                'license_verification_source' => $verification['source'] ?? null,
             ]);
         } catch (\Throwable $e) {
             \App\Core\Logger::error('Error al registrar usuario', ['message' => $e->getMessage()]);
@@ -162,9 +203,11 @@ final class AuthController extends BaseController
             Auth::login($user);
         }
 
-        $this->audit('usuario.registro', 'user', (string) $id, ['status' => $verified ? 'verificado' : 'pendiente']);
+        $this->audit('usuario.registro', 'user', (string) $id, ['status' => $verified ? 'verificado' : 'pendiente', 'license_source' => $verification['source'] ?? 'manual']);
 
-        if ($verified) {
+        if ($verification !== null) {
+            Flash::success('Tu cédula fue validada con el Registro Nacional de Profesionistas. Tu cuenta está verificada y ya puedes compartir casos clínicos.');
+        } elseif ($verified) {
             Flash::success('Tu cuenta está lista. Ya puedes compartir casos clínicos.');
         } else {
             Flash::success('Tu cuenta fue creada. Un editor revisará tu cédula profesional; mientras tanto puedes guardar borradores de casos.');

@@ -68,6 +68,9 @@ $petevalFile = BASE_PATH . '/database/data/peteval.json';
 $peteval = is_file($petevalFile) ? json_decode((string) file_get_contents($petevalFile), true) : null;
 $line('PetEVAL integrado', is_array($peteval) ? count($peteval['records'] ?? []) . ' registros' : 'sin dataset', is_array($peteval) && !empty($peteval['records']));
 $line('IA de urgencia', (string) config('app.ai.url') !== '' ? 'configurada' : 'sin configurar (opcional)', true);
+$cedulaEnabled = (bool) config('app.cedula.enabled', false);
+$cedulaConfigured = $cedulaEnabled && (string) config('app.cedula.token', '') !== '';
+$line('Verificación de cédula', $cedulaConfigured ? 'automática (API Market)' : ($cedulaEnabled ? 'activada sin token' : 'manual'), true);
 
 echo str_repeat('─', 68) . "\n";
 echo $ok ? "Resultado: entorno listo.\n" : "Resultado: revisa los puntos marcados antes de desplegar.\n";
