@@ -157,6 +157,10 @@ Hostinger no ejecuta Python/onnxruntime, por lo que el servicio se despliega apa
 
 `App\Services\CedulaVerifier` consulta API Market/SEP con la cédula como parámetro de consulta y compara el nombre capturado con el nombre del Registro Nacional de Profesionistas. Si el nombre y el título veterinario coinciden, la cuenta se marca `verificado` y se guardan nombre, título e institución; el CURP no se almacena. Si el servicio no está configurado, el registro sigue el flujo manual. Al cambiar nombre o cédula, la verificación se invalida y la cuenta vuelve a `pendiente`.
 
+## CRM de clínica
+
+El módulo `/panel` usa las tablas `clinic_patients`, `clinic_appointments`, `clinic_prescriptions`, `clinic_products`, `clinic_sales` y `clinic_sale_items`. Todas las consultas se filtran por `owner_id`, por lo que cada cuenta ve sólo su propia clínica. La venta se crea con la función PostgreSQL `clinic_create_sale`, que valida existencias, inserta la venta y sus partidas y descuenta stock en una sola operación, compatible con el transporte HTTP de Neon. El acceso `/panel/entrar` reutiliza `Auth` y ofrece sesión extendida de 30 días.
+
 ## Seguridad
 
 - Sesión PHP con `HttpOnly`, `SameSite=Lax`, `Secure` en HTTPS.

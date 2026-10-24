@@ -154,6 +154,11 @@ final class UserRepository
      */
     public function anonymizeAndDelete(int $id): void
     {
+        Database::execute('delete from clinic_sales where owner_id = $1', [$id]);
+        Database::execute('delete from clinic_prescriptions where owner_id = $1', [$id]);
+        Database::execute('delete from clinic_appointments where owner_id = $1', [$id]);
+        Database::execute('delete from clinic_patients where owner_id = $1', [$id]);
+        Database::execute('delete from clinic_products where owner_id = $1', [$id]);
         Database::execute(
             "update users set
                 name = 'Cuenta eliminada',

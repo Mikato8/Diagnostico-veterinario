@@ -43,6 +43,7 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 - **Verificación de cédula:** integración opcional con API Market/SEP para contrastar cédula y nombre completo; si no hay token, el registro pasa a revisión manual.
 - **Eliminación de cuenta:** el usuario puede borrar su cuenta desde el perfil; se anonimizan sus datos y su contenido publicado queda como “Cuenta eliminada”.
 - **Foto de perfil:** subida de JPG/PNG/WebP con vista previa, recorte circular y opción de quitarla.
+- **CRM de clínica:** panel en `/panel/entrar` con pacientes, citas, recetas, inventario y ventas, aislado por cuenta.
 - **Favoritos por veterinario:** cada cuenta puede guardar recursos para consultarlos después.
 - **Descarga del caso en PDF o Word:** genera un documento clínico con datos del paciente, secciones, referencias, licencia e imágenes del caso.
 - Perfil profesional, cambio de contraseña y recuperación por correo.
@@ -98,6 +99,10 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 | IA de urgencia |
 | --- |
 | ![IA de urgencia](docs/capturas/ai-urgencia.png) |
+
+| CRM clínico | Panel de la clínica |
+| --- | --- |
+| ![CRM clínico](docs/capturas/crm-login.png) | ![Panel de la clínica](docs/capturas/crm-dashboard.png) |
 
 ## Stack
 
@@ -238,6 +243,10 @@ El apartado `/apoyo-diagnostico/ia` y el panel de cada caso (`/casos/{slug}/ia-u
 - Reglas de seguridad para signos de alarma evidentes.
 - Modelo entrenado con ejemplos sintéticos: es un **prototipo educativo**, no un dispositivo clínico.
 - Guía: `ai-service/DEPLOY.md`; entrenamiento: `ai-service/training/`.
+
+## Panel clínico (CRM)
+
+El panel `/panel` es un CRM ligero para una clínica: pacientes y tutores, agenda de citas, recetas imprimibles, inventario con mínimos y ventas con descuento de existencias. Cada cuenta ve únicamente sus propios registros (`owner_id`). El acceso es `/panel/entrar` y usa la misma cuenta verificada del portal; "Mantener la sesión abierta" extiende la sesión 30 días.
 
 ## Seguridad
 

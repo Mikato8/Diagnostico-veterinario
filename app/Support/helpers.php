@@ -229,6 +229,26 @@ if (!function_exists('avatar_tag')) {
     }
 }
 
+if (!function_exists('species_label')) {
+    function species_label(string $code): string
+    {
+        return [
+            'canino' => 'Canino', 'felino' => 'Felino', 'equino' => 'Equino',
+            'bovino' => 'Bovino', 'porcino' => 'Porcino', 'ovino' => 'Ovino',
+            'caprino' => 'Caprino', 'ave' => 'Ave', 'exotico' => 'Exótico', 'otro' => 'Otro',
+        ][$code] ?? ucfirst($code);
+    }
+}
+
+if (!function_exists('species_icon')) {
+    function species_icon(string $code): string
+    {
+        return in_array($code, ['canino', 'felino', 'equino', 'bovino', 'porcino', 'ovino', 'caprino', 'ave', 'exotico'], true)
+            ? $code
+            : 'paw';
+    }
+}
+
 if (!function_exists('status_label')) {
     function status_label(string $status): string
     {

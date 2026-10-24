@@ -47,7 +47,7 @@ final class Auth
     }
 
     /** @return array{ok: bool, message: string} */
-    public static function attempt(string $email, string $password): array
+    public static function attempt(string $email, string $password, bool $remember = false): array
     {
         self::$lastError = '';
         $email = Str::normalizeEmail($email);
@@ -88,19 +88,33 @@ final class Auth
             ]);
         }
 
-        self::login($user);
+        self::login($user, $remember);
         Database::execute('update users set last_login_at = now() where id = $1', [(int) $user['id']]);
 
         return ['ok' => true, 'message' => 'Sesión iniciada.'];
     }
 
     /** @param array<string, mixed> $user */
-    public static function login(array $user): void
+    public static function login(array $user, bool $remember = false): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_regenerate_id(true);
         }
         $_SESSION['auth_id'] = (int) $user['id'];
+        $_SESSION['remember'] = $remember;
+        $cookie = [
+            'expires' => $remember ? time() + 60 * 60 * 24 * 30 : 0,
+            'path' => '/',
+            'secure' => (bool) config('app.session.secure', false),
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ];
+        if ($remember) {
+            setcookie('dv_remember', '1', $cookie);
+            setcookie(session_name(), session_id(), $cookie);
+        } else {
+            setcookie('dv_remember', '', ['expires' => time() - 3600, 'path' => '/', 'samesite' => 'Lax']);
+        }
         Csrf::regenerate();
         self::$cachedUser = $user;
         self::$loaded = true;
@@ -108,7 +122,8 @@ final class Auth
 
     public static function logout(): void
     {
-        unset($_SESSION['auth_id']);
+        unset($_SESSION['auth_id'], $_SESSION['remember']);
+        setcookie('dv_remember', '', ['expires' => time() - 3600, 'path' => '/', 'samesite' => 'Lax']);
         self::$cachedUser = null;
         self::$loaded = true;
         if (session_status() === PHP_SESSION_ACTIVE) {

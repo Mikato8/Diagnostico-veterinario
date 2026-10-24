@@ -9,6 +9,12 @@ use App\Controllers\DiagnosticController;
 use App\Controllers\HealthController;
 use App\Controllers\HomeController;
 use App\Controllers\PageController;
+use App\Controllers\PanelController;
+use App\Controllers\PanelAppointmentController;
+use App\Controllers\PanelInventoryController;
+use App\Controllers\PanelPatientController;
+use App\Controllers\PanelSaleController;
+use App\Controllers\PanelPrescriptionController;
 use App\Controllers\ProfileController;
 use App\Controllers\ResourceController;
 use App\Controllers\SitemapController;
@@ -17,6 +23,35 @@ use App\Controllers\VetDataHubController;
 use App\Core\Router;
 
 return static function (Router $router): void {
+    // Panel clínico (CRM)
+    $router->get('/panel/entrar', [PanelController::class, 'showLogin']);
+    $router->post('/panel/entrar', [PanelController::class, 'login']);
+    $router->post('/panel/salir', [PanelController::class, 'logout']);
+    $router->get('/panel', [PanelController::class, 'dashboard']);
+    $router->get('/panel/pacientes', [PanelPatientController::class, 'index']);
+    $router->get('/panel/pacientes/nuevo', [PanelPatientController::class, 'create']);
+    $router->post('/panel/pacientes', [PanelPatientController::class, 'store']);
+    $router->get('/panel/pacientes/{id}', [PanelPatientController::class, 'show']);
+    $router->get('/panel/pacientes/{id}/editar', [PanelPatientController::class, 'edit']);
+    $router->post('/panel/pacientes/{id}', [PanelPatientController::class, 'update']);
+    $router->get('/panel/citas', [PanelAppointmentController::class, 'index']);
+    $router->get('/panel/citas/nueva', [PanelAppointmentController::class, 'create']);
+    $router->post('/panel/citas', [PanelAppointmentController::class, 'store']);
+    $router->post('/panel/citas/{id}/estado', [PanelAppointmentController::class, 'updateStatus']);
+    $router->get('/panel/recetas', [PanelPrescriptionController::class, 'index']);
+    $router->get('/panel/recetas/nueva', [PanelPrescriptionController::class, 'create']);
+    $router->post('/panel/recetas', [PanelPrescriptionController::class, 'store']);
+    $router->get('/panel/recetas/{id}', [PanelPrescriptionController::class, 'show']);
+    $router->get('/panel/inventario', [PanelInventoryController::class, 'index']);
+    $router->get('/panel/inventario/nuevo', [PanelInventoryController::class, 'create']);
+    $router->post('/panel/inventario', [PanelInventoryController::class, 'store']);
+    $router->get('/panel/inventario/{id}/editar', [PanelInventoryController::class, 'edit']);
+    $router->post('/panel/inventario/{id}', [PanelInventoryController::class, 'update']);
+    $router->get('/panel/ventas', [PanelSaleController::class, 'index']);
+    $router->get('/panel/ventas/nueva', [PanelSaleController::class, 'create']);
+    $router->post('/panel/ventas', [PanelSaleController::class, 'store']);
+    $router->get('/panel/ventas/{id}', [PanelSaleController::class, 'show']);
+
     // Público
     $router->get('/', [HomeController::class, 'index']);
     $router->get('/casos', [CaseController::class, 'index']);

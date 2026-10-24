@@ -387,3 +387,44 @@ document.querySelectorAll('[data-avatar-input]').forEach((input) => {
         reader.readAsDataURL(file);
     });
 });
+
+// Menú lateral del panel clínico.
+document.querySelectorAll('[data-panel-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+        const sidebar = document.getElementById(button.getAttribute('aria-controls') || 'panel-sidebar');
+        if (!sidebar) return;
+        const open = sidebar.classList.toggle('is-open');
+        button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+});
+
+// Imprimir receta o comprobante.
+document.querySelectorAll('[data-print]').forEach((button) => {
+    button.addEventListener('click', () => window.print());
+});
+
+// Total de una venta de la clínica.
+document.querySelectorAll('[data-sale-form]').forEach((form) => {
+    const rows = Array.from(form.querySelectorAll('[data-sale-row]'));
+    const totalNode = form.querySelector('[data-sale-total]');
+    const update = () => {
+        let total = 0;
+        rows.forEach((row) => {
+            const product = row.querySelector('[data-sale-product]');
+            const qty = row.querySelector('[data-sale-quantity]');
+            const priceNode = row.querySelector('[data-sale-price]');
+            const subtotalNode = row.querySelector('[data-sale-subtotal]');
+            const option = product && product.options[product.selectedIndex];
+            const price = option ? Number(option.getAttribute('data-price') || 0) : 0;
+            const quantity = qty ? Math.max(0, Number(qty.value || 0)) : 0;
+            const subtotal = price * quantity;
+            total += subtotal;
+            if (priceNode) priceNode.textContent = '$' + price.toFixed(2);
+            if (subtotalNode) subtotalNode.textContent = '$' + subtotal.toFixed(2);
+        });
+        if (totalNode) totalNode.textContent = '$' + total.toFixed(2);
+    };
+    form.addEventListener('change', update);
+    form.addEventListener('input', update);
+    update();
+});

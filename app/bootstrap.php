@@ -57,8 +57,10 @@ if (PHP_SAPI !== 'cli') {
     }
 
     session_name((string) config('app.session.name', 'dv_session'));
+    $rememberSession = ($_COOKIE['dv_remember'] ?? '') === '1';
+    $sessionLifetime = $rememberSession ? 60 * 60 * 24 * 30 : (int) config('app.session.lifetime', 7200);
     session_set_cookie_params([
-        'lifetime' => (int) config('app.session.lifetime', 7200),
+        'lifetime' => $sessionLifetime,
         'path' => '/',
         'domain' => '',
         'secure' => (bool) config('app.session.secure', false),
@@ -68,7 +70,7 @@ if (PHP_SAPI !== 'cli') {
     ini_set('session.use_strict_mode', '1');
     ini_set('session.use_only_cookies', '1');
     ini_set('session.cookie_httponly', '1');
-    ini_set('session.gc_maxlifetime', (string) config('app.session.lifetime', 7200));
+    ini_set('session.gc_maxlifetime', (string) $sessionLifetime);
 
     if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();

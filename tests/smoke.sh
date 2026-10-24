@@ -25,6 +25,8 @@ check "/casos/parvovirus-canino-cachorro-diarrea-hemorragica/docx"
 check "/casos/parvovirus-canino-cachorro-diarrea-hemorragica/ia-urgencia"
 check "/apoyo-diagnostico"
 check "/apoyo-diagnostico/ia"
+check "/panel/entrar"
+check "/panel" 302
 check "/enfermedades"
 check "/enfermedades/parvovirus-canino"
 check "/recursos"

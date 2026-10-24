@@ -165,12 +165,13 @@ Si no hay SSH, ejecuta esos comandos en local con las URLs de producción y lueg
 6. Sube una imagen JPG/PNG/WebP y confirma que se muestra.
 7. Prueba el registro de un veterinario y la verificación desde `/admin/usuarios`.
 8. Abre `/recursos/vetdatahub`, `/recursos/kit` y `/recursos?goal=datos&species=canino&topic=parvovirus`; descarga una plantilla DOCX.
-9. Abre `/vetdatahub` y `/peteval`; comprueba los 87 datasets y los 4,999 registros integrados.
-10. Guarda un recurso en favoritos con una cuenta verificada y descarga un caso en PDF y Word.
-11. Comprueba `/sitemap.xml` y `/robots.txt`.
-12. Si tienes token de API Market, define `CEDULA_VALIDATION_ENABLED=true` y `CEDULA_API_TOKEN`; prueba `/registro` con una cédula real.
-13. Si la IA está desplegada, define `AI_SERVICE_URL` y `AI_SERVICE_TOKEN` y prueba `/apoyo-diagnostico/ia`.
-14. Revisa `storage/logs/app-*.log` si algo falla.
+9. Abre `/panel/entrar`, entra con una cuenta verificada y prueba pacientes, citas, recetas, inventario y una venta.
+10. Abre `/vetdatahub` y `/peteval`; comprueba los 87 datasets y los 4,999 registros integrados.
+11. Guarda un recurso en favoritos con una cuenta verificada y descarga un caso en PDF y Word.
+12. Comprueba `/sitemap.xml` y `/robots.txt`.
+13. Si tienes token de API Market, define `CEDULA_VALIDATION_ENABLED=true` y `CEDULA_API_TOKEN`; prueba `/registro` con una cédula real.
+14. Si la IA está desplegada, define `AI_SERVICE_URL` y `AI_SERVICE_TOKEN` y prueba `/apoyo-diagnostico/ia`.
+15. Revisa `storage/logs/app-*.log` si algo falla.
 
 ## 7. Correo
 
@@ -231,5 +232,6 @@ Las migraciones son idempotentes y se registran en `schema_migrations`. Nunca ed
 - [ ] PetEVAL integrado (4,999 registros) visible y descargable.
 - [ ] IA de urgencia conectada al Space (opcional) y probada.
 - [ ] Verificación de cédula con API Market (opcional) probada.
+- [ ] CRM `/panel/entrar` probado con pacientes, citas, recetas, inventario y venta.
 - [ ] `.env` inaccesible desde el navegador.
 - [ ] Copia de seguridad de Neon configurada.

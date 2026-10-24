@@ -36,6 +36,7 @@
             </form>
 
             <p class="auth-switch">¿Aún no tienes cuenta? <a href="<?= e(url('/registro')) ?>">Regístrate como médico veterinario</a></p>
+            <p class="auth-switch"><a href="<?= e(url('/panel/entrar')) ?>">Entrar al panel de la clínica</a></p>
         </div>
 
         <aside class="auth-aside">

@@ -80,6 +80,7 @@ $headerQuery = is_string($_GET['q'] ?? null) ? (string) $_GET['q'] : '';
                             <span class="badge badge-<?= $currentUser['status'] === 'verificado' ? 'success' : 'warning' ?>"><?= $currentUser['status'] === 'verificado' ? 'Verificado' : 'Por verificar' ?></span>
                         </div>
                         <a href="<?= e(url('/perfil')) ?>"><?= icon('user') ?> Mi perfil</a>
+                        <a href="<?= e(url('/panel')) ?>"><?= icon('dashboard') ?> Panel clínico</a>
                         <a href="<?= e(url('/mis-casos')) ?>"><?= icon('folder') ?> Mis casos</a>
                         <a href="<?= e(url('/recursos/favoritos')) ?>"><?= icon('bookmark') ?> Recursos guardados</a>
                         <?php if (can('moderar')): ?>
@@ -139,6 +140,7 @@ $headerQuery = is_string($_GET['q'] ?? null) ? (string) $_GET['q'] : '';
             <h2>Comunidad</h2>
             <a href="<?= e(url('/registro')) ?>">Crear cuenta</a>
             <a href="<?= e(url('/acceder')) ?>">Acceder</a>
+            <a href="<?= e(url('/panel')) ?>">Panel clínico</a>
             <a href="<?= e(url('/mis-casos')) ?>">Compartir un caso</a>
             <a href="<?= e(url('/nosotros')) ?>">Comité editorial</a>
         </div>
