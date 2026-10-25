@@ -30,7 +30,7 @@ check "/panel" 302
 check "/enfermedades"
 check "/enfermedades/parvovirus-canino"
 check "/recursos"
-check "/recursos/vetdatahub"
+check "/recursos/crm-clinica"
 check "/recursos/kit"
 check "/recursos/glosario"
 check "/vetdatahub"
