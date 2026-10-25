@@ -36,6 +36,7 @@ $resourceIcon = static fn (string $category): string => match ($category) {
     'institucion' => 'shield',
     'guia' => 'book-open',
     'sistema' => 'dashboard',
+    'biblioteca' => 'book-open',
     default => 'folder',
 };
 ?>
@@ -46,9 +47,9 @@ $resourceIcon = static fn (string $category): string => match ($category) {
         </nav>
         <div class="page-hero-grid">
             <div>
-                <span class="eyebrow">Datos e investigación</span>
-                <h1>Recursos explicados para veterinarios</h1>
-                <p>Datasets, repositorios, sistemas de vigilancia y manuales. No necesitas saber programar ni entender GitHub: cada ficha te dice para qué sirve, cómo empezar y qué necesitas.</p>
+                <span class="eyebrow">Bibliotecas y evidencia</span>
+                <h1>Bibliotecas y recursos de acceso abierto</h1>
+                <p>Bibliotecas universitarias, repositorios, revistas y libros de acceso abierto para estudiar, investigar y actualizarte. Cada ficha te dice para qué sirve, cómo entrar y qué necesitas.</p>
             </div>
             <div class="page-hero-aside">
                 <span class="big-number"><?= count($resources) ?></span>

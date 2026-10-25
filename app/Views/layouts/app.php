@@ -131,9 +131,8 @@ $headerQuery = is_string($_GET['q'] ?? null) ? (string) $_GET['q'] : '';
             <a href="<?= e(url('/apoyo-diagnostico')) ?>">Apoyo diagnóstico</a>
             <a href="<?= e(url('/apoyo-diagnostico/ia')) ?>">IA de urgencia</a>
             <a href="<?= e(url('/enfermedades')) ?>">Enfermedades</a>
-            <a href="<?= e(url('/recursos')) ?>">Recursos de datos</a>
-            <a href="<?= e(url('/vetdatahub')) ?>">VetDataHub</a>
-            <a href="<?= e(url('/peteval')) ?>">PetEVAL</a>
+            <a href="<?= e(url('/recursos')) ?>">Bibliotecas y recursos</a>
+            <a href="https://repositorio.unam.mx/" target="_blank" rel="noopener noreferrer">Repositorio UNAM</a>
         </div>
 
         <div class="footer-col">

@@ -113,11 +113,11 @@ final class ResourceRepository
     public function forGoal(string $goal, int $limit = 3): array
     {
         $map = [
-            'datos' => ['dataset', 'repositorio'],
-            'investigar' => ['dataset', 'repositorio', 'guia'],
+            'datos' => ['biblioteca'],
+            'investigar' => ['biblioteca', 'guia'],
             'vigilancia' => ['vigilancia', 'institucion'],
-            'aprender' => ['guia', 'institucion'],
-            'sistemas' => ['api', 'repositorio'],
+            'aprender' => ['biblioteca', 'guia'],
+            'sistemas' => ['sistema'],
         ];
         if (!isset($map[$goal])) {
             return [];
@@ -149,22 +149,22 @@ final class ResourceRepository
     public function recommend(string $goal, string $speciesCode = '', string $topic = '', int $limit = 3): array
     {
         $goalCategories = [
-            'datos' => ['dataset', 'repositorio'],
-            'investigar' => ['dataset', 'repositorio', 'guia'],
+            'datos' => ['biblioteca'],
+            'investigar' => ['biblioteca', 'guia'],
             'vigilancia' => ['vigilancia', 'institucion'],
-            'aprender' => ['guia', 'institucion'],
-            'sistemas' => ['api', 'repositorio'],
+            'aprender' => ['biblioteca', 'guia'],
+            'sistemas' => ['sistema'],
         ];
         $speciesMap = [
-            'canino' => ['vetdatahub', 'peteval', 'vetcompass', 'savsnet', 'merck-veterinary-manual', 'wahis', 'senasica', 'cenaprece', 'dryad'],
-            'felino' => ['vetdatahub', 'peteval', 'vetcompass', 'savsnet', 'merck-veterinary-manual', 'wahis', 'senasica', 'cenaprece', 'dryad'],
-            'equino' => ['merck-veterinary-manual', 'wahis', 'senasica', 'codigo-terrestre-woah', 'dryad'],
-            'bovino' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah', 'animal-qtldb', 'dryad'],
-            'porcino' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah', 'animal-qtldb', 'dryad'],
-            'ovino' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah', 'animal-qtldb', 'dryad'],
-            'caprino' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah', 'animal-qtldb', 'dryad'],
-            'ave' => ['nahms', 'senasica', 'inifap', 'wahis', 'merck-veterinary-manual', 'codigo-terrestre-woah'],
-            'exotico' => ['dryad', 'movebank', 'merck-veterinary-manual', 'wahis'],
+            'canino' => ['unam-repositorio', 'veterinaria-mexico-oa', 'libros-oa-unam', 'wikivet', 'ivis'],
+            'felino' => ['unam-repositorio', 'veterinaria-mexico-oa', 'libros-oa-unam', 'wikivet', 'ivis'],
+            'equino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
+            'bovino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
+            'porcino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
+            'ovino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
+            'caprino' => ['veterinaria-mexico-oa', 'rmcp', 'agris', 'ivis'],
+            'ave' => ['veterinaria-mexico-oa', 'rmcp', 'agris'],
+            'exotico' => ['wikivet', 'ivis', 'agris'],
         ];
         $categories = $goalCategories[$goal] ?? [];
         $speciesSlugs = $speciesMap[$speciesCode] ?? [];

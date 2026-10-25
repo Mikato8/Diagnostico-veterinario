@@ -353,6 +353,7 @@ if (!function_exists('category_label')) {
             'ml' => 'Aprendizaje automático',
             'institucion' => 'Institución',
             'sistema' => 'Sistema',
+            'biblioteca' => 'Biblioteca',
         ][$category] ?? $category;
     }
 }

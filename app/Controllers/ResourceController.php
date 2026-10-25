@@ -21,9 +21,9 @@ final class ResourceController extends BaseController
     {
         return [
             'datos' => [
-                'title' => 'Necesito datos',
-                'description' => 'Busco información clínica, imágenes o registros para un proyecto.',
-                'icon' => 'database',
+                'title' => 'Necesito bibliografía',
+                'description' => 'Busco libros, tesis o artículos para una revisión.',
+                'icon' => 'book-open',
             ],
             'investigar' => [
                 'title' => 'Voy a investigar',
@@ -41,8 +41,8 @@ final class ResourceController extends BaseController
                 'icon' => 'award',
             ],
             'sistemas' => [
-                'title' => 'Quiero mejorar mi sistema',
-                'description' => 'Busco referencias para una ficha clínica o un software veterinario.',
+                'title' => 'Quiero organizar mi clínica',
+                'description' => 'Busco un CRM, una ficha clínica o un sistema de gestión.',
                 'icon' => 'activity',
             ],
         ];
@@ -65,8 +65,8 @@ final class ResourceController extends BaseController
         $filters['topic'] = $topic;
 
         return $this->view('resources.index', [
-            'title' => 'Recursos de datos veterinarios · Diagnóstico Veterinario',
-            'metaDescription' => 'Directorio curado de datasets, APIs, repositorios y sistemas de vigilancia veterinaria explicados en español para médicos veterinarios.',
+            'title' => 'Bibliotecas y recursos de acceso abierto · Diagnóstico Veterinario',
+            'metaDescription' => 'Directorio curado de bibliotecas, repositorios, revistas y recursos de acceso abierto para médicos veterinarios, con énfasis en México.',
             'resources' => $repo->all($filters),
             'filters' => $filters,
             'categories' => $repo->categories(),
