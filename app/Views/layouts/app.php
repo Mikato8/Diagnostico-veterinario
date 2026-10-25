@@ -39,6 +39,7 @@ $headerQuery = is_string($_GET['q'] ?? null) ? (string) $_GET['q'] : '';
             <a class="<?= e(is_active('/casos')) ?>" href="<?= e(url('/casos')) ?>">Casos clínicos</a>
             <a class="<?= e(is_active('/apoyo-diagnostico')) ?>" href="<?= e(url('/apoyo-diagnostico')) ?>">Apoyo diagnóstico</a>
             <a class="<?= e(is_active('/enfermedades')) ?>" href="<?= e(url('/enfermedades')) ?>">Enfermedades</a>
+            <a class="<?= e(is_active('/panel')) ?>" href="<?= e(url('/panel')) ?>" title="CRM de la clínica veterinaria">CRM</a>
             <a class="<?= e(is_active('/recursos')) ?>" href="<?= e(url('/recursos')) ?>">Recursos</a>
             <a class="<?= e(is_active('/nosotros')) ?>" href="<?= e(url('/nosotros')) ?>">Nosotros</a>
             <div class="mobile-account">

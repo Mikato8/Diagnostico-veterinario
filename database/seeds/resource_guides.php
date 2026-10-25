@@ -8,19 +8,6 @@ declare(strict_types=1);
  * por URL.
  */
 return [
-    '/panel/entrar' => [
-        'slug' => 'crm-clinica',
-        'what_for' => 'Organizar la operación diaria de tu clínica: registrar pacientes y tutores, agendar citas, emitir recetas, controlar inventario y cobrar productos.',
-        'how_to' => [
-            'Entra con tu cuenta de veterinario y abre el panel clínico.',
-            'Registra primero a tus pacientes y tutores; después podrás agendar citas y emitir recetas.',
-            'Carga tus productos en inventario y usa el módulo de ventas para descontar existencias automáticamente.',
-        ],
-        'requirements' => 'Cuenta de veterinario en el portal y navegador actualizado. No requiere instalar software adicional.',
-        'guide' => 'El CRM está incluido en Diagnóstico Veterinario. Cada cuenta ve únicamente sus propios pacientes, citas, recetas, productos y ventas. Es una herramienta operativa de apoyo; no sustituye el expediente clínico oficial ni la facturación fiscal.',
-        'action_label' => 'Abrir panel clínico',
-        'reviewed_at' => '2026-10-24',
-    ],
     'https://www.rvc.ac.uk/vetcompass' => [
         'slug' => 'vetcompass',
         'what_for' => 'Buscar evidencia descriptiva sobre enfermedades y tratamientos en poblaciones de perros y gatos del Reino Unido. Útil para comparar con tu casuística y para docencia.',

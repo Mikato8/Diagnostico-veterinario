@@ -24,12 +24,10 @@ $goalUrl = static function (string $key) use ($speciesCode, $topic): string {
     return url('/recursos?' . http_build_query($query));
 };
 $resourceLink = static fn (array $resource): string => match ($resource['slug'] ?? '') {
-    'crm-clinica' => url('/panel/entrar'),
     'revistas-acceso-abierto' => url('/recursos/revistas'),
     default => url('/recursos/' . $resource['slug']),
 };
 $resourceActionLabel = static fn (array $resource): string => match ($resource['slug'] ?? '') {
-    'crm-clinica' => 'Abrir panel',
     'revistas-acceso-abierto' => 'Abrir directorio',
     default => 'Leer guía',
 };
@@ -39,7 +37,6 @@ $resourceIcon = static fn (string $category): string => match ($category) {
     'vigilancia' => 'globe',
     'institucion' => 'shield',
     'guia' => 'book-open',
-    'sistema' => 'dashboard',
     'biblioteca' => 'book-open',
     'directorio' => 'search',
     'revista' => 'file-text',

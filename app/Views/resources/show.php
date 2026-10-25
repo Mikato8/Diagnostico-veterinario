@@ -58,17 +58,6 @@ $requestTemplate = "Asunto: Solicitud de acceso a " . $resource['title'] . "\n\n
 <section class="section section-tight">
     <div class="container resource-detail-layout">
         <article class="resource-detail">
-            <?php if ($resource['slug'] === 'crm-clinica'): ?>
-                <div class="vethub-callout">
-                    <div>
-                        <span class="eyebrow">Herramienta interna</span>
-                        <h2>Abre el CRM de tu clínica</h2>
-                        <p>Gestiona pacientes, citas, recetas, inventario y ventas con tu cuenta del portal.</p>
-                    </div>
-                    <a class="btn btn-primary" href="<?= e(url('/panel/entrar')) ?>">Abrir panel clínico <?= icon('arrow-right', 'icon icon-sm') ?></a>
-                </div>
-            <?php endif; ?>
-
             <?php if ($resource['slug'] === 'peteval'): ?>
                 <div class="vethub-callout">
                     <div>

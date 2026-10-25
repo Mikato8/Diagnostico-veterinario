@@ -4,20 +4,6 @@ declare(strict_types=1);
 
 return [
     [
-        'title' => 'CRM de la Clínica Veterinaria',
-        'description' => 'Panel clínico para gestionar pacientes, tutores, citas, recetas, inventario y ventas desde el mismo portal. Incluye agenda, stock mínimo y comprobantes imprimibles.',
-        'url' => '/panel/entrar',
-        'category' => 'sistema',
-        'organization' => 'Diagnóstico Veterinario',
-        'country' => 'México',
-        'access' => 'abierto',
-        'license' => 'Uso interno del portal',
-        'language' => 'es',
-        'tags' => ['CRM', 'pacientes', 'citas', 'inventario', 'ventas'],
-        'featured' => true,
-        'sort_order' => 30,
-    ],
-    [
         'title' => 'VetCompass',
         'description' => 'Programa del Royal Veterinary College con más de 15 millones de registros de consulta de más de 1,800 clínicas del Reino Unido. Ofrece subconjuntos de datos abiertos para validación e investigación.',
         'url' => 'https://www.rvc.ac.uk/vetcompass',

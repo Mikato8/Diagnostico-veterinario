@@ -117,7 +117,7 @@ final class ResourceRepository
             'investigar' => ['biblioteca', 'revista', 'directorio', 'guia'],
             'vigilancia' => ['vigilancia', 'institucion'],
             'aprender' => ['biblioteca', 'revista', 'guia'],
-            'sistemas' => ['sistema'],
+            'revistas' => ['revista', 'directorio'],
         ];
         if (!isset($map[$goal])) {
             return [];
@@ -153,7 +153,7 @@ final class ResourceRepository
             'investigar' => ['biblioteca', 'revista', 'directorio', 'guia'],
             'vigilancia' => ['vigilancia', 'institucion'],
             'aprender' => ['biblioteca', 'revista', 'guia'],
-            'sistemas' => ['sistema'],
+            'revistas' => ['revista', 'directorio'],
         ];
         $speciesMap = [
             'canino' => ['unam-repositorio', 'veterinaria-mexico-oa', 'libros-oa-unam', 'wikivet', 'ivis'],

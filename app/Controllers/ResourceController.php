@@ -40,10 +40,10 @@ final class ResourceController extends BaseController
                 'description' => 'Busco guías, manuales y materiales para actualizarme.',
                 'icon' => 'award',
             ],
-            'sistemas' => [
-                'title' => 'Quiero organizar mi clínica',
-                'description' => 'Busco un CRM, una ficha clínica o un sistema de gestión.',
-                'icon' => 'activity',
+            'revistas' => [
+                'title' => 'Busco una revista',
+                'description' => 'Quiero una publicación periódica para seguir un tema.',
+                'icon' => 'file-text',
             ],
         ];
     }
