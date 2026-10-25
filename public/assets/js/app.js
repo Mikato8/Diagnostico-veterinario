@@ -428,3 +428,22 @@ document.querySelectorAll('[data-sale-form]').forEach((form) => {
     form.addEventListener('input', update);
     update();
 });
+
+// Filtro del directorio de revistas.
+document.querySelectorAll('[data-journal-search]').forEach((input) => {
+    input.addEventListener('input', () => {
+        const query = input.value.toLowerCase().trim();
+        let visible = 0;
+        document.querySelectorAll('[data-journal-card]').forEach((card) => {
+            const matches = query === '' || (card.getAttribute('data-journal-text') || '').includes(query);
+            card.hidden = !matches;
+            if (matches) visible += 1;
+        });
+        document.querySelectorAll('[data-journal-group]').forEach((group) => {
+            const hasVisible = Array.from(group.querySelectorAll('[data-journal-card]')).some((card) => !card.hidden);
+            group.hidden = !hasVisible;
+        });
+        const empty = document.querySelector('[data-journal-empty]');
+        if (empty) empty.hidden = visible !== 0;
+    });
+});

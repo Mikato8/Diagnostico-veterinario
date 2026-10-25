@@ -83,6 +83,7 @@ return static function (Router $router): void {
     $router->get('/recursos', [ResourceController::class, 'index']);
     $router->get('/recursos/kit', [ResourceController::class, 'kit']);
     $router->get('/recursos/glosario', [ResourceController::class, 'glossary']);
+    $router->get('/recursos/revistas', [ResourceController::class, 'journals']);
     $router->get('/recursos/favoritos', [ResourceController::class, 'favorites']);
     $router->post('/recursos/{slug}/favorito', [ResourceController::class, 'favorite']);
     $router->get('/recursos/{slug}', [ResourceController::class, 'show']);

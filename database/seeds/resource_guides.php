@@ -372,4 +372,17 @@ return [
         'action_label' => 'Explorar OER Commons',
         'reviewed_at' => '2026-10-24',
     ],
+    '/recursos/revistas' => [
+        'slug' => 'revistas-acceso-abierto',
+        'what_for' => 'Encontrar revistas y directorios de acceso abierto para leer investigación veterinaria, preparar una clase o localizar artículos de un tema.',
+        'how_to' => [
+            'Abre el directorio y elige un grupo: directorios, revistas de América Latina, revistas internacionales o plataformas.',
+            'Usa el buscador para filtrar por nombre, país o tema.',
+            'Abre el sitio oficial de la revista y revisa su licencia y condiciones de acceso.',
+        ],
+        'requirements' => 'Navegador. La mayoría son de acceso abierto; algunas publicaciones pueden pedir registro gratuito.',
+        'guide' => 'El directorio reúne revistas y buscadores, no copia los artículos. Verifica la calidad, la indexación y la licencia de cada publicación. Las revistas depredadoras existen: desconfía de cobros o promesas sin revisión por pares.',
+        'action_label' => 'Abrir directorio de revistas',
+        'reviewed_at' => '2026-10-24',
+    ],
 ];

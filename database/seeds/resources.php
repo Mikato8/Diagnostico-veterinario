@@ -395,4 +395,18 @@ return [
         'featured' => false,
         'sort_order' => 45,
     ],
+    [
+        'title' => 'Revistas y directorios de acceso abierto',
+        'description' => 'Directorio curado de revistas veterinarias, hemerotecas y buscadores de acceso abierto en México, Iberoamérica y el mundo, con enlaces a DOAJ, REVIVEC, Latindex, Redalyc y publicaciones científicas.',
+        'url' => '/recursos/revistas',
+        'category' => 'biblioteca',
+        'organization' => 'Diagnóstico Veterinario',
+        'country' => 'Iberoamérica',
+        'access' => 'abierto',
+        'license' => 'Consulta según cada revista',
+        'language' => 'es',
+        'tags' => ['revistas', 'DOAJ', 'Redalyc', 'Latindex', 'acceso abierto'],
+        'featured' => true,
+        'sort_order' => 29,
+    ],
 ];

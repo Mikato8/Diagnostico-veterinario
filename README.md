@@ -40,6 +40,7 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 - **Kit descargable:** plantilla de caso clínico, checklist de consentimiento, hoja de alta, consentimiento imprimible, carta de solicitud de datos, guía de citas y guía rápida en DOCX.
 - **Glosario para no especialistas:** dataset, repositorio, API, licencia, CSV y otros términos explicados en lenguaje clínico.
 - **Recomendador por objetivo, especie y tema/enfermedad:** sugiere fichas del portal (enfermedad y casos) y recursos externos según lo que el veterinario necesita.
+- **Directorio de revistas de acceso abierto:** buscador en `/recursos/revistas` con DOAJ, REVIVEC, Latindex, Redalyc y revistas de México, Iberoamérica y el mundo.
 - **Verificación de cédula:** integración opcional con API Market/SEP para contrastar cédula y nombre completo; si no hay token, el registro pasa a revisión manual.
 - **Eliminación de cuenta:** el usuario puede borrar su cuenta desde el perfil; se anonimizan sus datos y su contenido publicado queda como “Cuenta eliminada”.
 - **Foto de perfil:** subida de JPG/PNG/WebP con vista previa, recorte circular y opción de quitarla.
@@ -103,6 +104,10 @@ El proyecto está construido con **PHP 8 + PostgreSQL** y se apoya en **Neon** p
 | CRM clínico | Panel de la clínica |
 | --- | --- |
 | ![CRM clínico](docs/capturas/crm-login.png) | ![Panel de la clínica](docs/capturas/crm-dashboard.png) |
+
+| Revistas de acceso abierto |
+| --- |
+| ![Revistas de acceso abierto](docs/capturas/revistas.png) |
 
 ## Stack
 

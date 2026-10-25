@@ -6483,6 +6483,129 @@ a.admin-list-row:hover {
 .ai-dot-medium { background: #0f766e; }
 .ai-dot-low { background: #26734d; }
 
+/* Directorio de revistas de acceso abierto */
+.journals-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.journals-toolbar .filter-search {
+    width: min(480px, 100%);
+}
+
+.journals-toolbar > p {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.journals-group {
+    margin-bottom: 26px;
+}
+
+.journals-group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--line);
+}
+
+.journals-group-head h2 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+}
+
+.journals-group-head span {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.journals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.journal-card {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.journal-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 7px;
+}
+
+.journal-region {
+    color: var(--teal-700);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.journal-card h3 {
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.journal-card > p {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.55;
+}
+
+.journal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 11px;
+    padding-top: 9px;
+    border-top: 1px solid var(--line);
+    color: var(--teal-700);
+    font-size: 10px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.journal-link:hover {
+    text-decoration: underline;
+}
+
+.journals-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 32px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.journals-empty .icon {
+    width: 28px;
+    height: 28px;
+}
+
 /* ==========================================================================
    Responsive
    ========================================================================== */
@@ -6754,6 +6877,15 @@ a.admin-list-row:hover {
 
     .vethub-grid {
         grid-template-columns: 1fr;
+    }
+
+    .journals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .journals-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .peteval-task-grid {

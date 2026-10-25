@@ -80,6 +80,55 @@ final class ResourceController extends BaseController
         ]);
     }
 
+    public function journals(Request $request): Response
+    {
+        $groups = [
+            'Directorios y buscadores' => [
+                ['DOAJ · Directory of Open Access Journals', 'https://doaj.org/', 'Directorio de revistas científicas de acceso abierto y revisadas por pares. Ideal para buscar publicaciones veterinarias gratuitas.', 'Internacional', 'Abierto'],
+                ['REVIVEC', 'https://revivec.org/', 'Red y portal iberoamericano de revistas científicas veterinarias de libre acceso, con publicaciones de España, Portugal y Latinoamérica.', 'Iberoamérica', 'Abierto'],
+                ['Latindex · Portal de Portales', 'https://www.latindex.org/', 'Sistema de información sobre revistas académicas de América Latina, el Caribe, España y Portugal; incluye enlaces a textos completos.', 'Iberoamérica', 'Abierto'],
+                ['Redalyc', 'https://www.redalyc.org/', 'Hemeroteca de artículos científicos a texto completo, con énfasis en la producción académica iberoamericana.', 'Iberoamérica', 'Abierto'],
+            ],
+            'Revistas de América Latina y España' => [
+                ['Veterinaria México OA', 'https://veterinariamexico.fmvz.unam.mx/', 'Revista bilingüe de la UNAM, arbitrada y de acceso abierto, sin costo para lectores ni autores.', 'México', 'Abierto'],
+                ['Revista de la Facultad de Medicina Veterinaria y de Zootecnia', 'https://revistas.unal.edu.co/index.php/remevez', 'Publicación de la Universidad Nacional de Colombia sobre medicina veterinaria y zootecnia.', 'Colombia', 'Abierto'],
+                ['Revista de Salud Animal', 'https://revistas.censa.edu.cu/index.php/RSA', 'Revista cubana con acceso libre e inmediato a sus contenidos sobre salud y producción animal.', 'Cuba', 'Abierto'],
+                ['Acta Scientiae Veterinariae', 'https://seer.ufrgs.br/index.php/ActaScientiaeVeterinariae', 'Revista brasileña con texto completo de acceso gratuito en medicina veterinaria.', 'Brasil', 'Abierto'],
+                ['Analecta Veterinaria', 'https://www.fcv.unlp.edu.ar/index.php/investigacion/analecta-veterinaria/', 'Publicación de la Universidad Nacional de La Plata; sus volúmenes anteriores están disponibles en PDF.', 'Argentina', 'Abierto'],
+                ['CES Medicina Veterinaria y Zootecnia', 'https://revistas.ces.edu.co/index.php/mvz', 'Revista electrónica colombiana de acceso gratuito en medicina veterinaria y zootecnia.', 'Colombia', 'Abierto'],
+                ['FAVE · Ciencias Veterinarias', 'https://bibliotecavirtual.unl.edu.ar/publicaciones/index.php/FAVEveterinaria', 'Revista de la Universidad Nacional del Litoral, Argentina, con acceso libre.', 'Argentina', 'Abierto'],
+            ],
+            'Revistas internacionales' => [
+                ['Iraqi Journal of Veterinary Sciences', 'https://www.vetmedmosul.com/', 'Revista de la Universidad de Mosul con artículos completos de acceso gratuito.', 'Irak', 'Abierto'],
+                ['Ethiopian Journal of Veterinary Sciences and Animal Production', 'https://journal.mu.edu.et/index.php/ejvsap', 'Revista etíope de acceso abierto, sin costo para lectores ni autores.', 'Etiopía', 'Abierto'],
+                ['Open Veterinary Journal', 'https://www.openveterinaryjournal.com/', 'Revista arbitrada de acceso abierto que cubre todas las áreas de la veterinaria.', 'Internacional', 'Abierto'],
+                ['BMC Veterinary Research', 'https://bmcvetres.biomedcentral.com/', 'Revista de Springer Nature que abarca todas las especialidades veterinarias.', 'Internacional', 'Abierto'],
+                ['Veterinary Medicine and Science', 'https://onlinelibrary.wiley.com/journal/20531095', 'Revista de Wiley de acceso abierto en medicina veterinaria fundamental y clínica.', 'Internacional', 'Abierto'],
+                ['Veterinary Sciences · MDPI', 'https://www.mdpi.com/journal/vetsci', 'Revista internacional mensual de acceso abierto publicada por MDPI.', 'Internacional', 'Abierto'],
+                ["World's Veterinary Journal", 'https://www.wvj.science-line.com/', 'Revista arbitrada de acceso abierto en medicina veterinaria y ciencia animal.', 'Internacional', 'Abierto'],
+                ['Veterinary Quarterly', 'https://www.tandfonline.com/journals/tveq20', 'Revista internacional de Taylor & Francis, arbitrada y de acceso abierto.', 'Internacional', 'Abierto'],
+            ],
+            'Plataformas editoriales' => [
+                ['MDPI', 'https://www.mdpi.com/', 'Editorial con numerosas revistas de acceso abierto, incluyendo varias del área veterinaria.', 'Internacional', 'Abierto'],
+                ['BMC · BioMed Central', 'https://www.biomedcentral.com/', 'Parte de Springer Nature; publica revistas de acceso abierto como BMC Veterinary Research.', 'Internacional', 'Abierto'],
+                ['Wiley Online Library', 'https://onlinelibrary.wiley.com/', 'Plataforma con revistas de acceso abierto como Veterinary Medicine and Science.', 'Internacional', 'Mixto'],
+                ['Frontiers in Veterinary Science', 'https://www.frontiersin.org/journals/veterinary-science', 'Revista de acceso abierto de Frontiers dedicada a la ciencia veterinaria.', 'Internacional', 'Abierto'],
+            ],
+            'Para mantenerte al día' => [
+                ['VetLit', 'https://vetlit.org/', 'Recurso gratuito que reúne publicaciones recientes de más de 40 revistas veterinarias.', 'Internacional', 'Abierto'],
+                ['NAVC · Publicaciones', 'https://navc.com/publications/', 'Publicaciones revisadas por pares de la North American Veterinary Community.', 'Estados Unidos', 'Registro'],
+                ["Today's Veterinary Practice", 'https://todaysveterinarypractice.com/', 'Publicaciones clínicas con suscripción gratuita para profesionales veterinarios.', 'Estados Unidos', 'Registro'],
+            ],
+        ];
+
+        return $this->view('resources.journals', [
+            'title' => 'Revistas y directorios de acceso abierto · Diagnóstico Veterinario',
+            'metaDescription' => 'Directorio de revistas veterinarias, hemerotecas y buscadores de acceso abierto en México, Iberoamérica y el mundo.',
+            'groups' => $groups,
+            'bodyClass' => 'page-resources',
+        ]);
+    }
+
     public function show(Request $request, string $slug): Response
     {
         $repo = new ResourceRepository();

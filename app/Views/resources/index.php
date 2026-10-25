@@ -23,12 +23,16 @@ $goalUrl = static function (string $key) use ($speciesCode, $topic): string {
     if ($topic !== '') { $query['topic'] = $topic; }
     return url('/recursos?' . http_build_query($query));
 };
-$resourceLink = static fn (array $resource): string => ($resource['slug'] ?? '') === 'crm-clinica'
-    ? url('/panel/entrar')
-    : url('/recursos/' . $resource['slug']);
-$resourceActionLabel = static fn (array $resource): string => ($resource['slug'] ?? '') === 'crm-clinica'
-    ? 'Abrir panel'
-    : 'Leer guía';
+$resourceLink = static fn (array $resource): string => match ($resource['slug'] ?? '') {
+    'crm-clinica' => url('/panel/entrar'),
+    'revistas-acceso-abierto' => url('/recursos/revistas'),
+    default => url('/recursos/' . $resource['slug']),
+};
+$resourceActionLabel = static fn (array $resource): string => match ($resource['slug'] ?? '') {
+    'crm-clinica' => 'Abrir panel',
+    'revistas-acceso-abierto' => 'Abrir directorio',
+    default => 'Leer guía',
+};
 $resourceIcon = static fn (string $category): string => match ($category) {
     'dataset' => 'database',
     'api' => 'activity',
