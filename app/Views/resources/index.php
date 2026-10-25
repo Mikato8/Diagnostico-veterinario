@@ -41,6 +41,9 @@ $resourceIcon = static fn (string $category): string => match ($category) {
     'guia' => 'book-open',
     'sistema' => 'dashboard',
     'biblioteca' => 'book-open',
+    'directorio' => 'search',
+    'revista' => 'file-text',
+    'plataforma' => 'layers',
     default => 'folder',
 };
 ?>

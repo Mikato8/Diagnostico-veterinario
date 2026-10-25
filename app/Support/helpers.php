@@ -354,6 +354,9 @@ if (!function_exists('category_label')) {
             'institucion' => 'Institución',
             'sistema' => 'Sistema',
             'biblioteca' => 'Biblioteca',
+            'directorio' => 'Directorio',
+            'revista' => 'Revista',
+            'plataforma' => 'Plataforma',
         ][$category] ?? $category;
     }
 }

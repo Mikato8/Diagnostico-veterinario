@@ -113,10 +113,10 @@ final class ResourceRepository
     public function forGoal(string $goal, int $limit = 3): array
     {
         $map = [
-            'datos' => ['biblioteca'],
-            'investigar' => ['biblioteca', 'guia'],
+            'datos' => ['biblioteca', 'revista', 'directorio'],
+            'investigar' => ['biblioteca', 'revista', 'directorio', 'guia'],
             'vigilancia' => ['vigilancia', 'institucion'],
-            'aprender' => ['biblioteca', 'guia'],
+            'aprender' => ['biblioteca', 'revista', 'guia'],
             'sistemas' => ['sistema'],
         ];
         if (!isset($map[$goal])) {
@@ -149,10 +149,10 @@ final class ResourceRepository
     public function recommend(string $goal, string $speciesCode = '', string $topic = '', int $limit = 3): array
     {
         $goalCategories = [
-            'datos' => ['biblioteca'],
-            'investigar' => ['biblioteca', 'guia'],
+            'datos' => ['biblioteca', 'revista', 'directorio'],
+            'investigar' => ['biblioteca', 'revista', 'directorio', 'guia'],
             'vigilancia' => ['vigilancia', 'institucion'],
-            'aprender' => ['biblioteca', 'guia'],
+            'aprender' => ['biblioteca', 'revista', 'guia'],
             'sistemas' => ['sistema'],
         ];
         $speciesMap = [
